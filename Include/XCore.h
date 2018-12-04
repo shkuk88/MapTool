@@ -1,9 +1,9 @@
 #pragma once
 #include "XWindow.h"
-#include "XDxState.h"
+#include "XDevice.h"
 #include "XInput.h"
 #include "XDxWrite.h"
-#include "XDevice.h"
+#include "XDxState.h"
 
 class XCore :public XWindow
 {
@@ -18,10 +18,13 @@ public:
 	bool XRender();
 	bool XRelease();
 public:
-	virtual bool Init()		override;
-	virtual bool Frame()	override;
-	virtual bool Render()	override;
-	virtual bool Release()	override;
+	bool PreRender();
+	bool PostRender();
+public:
+	virtual bool Init() override;
+	virtual bool Frame() override;
+	virtual bool Render() override;
+	virtual bool Release() override;
 public:
 	XCore();
 	virtual ~XCore();

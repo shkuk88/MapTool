@@ -67,7 +67,7 @@ public:
 public:
 	virtual void SetVertex();
 public:
-	bool XLineShape::Draw(ID3D11DeviceContext* pContext, D3DXVECTOR3 vStart, D3DXVECTOR3 vEnd, D3DXVECTOR4 vColor);
+	bool Draw(ID3D11DeviceContext* pContext, D3DXVECTOR3 vStart, D3DXVECTOR3 vEnd, D3DXVECTOR4 vColor);
 public:
 	bool Create(TCHAR* szVertexShaderFile, TCHAR* szPixelShaderFile, char* szVSFunctionName, char* szPSFunctionName);
 	virtual bool Init();

@@ -1,6 +1,5 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <iostream>
 #include <tchar.h>
@@ -9,6 +8,8 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <set>
+#include <queue>
 #include <memory>
 #include <process.h> // _beginthreadex()의 헤더
 #include <crtdbg.h> // 메모리 누수를 잡기위한 헤더
@@ -16,30 +17,29 @@
 #include <d3d11.h>
 #include <dxgi.h>
 #include <d2d1.h>
-#include <d2d1helper.h>
 #include <dinput.h>
 #include <dwrite.h>
 /////////다이렉트 컴파일러헤더///////////
-#include <D3DX11.h>
+#include "D3DX11.h"
 #include <D3DX10math.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
 
 #pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "XDxCore.lib")
+#pragma comment(lib, "XDxCoreLibrary.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dwrite.lib")
-#pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
+#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib,"dxguid.lib")
+
+#define CRTDBG_MAP_ALLOC
+#define new new(_CLIENT_BLOCK, __FILE__,__LINE__)
 
 using namespace Microsoft::WRL;
-using namespace std;
-
-//#define CRTDBG_MAP_ALLOC
-//#define new new(_CLIENT_BLOCK, __FILE__,__LINE__)
 
 class XBase
 {
@@ -65,17 +65,19 @@ public:
 
 };
 
-
-
-typedef basic_string<TCHAR> TString;
-extern HWND			g_hWnd;
-extern HINSTANCE	g_hinstance;
-extern RECT			g_rtClient;
-extern float		g_fSecPerFrame;
-extern float		g_fTime;
-extern HRESULT		hr;
-
 #include "XTimer.h"
+
+using namespace std;
+typedef basic_string<TCHAR> TString;
+extern HWND g_hWnd;
+extern HINSTANCE g_hinstance;
+extern RECT g_rtClient;
+extern HDC g_hMainDC;
+extern HDC g_hOffScreenDC;
+extern float g_fSecPerFrame;
+extern float g_fTime;
+extern HRESULT hr;
+
 
 #ifndef V
 #define V(x)	{hr = (x);}
@@ -97,10 +99,31 @@ extern HRESULT		hr;
 #define SAFE_RELEASE(x)				{ if(x) { (x)->Release(); (x)=NULL; } }
 #endif 
 
+#ifndef SAFE_NEW_ARRAY
+#define SAFE_NEW_ARRAY(A, B, C)		{ if (!A && C) A = new B[C]; }
+#endif 
+
+#ifndef SAFE_DELETE_ARRAY
+#define SAFE_DELETE_ARRAY(A)		{ if (A) delete [] A; (A)=NULL; }
+#endif 
+struct float2
+{
+	union
+	{
+		struct
+		{
+			float x;
+			float y;
+		};
+		float v[2];
+	};
+};
+
+
 class XPosition
 {
 public:
-	float x,y;
+	float x, y;
 public:
 	XPosition& operator =(const XPosition& pos)
 	{
@@ -141,6 +164,45 @@ public:
 		bottom = fBottom;
 	}
 	~XRectangle() {}
+};
+
+struct X_Plane
+{
+	float		 a, b, c, d;
+	D3DXVECTOR3  vCenter;
+	float		 fRadius;
+	void		 CreatePlane(D3DXVECTOR3 v0, D3DXVECTOR3 v1, D3DXVECTOR3 v2)
+	{
+		D3DXVECTOR3 e0 = v1 - v0;
+		D3DXVECTOR3 e1 = v2 - v0;
+		D3DXVECTOR3 n;
+		D3DXVec3Cross(&n, &e0, &e1);
+		D3DXVec3Normalize(&n, &n);
+
+		a = n.x;	b = n.y;	c = n.z;
+		d = -(n.x * v0.x + n.y * v0.y + n.z * v0.z);
+	}
+	void		 CreatePlane(D3DXVECTOR3 n, D3DXVECTOR3 v0)
+	{
+		a = n.x;	b = n.y;	c = n.z;
+		d = -(n.x * v0.x + n.y * v0.y + n.z * v0.z);
+	}
+};
+
+struct X_Sphere
+{
+	D3DXVECTOR3  vCenter;
+	float		 fRadius;
+};
+
+struct X_Box
+{
+	D3DXVECTOR3  vMin;
+	D3DXVECTOR3  vMax;
+
+	D3DXVECTOR3  vCenter;
+	D3DXVECTOR3  vAxis[3];			 //축
+	float		 fExtent[3];		 //거리
 };
 
 #define WINSTART int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow){

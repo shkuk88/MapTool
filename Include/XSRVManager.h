@@ -1,5 +1,5 @@
 #pragma once
-#include"XShape.h"
+#include"XStd.h"
 
 class XSRVManager :public XSingleton <XSRVManager>
 {

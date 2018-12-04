@@ -1,6 +1,6 @@
 #pragma once
 #include "XStd.h"
-// time.h와 winmm.lib 필요
+//#include <time.h> //winmm.lib 필요
 
 class XTimer :public XBase, public XSingleton<XTimer>
 {
