@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XDxCoreLibrary", "XDxCoreLibrary\XDxCoreLibrary.vcxproj", "{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapTool", "MapTool\MapTool.vcxproj", "{104F6486-E946-4C20-8CC8-A00FE3026014}"
+	ProjectSection(ProjectDependencies) = postProject
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73} = {89BA3F15-8960-4EA8-BDA3-B21C8A675B73}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

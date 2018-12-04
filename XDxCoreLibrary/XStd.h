@@ -36,8 +36,8 @@
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib,"dxguid.lib")
 
-#define CRTDBG_MAP_ALLOC
-#define new new(_CLIENT_BLOCK, __FILE__,__LINE__)
+//#define CRTDBG_MAP_ALLOC
+//#define new new(_CLIENT_BLOCK, __FILE__,__LINE__)
 
 using namespace Microsoft::WRL;
 
