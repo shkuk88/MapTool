@@ -147,7 +147,7 @@ bool XCamera::Frame()
 		m_vCameraPos += m_vSide * m_fSpeed * 10.0f * g_fSecPerFrame;
 	}
 
-	if (I_Input.m_MouseState[0])
+	if (I_Input.m_MouseState[1])
 	{
 		m_fPitch += D3DXToRadian(I_Input.m_DIMouseState.lY) * 0.5;
 		m_fYaw += D3DXToRadian(I_Input.m_DIMouseState.lX) * 0.5;

@@ -52,7 +52,7 @@ public:
 	bool		GetNormalLookUpTable();			//정점당 공유 FACE갯수 계산
 	bool		CalcPerVertexNormalsFastLookUp();
 	void		InitConstant();		// shader에 넘길 light vector를 임의로 상수버퍼에 저장
-	void		SetScaleHeight(float fScaleHeight);
+	void		SetScaleHeight(float fScaleHeight = 1.0f);
 public:
 	void		SetLookVector(D3DXVECTOR3 vLook);
 	void		InitLight();

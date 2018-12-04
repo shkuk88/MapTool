@@ -33,10 +33,13 @@ void XMap::InitLight()
 
 bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szVSfile, char* szVSFunctionName, TCHAR* szPSfile, char* szPSFunctionName, TCHAR* szHeightTexture)
 {
-	if (FAILED(CreateHeightMap(pDevice, pContext, szHeightTexture)))
+	if (szHeightTexture)
 	{
-		MessageBox(0, L"CreateHeightMap FAIL", 0, 0);
-		return false;
+		if (FAILED(CreateHeightMap(pDevice, pContext, szHeightTexture)))
+		{
+			MessageBox(0, L"CreateHeightMap FAIL", 0, 0);
+			return false;
+		}
 	}
 	Init();
 
@@ -90,11 +93,11 @@ HRESULT	XMap::CreateHeightMap(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
 		if (SUCCEEDED(pContext->Map((ID3D11Resource*)pTexture2D, D3D11CalcSubresource(0, 0, 1), D3D11_MAP_READ, 0, &msr)))
 		{
 			UCHAR* pTexel = (UCHAR*)msr.pData;
-			for (int Row = 0; Row < td.Height; Row++)
+			for (int Row = 0; Row < m_iRow; Row++)
 			{
 
 				int rowStart = Row * msr.RowPitch;
-				for (int Col = 0; Col < td.Width; Col++)
+				for (int Col = 0; Col < m_iCol; Col++)
 				{
 					int colStart = Col * 4;
 					int red = pTexel[rowStart + colStart + 0];			//+0= red,+1= green, +2= brue, +3= alpha
