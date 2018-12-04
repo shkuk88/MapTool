@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapTool", "MapTool\MapTool.vcxproj", "{29B78AE0-2223-40EE-81DA-6C576FB27693}"
+	ProjectSection(ProjectDependencies) = postProject
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73} = {89BA3F15-8960-4EA8-BDA3-B21C8A675B73}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XDxCoreLibrary", "XDxCoreLibrary\XDxCoreLibrary.vcxproj", "{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Debug|x64.ActiveCfg = Debug|x64
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Debug|x64.Build.0 = Debug|x64
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Debug|x86.ActiveCfg = Debug|Win32
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Debug|x86.Build.0 = Debug|Win32
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Release|x64.ActiveCfg = Release|x64
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Release|x64.Build.0 = Release|x64
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Release|x86.ActiveCfg = Release|Win32
+		{29B78AE0-2223-40EE-81DA-6C576FB27693}.Release|x86.Build.0 = Release|Win32
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Debug|x64.ActiveCfg = Debug|x64
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Debug|x64.Build.0 = Debug|x64
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Debug|x86.ActiveCfg = Debug|Win32
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Debug|x86.Build.0 = Debug|Win32
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Release|x64.ActiveCfg = Release|x64
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Release|x64.Build.0 = Release|x64
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Release|x86.ActiveCfg = Release|Win32
+		{89BA3F15-8960-4EA8-BDA3-B21C8A675B73}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9182915-60EF-4804-89DA-699EE5464047}
+	EndGlobalSection
+EndGlobal
