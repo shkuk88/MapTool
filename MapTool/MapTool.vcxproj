@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{29B78AE0-2223-40EE-81DA-6C576FB27693}</ProjectGuid>
+    <ProjectGuid>{104F6486-E946-4C20-8CC8-A00FE3026014}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
     <RootNamespace>MapTool</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -77,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\output\</OutDir>
-    <IntDir>..\output\MapTool</IntDir>
+    <IntDir>..\output\MapTool\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -97,13 +97,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Include\;..\Include\Dx;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Include\;..\Include\Dx\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>..\Library\;..\Library\Dx\x86\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -123,7 +121,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Include\;..\Include\Dx;..\Include\Fmod;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Include\;..\Include\Dx\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

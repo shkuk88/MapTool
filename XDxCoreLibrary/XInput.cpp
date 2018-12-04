@@ -20,13 +20,13 @@ bool   XInput::InitDirectInput()
 	// 장치별 반환 데이터 설정
 	m_pKeyDevice->SetDataFormat(&c_dfDIKeyboard);
 	// 장치별 독점 및 비독점 설정(협조레벨)
-	if (FAILED(hr = m_pKeyDevice->SetCooperativeLevel(g_hWnd,
-		DISCL_NONEXCLUSIVE |
-		DISCL_FOREGROUND |
-		DISCL_NOWINKEY)))
-	{
-		return false;
-	}
+	//if (FAILED(hr = m_pKeyDevice->SetCooperativeLevel(g_hWnd,
+	//	DISCL_NONEXCLUSIVE |
+	//	DISCL_FOREGROUND |
+	//	DISCL_NOWINKEY)))
+	//{
+	//	return false;
+	//}
 
 	while (m_pKeyDevice->Acquire() == DIERR_INPUTLOST);
 
@@ -38,12 +38,12 @@ bool   XInput::InitDirectInput()
 	}
 	m_pMouseDevice->SetDataFormat(&c_dfDIMouse);
 
-	if (FAILED(hr = m_pMouseDevice->SetCooperativeLevel(g_hWnd,
-		DISCL_NONEXCLUSIVE |
-		DISCL_FOREGROUND)))
-	{
-		return true;
-	}
+	//if (FAILED(hr = m_pMouseDevice->SetCooperativeLevel(g_hWnd,
+	//	DISCL_NONEXCLUSIVE |
+	//	DISCL_FOREGROUND)))
+	//{
+	//	return true;
+	//}
 	while (m_pMouseDevice->Acquire() == DIERR_INPUTLOST);
 	return hr;
 }

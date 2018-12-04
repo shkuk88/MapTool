@@ -85,8 +85,7 @@ bool XCore::XRender()
 bool XCore::XRelease()
 {
 	Release();
-	I_Timer.Release();
-	I_Input.Release();
+	I_Timer.Release();	I_Input.Release();
 	I_Write.Release();
 	I_Device.Release();
 
