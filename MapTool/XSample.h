@@ -2,7 +2,7 @@
 #include "XCore.h"
 #include "XDevice.h"
 #include "XCamera.h"
-#include "XMap.h"
+#include "XQuadTreeIndex.h"
 #include "XSelect.h"
 
 class XObject : public XBoxShape
@@ -19,9 +19,6 @@ public:
 	}
 	void MoveObject()
 	{
-		m_Box.vCenter.x = m_matWorld._41;
-		m_Box.vCenter.y = m_matWorld._42;
-		m_Box.vCenter.z = m_matWorld._43;
 		if (I_Input.m_DIMouseState.rgbButtons[0])
 		{
 			if (m_pSelect->CheakOBBToRay(&m_Box))
@@ -45,7 +42,11 @@ public:
 
 		return true;
 	}
-	virtual bool Frame() { return true; }
+	virtual bool Frame() {
+		m_Box.vCenter.x = m_matWorld._41;
+		m_Box.vCenter.y = m_matWorld._42;
+		m_Box.vCenter.z = m_matWorld._43; 
+		return true; }
 	virtual bool Render(ID3D11DeviceContext* pContext) {
 		pContext->VSSetShader(m_pVS.Get(), NULL, 0);
 		pContext->PSSetShader(m_pPS.Get(), NULL, 0);
@@ -79,10 +80,10 @@ public:
 class XSample :public XCore
 {
 private:
-	XCamera	m_Camera;
-	XSelect m_Select;
-	XMap	m_Map;
-	XObject m_Box;
+	XCamera			m_Camera;
+	XSelect			m_Select;
+	XMap			m_Map;
+	XQuadTreeIndex	m_MapTree;
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

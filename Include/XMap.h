@@ -1,7 +1,7 @@
 #pragma once
 #include "XShape.h"
 
-
+enum TexturePresence { Tex_Have = 0, Tex_None };
 struct ConstantBuffer_Light
 {
 	D3DXMATRIX	matInvWorld;		// 현재는 왜 사용하는지 의문
@@ -36,6 +36,8 @@ public:
 	int						m_iFace;
 	float					m_fDistance;
 	float					m_fScaleHeight;
+	ComPtr<ID3D11VertexShader>			m_pVS[2];
+	ComPtr<ID3D11PixelShader>			m_pPS[2];
 public:
 	D3DXVECTOR3				m_vLook;
 	ComPtr<ID3D11Buffer>	m_pLightConstantBuffer;
@@ -58,7 +60,7 @@ public:
 	void		InitLight();
 	void		UpdateLight();
 public:
-	virtual bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szVSfile, char* szVSFunctionName, TCHAR* szPSfile, char* szPSFunctionName, TCHAR* szHeightTexture);
+	virtual bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName,  TCHAR* szHeightTexture);
 	virtual bool Init();
 	virtual bool Frame();
 	virtual bool Render(ID3D11DeviceContext* pContext);

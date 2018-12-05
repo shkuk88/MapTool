@@ -31,7 +31,7 @@ void XMap::InitLight()
 	m_LightData.vSpecularLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szVSfile, char* szVSFunctionName, TCHAR* szPSfile, char* szPSFunctionName, TCHAR* szHeightTexture)
+bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName, TCHAR* szHeightTexture)
 {
 	if (szHeightTexture)
 	{
@@ -43,9 +43,10 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* s
 	}
 	Init();
 
-	m_pVS.Attach(m_Object.CreateVertexShader(szVSfile, szVSFunctionName, &m_pVSBuf));
-	m_pPS.Attach(m_Object.CreatePixelShader(szPSfile, szPSFunctionName, &m_pPSBuf));
-
+	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_Have].Attach(m_Object.CreatePixelShader(szMapShader, szPSFunctionName, &m_pPSBuf));
+	m_pVS[Tex_None].Attach(m_Object.CreateVertexShader(szOnlyColorShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_None].Attach(m_Object.CreatePixelShader(szOnlyColorShader, szPSFunctionName, &m_pPSBuf));
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -54,9 +55,10 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* s
 		{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT, 0, 40,  D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	m_pVertexLayout.Attach(m_Object.CreateInputlayout(I_Device.m_pD3dDevice.Get(), m_pVSBuf->GetBufferSize(), m_pVSBuf->GetBufferPointer(), layout, sizeof(layout) / sizeof(layout[0])));
-	
-	m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, szTexture));
-	
+	if (szTexture)
+	{
+		m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, szTexture));
+	}
 	return true;
 }
 
@@ -368,8 +370,16 @@ bool XMap::Render(ID3D11DeviceContext* pContext)
 {
 	UpdateLight();	// SetMatrix가 먼저 되야한다.
 	pContext->UpdateSubresource(m_pLightConstantBuffer.Get(), 0, NULL, &m_LightData, NULL, NULL);
-	pContext->VSSetShader(m_pVS.Get(), NULL, 0);
-	pContext->PSSetShader(m_pPS.Get(), NULL, 0);
+	if (m_pTextureSRV)
+	{
+		pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
+		pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+	}
+	else
+	{
+		pContext->VSSetShader(m_pVS[Tex_None].Get(), NULL, 0);
+		pContext->PSSetShader(m_pPS[Tex_None].Get(), NULL, 0);
+	}
 	pContext->IASetInputLayout(m_pVertexLayout.Get());
 
 	UINT stride = sizeof(PNCT_Vertex);
@@ -380,7 +390,10 @@ bool XMap::Render(ID3D11DeviceContext* pContext)
 	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
 	pContext->VSSetConstantBuffers(1, 1, m_pLightConstantBuffer.GetAddressOf());
 	pContext->PSSetConstantBuffers(1, 1, m_pLightConstantBuffer.GetAddressOf());
-	pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
+	if (m_pTextureSRV)
+	{
+		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
+	}
 	pContext->DrawIndexed(m_dwIndexList.size(), 0, 0);
 
 	return true;

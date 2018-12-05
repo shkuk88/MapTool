@@ -194,9 +194,16 @@ bool XQuadTreeIndex::LeafRender(ID3D11DeviceContext* pContext, XNode* pNode)
 bool XQuadTreeIndex::Render(ID3D11DeviceContext* pContext)
 {
 	m_Map->UpdateLight();
-	pContext->VSSetShader(m_Map->m_pVS.Get(), NULL, 0);
-	pContext->PSSetShader(m_Map->m_pPS.Get(), NULL, 0);
-
+	if (m_Map->m_pTextureSRV)
+	{
+		pContext->VSSetShader(m_Map->m_pVS[Tex_Have].Get(), NULL, 0);
+		pContext->PSSetShader(m_Map->m_pPS[Tex_Have].Get(), NULL, 0);
+	}
+	else
+	{
+		pContext->VSSetShader(m_Map->m_pVS[Tex_None].Get(), NULL, 0);
+		pContext->PSSetShader(m_Map->m_pPS[Tex_None].Get(), NULL, 0);
+	}
 	pContext->IASetInputLayout(m_Map->m_pVertexLayout.Get());
 
 	UINT stride = sizeof(PNCT_Vertex);
@@ -208,8 +215,10 @@ bool XQuadTreeIndex::Render(ID3D11DeviceContext* pContext)
 	pContext->VSSetConstantBuffers(0, 1, m_Map->m_pConstantBuffer.GetAddressOf());
 	pContext->VSSetConstantBuffers(1, 1, m_Map->m_pLightConstantBuffer.GetAddressOf());
 	pContext->PSSetConstantBuffers(1, 1, m_Map->m_pLightConstantBuffer.GetAddressOf());
-	pContext->PSSetShaderResources(0, 1, m_Map->m_pTextureSRV.GetAddressOf());
-
+	if(m_Map->m_pTextureSRV)
+	{
+		pContext->PSSetShaderResources(0, 1, m_Map->m_pTextureSRV.GetAddressOf());
+	}
 	for (int i = 0; i < m_DrawNodeList.size(); i++)
 	{
 		if (LeafRender(pContext, m_DrawNodeList[i]))
