@@ -201,8 +201,8 @@ struct X_Box
 	D3DXVECTOR3  vMax;
 
 	D3DXVECTOR3  vCenter;
-	D3DXVECTOR3  vAxis[3];			 //축
-	float		 fExtent[3];		 //거리
+	D3DXVECTOR3  vAxis[3];		// 축
+	float		 fExtent[3];	// 센터부터 x,y,z축의 거리
 };
 
 #define WINSTART int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow){

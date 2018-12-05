@@ -17,13 +17,20 @@ public:
 	ComPtr<IDXGIFactory>			m_pGIFactory;		//그래픽스 인프라
 	ComPtr<IDXGISwapChain>			m_pSwapChain;
 	DXGI_SWAP_CHAIN_DESC			m_SwapChainDesc;	//백버퍼구조
+
+	BOOL							m_IsFullScreenMode;
 public:
 	HRESULT CreateDevice();
 	HRESULT CreateGIFactory();
-	HRESULT CreateSwapChain();
+	HRESULT CreateSwapChain(BOOL IsFullScreen = FALSE);
 	HRESULT SetRenderTargetView();
 	HRESULT SetDepthStencilView();
 	void	SetViewPort();
+	HRESULT	ResizeDevice(UINT iWidth, UINT iHeight);
+	BOOL	GetFullScreenFlag();
+	void	SetFullScreenFlag(BOOL bFlag);
+	HRESULT CreateDxResource() { return S_OK; }
+	HRESULT DeleteDxResource() { return S_OK; }
 public:
 	bool Init();
 	void PreRender();

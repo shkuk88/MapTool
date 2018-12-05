@@ -180,6 +180,7 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     <ClCompile Include="XInput.cpp" />
     <ClCompile Include="XMap.cpp" />
     <ClCompile Include="XQuadTree.cpp" />
+    <ClCompile Include="XSelect.cpp" />
     <ClCompile Include="XShape.cpp" />
     <ClCompile Include="XSkyBox.cpp" />
     <ClCompile Include="XSRVManager.cpp" />
@@ -199,6 +200,7 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     <ClInclude Include="XInput.h" />
     <ClInclude Include="XMap.h" />
     <ClInclude Include="XQuadTree.h" />
+    <ClInclude Include="XSelect.h" />
     <ClInclude Include="XShape.h" />
     <ClInclude Include="XSkyBox.h" />
     <ClInclude Include="XSRVManager.h" />

@@ -36,8 +36,10 @@ HRESULT XDevice::CreateGIFactory()
 	return hr;
 }
 
-HRESULT XDevice::CreateSwapChain()
+HRESULT XDevice::CreateSwapChain(BOOL IsFullScreen)
 {
+	SetFullScreenFlag(IsFullScreen);
+
 	//typedef struct DXGI_SWAP_CHAIN_DESC
 	//{
 	//	DXGI_MODE_DESC BufferDesc;		// 클라이언트 사이즈
@@ -64,7 +66,10 @@ HRESULT XDevice::CreateSwapChain()
 	pDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	V_RETURN(m_pGIFactory->CreateSwapChain(m_pD3dDevice.Get(), &pDesc, m_pSwapChain.GetAddressOf()));
+	V_RETURN(m_pSwapChain.Get()->GetDesc(&m_SwapChainDesc));
 
+	g_rtClient.right = m_SwapChainDesc.BufferDesc.Width;
+	g_rtClient.bottom = m_SwapChainDesc.BufferDesc.Height;
 	return hr;
 }
 
@@ -75,17 +80,19 @@ HRESULT XDevice::SetRenderTargetView()
 	if (FAILED(hr))	return hr;
 	hr = m_pD3dDevice->CreateRenderTargetView(pResource, NULL, m_pRenderTV.GetAddressOf());
 	if (FAILED(hr))	return hr;
-	m_pD3dContext->OMSetRenderTargets(1, m_pRenderTV.GetAddressOf(), NULL);
 
 	return hr;
 }
 
 void XDevice::SetViewPort()
 {
+	DXGI_SWAP_CHAIN_DESC Desc;
+	m_pSwapChain.Get()->GetDesc(&Desc);
+	//설정 뷰포트
+	m_ViewPort.Width = (FLOAT)Desc.BufferDesc.Width;
+	m_ViewPort.Height = (FLOAT)Desc.BufferDesc.Height;
 	m_ViewPort.TopLeftX = 0;
 	m_ViewPort.TopLeftY = 0;
-	m_ViewPort.Width = g_rtClient.right;
-	m_ViewPort.Height = g_rtClient.bottom;
 	m_ViewPort.MinDepth = 0;
 	m_ViewPort.MaxDepth = 1;
 
@@ -101,8 +108,8 @@ HRESULT XDevice::SetDepthStencilView()
 	ID3D11Texture2D *pDSTexture = NULL;
 	D3D11_TEXTURE2D_DESC td;
 	ZeroMemory(&td, sizeof(td));
-	td.Width = m_ViewPort.Width;
-	td.Height = m_ViewPort.Height;
+	td.Width = m_SwapChainDesc.BufferDesc.Width;
+	td.Height = m_SwapChainDesc.BufferDesc.Width;
 	td.MipLevels = 1;
 	td.ArraySize = 1;
 	td.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -114,7 +121,7 @@ HRESULT XDevice::SetDepthStencilView()
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
 	//D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
 	ZeroMemory(&dsvd, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
-	dsvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;					//정밀도 높일땐 R32_TYPELESS , 쉐이더리소스뷰 할땐 D32로 한다(보편적으로)
+	dsvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;					//정밀도 높일땐 R32_TYPELESS, 쉐이더리소스뷰 할땐 D32로 한다(보편적으로), 텍스처와 같은 포맷
 	dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	V_RETURN(m_pD3dDevice->CreateDepthStencilView(pDSTexture, &dsvd, m_pDepthSV.GetAddressOf()));
 	
@@ -134,6 +141,56 @@ HRESULT XDevice::SetDepthStencilView()
 	return hr;
 }
 
+BOOL XDevice::GetFullScreenFlag()
+{
+	return m_IsFullScreenMode;
+}
+
+void XDevice ::SetFullScreenFlag(BOOL bFlag)
+{
+	m_IsFullScreenMode = bFlag;
+}
+
+HRESULT XDevice::ResizeDevice(UINT iWidth, UINT iHeight)
+{
+	if (m_pD3dDevice == nullptr)
+	{
+		return true;
+	}
+	HRESULT hr;
+
+	V_RETURN(DeleteDxResource());
+
+	m_pD3dContext.Get()->OMSetRenderTargets(0, NULL, NULL);
+	m_pRenderTV.Get()->Release();
+	m_pDepthSV.Get()->Release();
+
+
+	//--------------------------------------------------------------------------------------
+	// 백버퍼의 크기를 조정한다.
+	//--------------------------------------------------------------------------------------
+	DXGI_SWAP_CHAIN_DESC CurrentSD;
+	m_pSwapChain.Get()->GetDesc(&CurrentSD);
+	UINT Flags = 0;
+	if (!m_IsFullScreenMode)
+	{
+		Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	}
+
+
+	V_RETURN(m_pSwapChain.Get()->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight, CurrentSD.BufferDesc.Format, Flags));
+	V_RETURN(SetRenderTargetView());
+	SetViewPort();
+	V_RETURN(SetDepthStencilView());
+	V_RETURN(CreateDxResource());
+
+
+	g_rtClient.right = m_SwapChainDesc.BufferDesc.Width;
+	g_rtClient.bottom = m_SwapChainDesc.BufferDesc.Height;
+
+
+	return S_OK;
+}
 void XDevice::PreRender()
 {
 	//float color[4] = { 0.0f,0.0f,0.0f,1.0f };
