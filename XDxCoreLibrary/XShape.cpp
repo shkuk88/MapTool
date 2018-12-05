@@ -149,6 +149,12 @@ void XBoxShape::SetVertex()
 	m_VertexList[21].p = { 1.0f, -1.0f,  -1.0f };		m_VertexList[21].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[21].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[21].t = { 1.0f, 0.0f };
 	m_VertexList[22].p = { -1.0f, -1.0f,  1.0f };		m_VertexList[22].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[22].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[22].t = { 0.0f, 1.0f };
 	m_VertexList[23].p = { 1.0f, -1.0f,  1.0f };		m_VertexList[23].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[23].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[23].t = { 1.0f, 1.0f };
+	
+	m_Box.fExtent[0] = 1.0f;		
+	m_Box.fExtent[1] = 1.0f;
+	m_Box.fExtent[2] = 1.0f;
+	m_Box.vMin.x = m_Box.vCenter.x - m_Box.fExtent[0];			m_Box.vMin.y = m_Box.vCenter.y - m_Box.fExtent[1];			m_Box.vMin.z = m_Box.vCenter.z - m_Box.fExtent[2];
+	m_Box.vMax.x = m_Box.vCenter.x + m_Box.fExtent[0];			m_Box.vMax.y = m_Box.vCenter.y + m_Box.fExtent[1];			m_Box.vMax.z = m_Box.vCenter.z + m_Box.fExtent[2];
 }
 
 void XBoxShape::SetIndex()

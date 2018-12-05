@@ -163,6 +163,7 @@ HRESULT XDevice::ResizeDevice(UINT iWidth, UINT iHeight)
 
 	m_pD3dContext.Get()->OMSetRenderTargets(0, NULL, NULL);
 	m_pRenderTV.Get()->Release();
+
 	m_pDepthSV.Get()->Release();
 
 
@@ -176,7 +177,6 @@ HRESULT XDevice::ResizeDevice(UINT iWidth, UINT iHeight)
 	{
 		Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	}
-
 
 	V_RETURN(m_pSwapChain.Get()->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight, CurrentSD.BufferDesc.Format, Flags));
 	V_RETURN(SetRenderTargetView());

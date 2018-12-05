@@ -50,6 +50,9 @@ public:
 	void SetMatrix(D3DXMATRIX *matWorld, D3DXMATRIX *matView, D3DXMATRIX *matProj);
 	virtual void SetVertex() {}
 	virtual void SetIndex() {}
+	D3DXMATRIX GetWorldMatrix() { return m_matWorld; }
+	D3DXMATRIX GetViewMatrix() { return m_matView; }
+	D3DXMATRIX GetProjMatrix() { return m_matProj; }
 public:
 	virtual bool Init() { return true; }
 	virtual bool Frame() { return true; }
