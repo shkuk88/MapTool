@@ -48,6 +48,12 @@
     <ClInclude Include="XMapForm.h">
       <Filter>Form</Filter>
     </ClInclude>
+    <ClInclude Include="XMapControlPane.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapControlForm.h">
+      <Filter>Form</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -72,6 +78,12 @@
       <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="XMapForm.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapControlPane.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapControlForm.cpp">
       <Filter>Form</Filter>
     </ClCompile>
   </ItemGroup>
