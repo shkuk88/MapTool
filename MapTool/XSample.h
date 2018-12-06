@@ -82,8 +82,10 @@ class XSample :public XCore
 private:
 	XCamera			m_Camera;
 	XSelect			m_Select;
-	XMap			m_Map;
-	XQuadTreeIndex	m_MapTree;
+	XMap*			m_pMap;
+	XQuadTreeIndex*	m_pMapTree;
+public:
+	bool CreateMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

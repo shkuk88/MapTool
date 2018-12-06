@@ -25,13 +25,13 @@ void XMap::InitLight()
 	m_LightData.vDiffuseMaterial = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_LightData.vAmbientMaterial = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);
 	m_LightData.vSpecularMaterial = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	m_LightData.vLightDirection = D3DXVECTOR4(-100.0f, -100.0f, 0.0f, 1.0f);
+	m_LightData.vLightDirection = D3DXVECTOR4(100.0f, 100.0f, 0.0f, 1.0f);
 	m_LightData.vDiffuseLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_LightData.vAmbientLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_LightData.vSpecularLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName, TCHAR* szHeightTexture)
+bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
 {
 	if (szHeightTexture)
 	{

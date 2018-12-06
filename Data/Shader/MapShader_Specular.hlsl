@@ -42,7 +42,7 @@ struct VS_OUT
 
 float4 Diffuse(float3 vNormal)
 {
-	float fDot = max(0, dot(vNormal, normalize(-g_vLightDirection)));
+	float fDot = max(0, dot(vNormal, normalize(g_vLightDirection)));
 	float4 vDiffuse = (g_vAmbientMaterial * g_vAmbientLightColor) + (g_vDiffuseLightColor * g_vDiffuseLightColor * fDot);
 	return vDiffuse;
 }
@@ -52,10 +52,10 @@ float4 Specular(float3 vNormal)
 	float  fPower = 0.0f;
 	float3 vReflect = float3(0.0f, 0.0f, 0.0f);
 #ifndef NORMAL_VECTOR
-	vReflect = reflect(g_vLightDirection, vNormal);
+	vReflect = reflect(-g_vLightDirection, vNormal);
 	fPower = pow(saturate(dot(vReflect, -g_vSightDirection)), g_fIntensity);
 #else
-	vReflect = normalize(-g_vLightDirection + -g_vSightDirection);
+	vReflect = normalize(g_vLightDirection + -g_vSightDirection);
 	fPower = pow(saturate(dot(vNormal, vReflect)), g_fIntensity);
 #endif
 	float4 vSpecular = g_vSpecularMaterial * g_vSpecularLightColor * fPower;

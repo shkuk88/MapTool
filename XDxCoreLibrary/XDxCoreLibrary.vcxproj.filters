@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{4ca50e76-2e2e-4b87-a6dd-df2785ac2406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="XCore.cpp">
@@ -131,28 +134,28 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Data\Shader\Ase.hlsl">
-      <Filter>리소스 파일</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Data\Shader\BoxShader.hlsl">
-      <Filter>리소스 파일</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Data\Shader\LineShader.hlsl">
-      <Filter>리소스 파일</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Data\Shader\PlaneShader.hlsl">
-      <Filter>리소스 파일</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Data\Shader\SkyShader_Sample_0.hlsl">
-      <Filter>리소스 파일</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Data\Shader\MapShader.hlsl">
-      <Filter>리소스 파일</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Data\Shader\MapShader_Specular.hlsl">
-      <Filter>리소스 파일</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Data\Shader\MapShader_Color_Specular.hlsl">
-      <Filter>리소스 파일</Filter>
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shader\MapShader_Specular.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shader\PlaneShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shader\SkyShader_Sample_0.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
