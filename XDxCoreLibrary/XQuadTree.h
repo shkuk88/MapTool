@@ -59,6 +59,7 @@ public:
 	virtual bool		SubDivide(XNode* pNode);			// 노드를 쪼게는 함수
 	bool				AddObject(XShape* pObj);
 	XNode*				FindNode(XNode* pNode, XShape* pObj);
+	XNode*				GetRootNode() { return m_pRootNode; }
 	bool				CheckRect(XNode* pNode, XShape* pObj);
 	void				SetCamera(XCamera* pCamera);
 	void				DrawFindNode(XNode* pNode);

@@ -13,7 +13,9 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 		m_pMapTree = new XQuadTreeIndex;
 	m_pMapTree->Build(m_pMap);
 	m_pMapTree->SetCamera(&m_Camera);
-	
+	// 맵 생성시 높이조절 클래스 시동
+	m_HeightMapCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	m_HeightMapCtrl.Start();
 	return true;
 }
 
@@ -30,7 +32,7 @@ bool XSample::Frame()
 	m_Camera.Frame();
 	if (m_pMap)
 	{
-		m_Select.SetMatrix(&m_pMap->GetWorldMatrix(), &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
+		I_Select.SetMatrix(&m_pMap->GetWorldMatrix(), &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
 		m_pMap->Frame();
 	}
 	if (m_pMapTree)	m_pMapTree->Frame();
@@ -68,6 +70,7 @@ bool XSample::Release()
 
 XSample::XSample()
 {
+	
 }
 
 

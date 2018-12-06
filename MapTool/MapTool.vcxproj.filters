@@ -42,16 +42,16 @@
     <ClInclude Include="XSample.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="XMapPane.h">
-      <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="XMapForm.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="XMapControlPane.h">
       <Filter>Form</Filter>
     </ClInclude>
     <ClInclude Include="XMapControlForm.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapCreatePane.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapCreateForm.h">
       <Filter>Form</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,16 +74,16 @@
     <ClCompile Include="XSample.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="XMapPane.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
-    <ClCompile Include="XMapForm.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
     <ClCompile Include="XMapControlPane.cpp">
       <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="XMapControlForm.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapCreatePane.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapCreateForm.cpp">
       <Filter>Form</Filter>
     </ClCompile>
   </ItemGroup>

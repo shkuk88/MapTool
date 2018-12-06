@@ -168,6 +168,8 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="XHeightMapController.cpp" />
+    <ClCompile Include="XMapController.cpp" />
     <ClCompile Include="XQuadTreeIndex.cpp" />
     <ClCompile Include="XCamera.cpp" />
     <ClCompile Include="XCore.cpp" />
@@ -188,6 +190,8 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     <ClCompile Include="XWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="XHeightMapController.h" />
+    <ClInclude Include="XMapController.h" />
     <ClInclude Include="XQuadTreeIndex.h" />
     <ClInclude Include="XCamera.h" />
     <ClInclude Include="XCore.h" />

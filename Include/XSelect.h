@@ -9,8 +9,10 @@ struct X_Ray
 	D3DXVECTOR3		vDirection;
 };
 
-class XSelect
+class XSelect : public XSingleton<XSelect>
 {
+public:
+	friend class XSingleton<XSelect>;
 public:
 	X_Ray		m_Ray;
 	D3DXVECTOR3 m_vIntersection;//±³Á¡
@@ -45,3 +47,5 @@ public:
 	XSelect();
 	virtual ~XSelect();
 };
+
+#define I_Select XSingleton<XSelect>::Get()

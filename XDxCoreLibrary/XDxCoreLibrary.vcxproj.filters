@@ -16,6 +16,9 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{4ca50e76-2e2e-4b87-a6dd-df2785ac2406}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{878ae194-c5ff-4541-a3e3-ef72749fea35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="XCore.cpp">
@@ -54,23 +57,29 @@
     <ClCompile Include="XSRVManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="XMap.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="XSkyBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="XFrustum.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="XQuadTree.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="XQuadTreeIndex.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="XSelect.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="XQuadTree.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XQuadTreeIndex.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapController.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XHeightMapController.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,23 +122,29 @@
     <ClInclude Include="XSRVManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="XMap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="XSkyBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="XFrustum.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="XQuadTree.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="XQuadTreeIndex.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="XSelect.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="XMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XQuadTree.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XQuadTreeIndex.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapController.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XHeightMapController.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

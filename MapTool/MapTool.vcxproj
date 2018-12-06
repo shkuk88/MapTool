@@ -200,8 +200,8 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="XMapControlForm.h" />
     <ClInclude Include="XMapControlPane.h" />
-    <ClInclude Include="XMapForm.h" />
-    <ClInclude Include="XMapPane.h" />
+    <ClInclude Include="XMapCreateForm.h" />
+    <ClInclude Include="XMapCreatePane.h" />
     <ClInclude Include="XSample.h" />
   </ItemGroup>
   <ItemGroup>
@@ -217,8 +217,8 @@
     </ClCompile>
     <ClCompile Include="XMapControlForm.cpp" />
     <ClCompile Include="XMapControlPane.cpp" />
-    <ClCompile Include="XMapForm.cpp" />
-    <ClCompile Include="XMapPane.cpp" />
+    <ClCompile Include="XMapCreateForm.cpp" />
+    <ClCompile Include="XMapCreatePane.cpp" />
     <ClCompile Include="XSample.cpp" />
   </ItemGroup>
   <ItemGroup>
