@@ -30,8 +30,6 @@ public:
 	vector<long>			m_iNormalLookUpTable; //정점 단위의 공유하는 페이스, DWORD에 XVertexLookUp를 넣도록 수정할 예정
 	int						m_iRow;
 	int						m_iCol;
-	int						m_iSellRows;
-	int						m_iSellCols;
 	int						m_iVertexs;
 	int						m_iFace;
 	float					m_fDistance;
@@ -61,6 +59,7 @@ public:
 	void		UpdateLight();
 public:
 	virtual bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
+	bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fCellCount, float fDistance, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 	virtual bool Init();
 	virtual bool Frame();
 	virtual bool Render(ID3D11DeviceContext* pContext);

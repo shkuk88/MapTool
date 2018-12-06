@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "XSample.h"
 
-bool XSample::CreateMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
+bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCount, float fDistance)
 {
 	if (!m_pMap)
 		m_pMap = new XMap;
-	m_pMap->Create(pDevice, pContext, szTexture, szHeightTexture, szMapShader, szOnlyColorShader, szVSFunctionName, szPSFunctionName);
+	if(!fCellCount)
+		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), szTexture, szHeightTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
+	else
+		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fCellCount, fDistance, szTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
 	if (!m_pMapTree)
 		m_pMapTree = new XQuadTreeIndex;
 	m_pMapTree->Build(m_pMap);

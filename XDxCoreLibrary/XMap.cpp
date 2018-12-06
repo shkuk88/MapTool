@@ -41,6 +41,33 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* s
 			return false;
 		}
 	}
+
+	Init();
+
+	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_Have].Attach(m_Object.CreatePixelShader(szMapShader, szPSFunctionName, &m_pPSBuf));
+	m_pVS[Tex_None].Attach(m_Object.CreateVertexShader(szOnlyColorShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_None].Attach(m_Object.CreatePixelShader(szOnlyColorShader, szPSFunctionName, &m_pPSBuf));
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT, 0, 40,  D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	m_pVertexLayout.Attach(m_Object.CreateInputlayout(I_Device.m_pD3dDevice.Get(), m_pVSBuf->GetBufferSize(), m_pVSBuf->GetBufferPointer(), layout, sizeof(layout) / sizeof(layout[0])));
+	if (szTexture)
+	{
+		m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, szTexture));
+	}
+	return true;
+}
+
+bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fCellCount, float fDistance, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
+{
+	m_iCol = fCellCount+1;
+	m_iRow = fCellCount+1;
+	m_fDistance = fDistance;
 	Init();
 
 	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
@@ -85,8 +112,8 @@ HRESULT	XMap::CreateHeightMap(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
 	D3D11_TEXTURE2D_DESC td;
 	pTexture2D->GetDesc(&td);
 
-	m_iRow = td.Height;
-	m_iCol = td.Width;
+	m_iRow = td.Height + 1;
+	m_iCol = td.Width + 1;
 	m_fHeightList.resize(m_iRow*m_iCol);
 
 	if (pTexture2D)
@@ -128,7 +155,10 @@ bool XMap::CreateVertexList()
 
 			int iVerIndex = Row * m_iCol + Col;
 			m_VertexList[iVerIndex].p.x = (Col - iHalfCol)*m_fDistance;
-			m_VertexList[iVerIndex].p.y = m_fHeightList[(m_iCol * Row) + Col] * m_fDistance / 20;
+			if(m_fHeightList.size())
+				m_VertexList[iVerIndex].p.y = m_fHeightList[(m_iCol * Row) + Col] * m_fDistance / 20;
+			else
+				m_VertexList[iVerIndex].p.y = 0.0f;
 			m_VertexList[iVerIndex].p.z = -((Row - iHalfRow)*m_fDistance);
 			m_VertexList[iVerIndex].n = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			m_VertexList[iVerIndex].c = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
