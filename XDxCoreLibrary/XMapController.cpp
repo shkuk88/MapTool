@@ -23,6 +23,8 @@ bool XMapController::SetLeafNode(XNode * pNode)
 
 void XMapController::CheckCrashNode()
 {
+	// DrawNodeList는 찾는 범위 내 노드를 검색 시 컬링에 의해 짤리는 Node가 발생할 소지가 있어서 모든 노드를 검색. 
+	// 최적화 필요시 DrawNodeList로 대체
 	for (auto LeafNode : m_LeafNodeList)
 	{
 
