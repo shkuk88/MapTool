@@ -8,6 +8,8 @@
 class XCore :public XWindow
 {
 public:
+	bool m_bWireMode;
+public:
 	bool DrawDebug();
 public:
 	virtual LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;

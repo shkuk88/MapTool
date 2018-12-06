@@ -4,6 +4,7 @@
 #include "XCamera.h"
 #include "XQuadTreeIndex.h"
 #include "XSelect.h"
+#include "XSkyBox.h"
 
 class XObject : public XBoxShape
 {
@@ -84,6 +85,7 @@ private:
 	XSelect			m_Select;
 	XMap*			m_pMap;
 	XQuadTreeIndex*	m_pMapTree;
+	XSkyBox			m_Sky;
 public:
 	bool CreateMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 public:

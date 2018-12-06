@@ -49,10 +49,12 @@ bool XCore::PreRender()
 	if (I_Input.KeyCheck(DIK_F1) == KEY_PUSH)
 	{
 		I_Device.m_pD3dContext->RSSetState(XDxState::g_pRSFWire.Get());
+		m_bWireMode = true;
 	}
 	if (I_Input.KeyCheck(DIK_F2) == KEY_PUSH)
 	{
 		I_Device.m_pD3dContext->RSSetState(XDxState::g_pRSFSolid.Get());
+		m_bWireMode = false;
 	}	
 	if (I_Input.KeyCheck(DIK_F3) == KEY_PUSH)
 	{
@@ -121,6 +123,7 @@ bool XCore::Run()
 
 XCore::XCore()
 {
+	m_bWireMode = false;
 }
 
 
