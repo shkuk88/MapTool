@@ -41,7 +41,7 @@ public:
 	bool GetIntersection(D3DXVECTOR3 vStart, D3DXVECTOR3 vEnd, D3DXVECTOR3 vNormal,	D3DXVECTOR3 v0, D3DXVECTOR3 v1, D3DXVECTOR3 v2);
 	bool CheckPick(D3DXVECTOR3& v0, D3DXVECTOR3& v1, D3DXVECTOR3& v2);
 	bool IntersectTriangle(const D3DXVECTOR3& origin, const D3DXVECTOR3& dir, D3DXVECTOR3& v0, D3DXVECTOR3& v1, D3DXVECTOR3& v2, FLOAT* t, FLOAT* u, FLOAT* v);
-	bool IntersectBox(X_Box* pBox, X_Ray* pRay);
+	bool IntersectBox(X_Box* pBox);
 	bool CheakOBBToRay(X_Box* pBox);
 	bool PointInRect(POINT pt, RECT rc);
 public:

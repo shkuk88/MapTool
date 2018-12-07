@@ -36,7 +36,7 @@ bool XSample::Frame()
 		m_pMap->Frame();
 	}
 	if (m_pMapTree)	m_pMapTree->Frame();
-
+	m_HeightMapCtrl.Frame();
 	return true;
 }
 

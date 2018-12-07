@@ -1,3 +1,4 @@
+
 #define NORMAL_VECTOR
 
 SamplerState sample0		: register (s0);

@@ -20,7 +20,7 @@ bool XHeightMapController::Frame()
 	if (!bStart) return false;
 	if (I_Input.m_MouseState[0])
 	{
-		CheckCrashNode();
+
 	}
 	return true;
 }

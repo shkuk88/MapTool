@@ -124,18 +124,17 @@ bool XSelect::IntersectTriangle(const D3DXVECTOR3& origin, const D3DXVECTOR3& di
 }
 
 // AABB 충돌
-bool XSelect::IntersectBox(X_Box* pBox, X_Ray* pRay)
+bool XSelect::IntersectBox(X_Box* pBox)
 {
-	if (pRay == NULL) pRay = &m_Ray;
 	D3DXVECTOR3 tmin;
-	tmin.x = (pBox->vMin.x - pRay->vOrigin.x) / pRay->vDirection.x + 0.001f;
-	tmin.y = (pBox->vMin.y - pRay->vOrigin.y) / pRay->vDirection.y + 0.001f;
-	tmin.z = (pBox->vMin.z - pRay->vOrigin.z) / pRay->vDirection.z + 0.001f;
+	tmin.x = (pBox->vMin.x - m_Ray.vOrigin.x) / m_Ray.vDirection.x + 0.001f;
+	tmin.y = (pBox->vMin.y - m_Ray.vOrigin.y) / m_Ray.vDirection.y + 0.001f;
+	tmin.z = (pBox->vMin.z - m_Ray.vOrigin.z) / m_Ray.vDirection.z + 0.001f;
 
 	D3DXVECTOR3 tmax;
-	tmax.x = (pBox->vMax.x - pRay->vOrigin.x) / pRay->vDirection.x + 0.001f;
-	tmax.y = (pBox->vMax.y - pRay->vOrigin.y) / pRay->vDirection.y + 0.001f;
-	tmax.z = (pBox->vMax.z - pRay->vOrigin.z) / pRay->vDirection.z + 0.001f;
+	tmax.x = (pBox->vMax.x - m_Ray.vOrigin.x) / m_Ray.vDirection.x + 0.001f;
+	tmax.y = (pBox->vMax.y - m_Ray.vOrigin.y) / m_Ray.vDirection.y + 0.001f;
+	tmax.z = (pBox->vMax.z - m_Ray.vOrigin.z) / m_Ray.vDirection.z + 0.001f;
 
 	// 직선 방향을 파악
 	D3DXVECTOR3 real_min;
@@ -152,7 +151,7 @@ bool XSelect::IntersectBox(X_Box* pBox, X_Ray* pRay)
 
 	if (minmax >= maxmin)
 	{
-		m_vIntersection = pRay->vOrigin + pRay->vDirection* maxmin;
+		m_vIntersection = m_Ray.vOrigin + m_Ray.vDirection* maxmin;
 		return true;
 	}
 	return false;

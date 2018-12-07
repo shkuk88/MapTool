@@ -25,8 +25,6 @@ public:
 	bool SetLeafNode(XNode* pRootNode);
 	// 컨트롤러 시동
 	void Start() { bStart = true; }
-	// 충돌된 노드를 찾아줌
-	void CheckCrashNode();
 public:
 	virtual bool Init() { return true; }
 	virtual bool Frame() { return true; }
