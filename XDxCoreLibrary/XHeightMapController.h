@@ -12,6 +12,8 @@ private:
 public:
 	void SetHeightCtrlState(HeightControl HeightCtrlState);
 	void SetControlValue(float fRadius, float fStrength);
+	void HeightUpDown();
+	void HeightFlat();
 public:
 	virtual bool Init() { return true; } 
 	virtual bool Frame()	override;

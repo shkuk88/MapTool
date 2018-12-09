@@ -15,6 +15,7 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_pMapTree->SetCamera(&m_Camera);
 	// 맵 생성시 높이조절 클래스 시동
 	m_HeightMapCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	m_HeightMapCtrl.SetMap(m_pMap);
 	m_HeightMapCtrl.Start();
 	return true;
 }

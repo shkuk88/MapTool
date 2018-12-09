@@ -16,6 +16,7 @@ protected:
 	// Map Control이 필요하므로, 리프노드를 전부 저장
 	vector<XNode*>	m_LeafNodeList;
 	vector<XNode*>	m_CrashNode;
+	vector<PNCT_Vertex*> m_CraseVertex;
 	// 마우스 포인터와 Node의 충돌지점
 	D3DXVECTOR3	m_vIntersection = { 0.0f,0.0f,0.0f };
 	// 교점에서의 반지름
@@ -23,8 +24,12 @@ protected:
 public:
 	// 루트노드를 쿼드트리에서 받아오면 리프노드로 분해해서 저장하는 함수.
 	bool SetLeafNode(XNode* pRootNode);
+	// Vertex Control을 위해 Map을 포인터로 가져온다.
+	bool SetMap(XMap* pMap);
 	// 컨트롤러 시동
 	void Start() { bStart = true; }
+	bool CheakInRange();
+	bool FindIntersection();
 public:
 	virtual bool Init() { return true; }
 	virtual bool Frame() { return true; }

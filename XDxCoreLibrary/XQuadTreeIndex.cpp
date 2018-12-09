@@ -208,7 +208,10 @@ bool XQuadTreeIndex::Render(ID3D11DeviceContext* pContext)
 
 	UINT stride = sizeof(PNCT_Vertex);
 	UINT offset = 0;
-
+	
+	// 정점수정시에만 업데이트, LOD시 변경
+	I_Device.m_pD3dContext->UpdateSubresource(m_Map->m_pVertexBuffer.Get(), 0, NULL, &m_Map->m_VertexList.at(0), NULL, NULL);
+	
 	pContext->IASetVertexBuffers(0, 1, m_Map->m_pVertexBuffer.GetAddressOf(), &stride, &offset);
 	pContext->UpdateSubresource(m_Map->m_pLightConstantBuffer.Get(), 0, NULL, &m_Map->m_LightData, NULL, NULL);
 	pContext->UpdateSubresource(m_Map->m_pConstantBuffer.Get(), 0, NULL, &m_Map->m_ConstantDataMatrix, NULL, NULL);
