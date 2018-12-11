@@ -3,7 +3,7 @@
 #include "XShape.h"
 #include "XCamera.h"
 
-#define MAX_DEPTH 5
+#define MAX_DEPTH 4
 
 class XNode
 {

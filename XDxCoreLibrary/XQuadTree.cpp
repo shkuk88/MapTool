@@ -16,13 +16,14 @@ XNode* XQuadTree::CreateNode(XNode* pParent, float fL, float fR, float fB, float
 {
 	XNode* pNode = NULL;
 	SAFE_NEW(pNode, XNode);
+	assert(pNode);// debug에서만 동작하고 조건식이 false이면 프로그램 중단
 
 	pNode->m_Box.vMin = D3DXVECTOR3(fL, 0.0f, fB);
 	pNode->m_Box.vMax = D3DXVECTOR3(fR, 0.0f, fT);
 	pNode->m_Box.vCenter = (pNode->m_Box.vMin + pNode->m_Box.vMax)*0.5f;
-	pNode->m_Box.fExtent[0] = pNode->m_Box.vMax.x - pNode->m_Box.vCenter.x;;
-	pNode->m_Box.fExtent[1] = pNode->m_Box.vMax.y - pNode->m_Box.vCenter.y;;
-	pNode->m_Box.fExtent[2] = pNode->m_Box.vMax.z - pNode->m_Box.vCenter.z;;
+	pNode->m_Box.fExtent[0] = pNode->m_Box.vMax.x - pNode->m_Box.vCenter.x;
+	pNode->m_Box.fExtent[1] = pNode->m_Box.vMax.y - pNode->m_Box.vCenter.y;
+	pNode->m_Box.fExtent[2] = pNode->m_Box.vMax.z - pNode->m_Box.vCenter.z;
 	pNode->m_CornerList.reserve(4);
 
 	//RootNode이면 Depth 추가되는 것 방어

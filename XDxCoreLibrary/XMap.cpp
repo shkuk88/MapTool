@@ -31,7 +31,7 @@ void XMap::InitLight()
 	m_LightData.vSpecularLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
+bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fDistance,TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
 {
 	if (szHeightTexture)
 	{
@@ -40,6 +40,7 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TCHAR* s
 			MessageBox(0, L"CreateHeightMap FAIL", 0, 0);
 			return false;
 		}
+		m_fDistance = fDistance;
 	}
 
 	Init();
@@ -68,6 +69,13 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fC
 	m_iCol = fCellCount+1;
 	m_iRow = fCellCount+1;
 	m_fDistance = fDistance;
+
+	// 정점 갯수 제한
+	if (m_iCol > 1025 || m_iRow > 1025)
+	{
+		m_iCol = 1025; 
+		m_iRow = 1025; 
+	}
 	Init();
 
 	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
@@ -399,6 +407,8 @@ bool XMap::Frame()
 bool XMap::Render(ID3D11DeviceContext* pContext)
 {
 	UpdateLight();	// SetMatrix가 먼저 되야한다.
+
+	pContext->UpdateSubresource(m_pVertexBuffer.Get(), 0, NULL, &m_VertexList.at(0), NULL, NULL);
 	pContext->UpdateSubresource(m_pLightConstantBuffer.Get(), 0, NULL, &m_LightData, NULL, NULL);
 	if (m_pTextureSRV)
 	{

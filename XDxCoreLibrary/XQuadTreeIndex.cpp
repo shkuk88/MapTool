@@ -31,7 +31,7 @@ XNode* XQuadTreeIndex::CreateNode(XNode* pParent, DWORD TL, DWORD TR, DWORD BL, 
 
 	pNode->m_ChildList.reserve(4);
 	pNode->m_CornerIndex.reserve(4);
-	pNode->m_CornerList.reserve(4);
+	//pNode->m_CornerList.reserve(4);
 
 	pNode->m_Box.vMin = m_Map->m_VertexList[BL].p;
 	pNode->m_Box.vMax = m_Map->m_VertexList[TR].p;

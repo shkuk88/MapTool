@@ -13,6 +13,7 @@
 #include <memory>
 #include <process.h> // _beginthreadex()의 헤더
 #include <crtdbg.h> // 메모리 누수를 잡기위한 헤더
+#include <assert.h>
 // Dx
 #include <d3d11.h>
 #include <dxgi.h>

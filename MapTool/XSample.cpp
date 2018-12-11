@@ -6,7 +6,7 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	if (!m_pMap)
 		m_pMap = new XMap;
 	if(!fCellCount)
-		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), szTexture, szHeightTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
+		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fDistance, szTexture, szHeightTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
 	else
 		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fCellCount, fDistance, szTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
 	if (!m_pMapTree)
@@ -33,7 +33,7 @@ bool XSample::Frame()
 	m_Camera.Frame();
 	if (m_pMap)
 	{
-		I_Select.SetMatrix(&m_pMap->GetWorldMatrix(), &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
+		I_Select.SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
 		m_pMap->Frame();
 	}
 	if (m_pMapTree)	m_pMapTree->Frame();
@@ -58,7 +58,8 @@ bool XSample::Render()
 #pragma endregion
 
 	if (m_pMap)		m_pMap->SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
-	if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
+	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
+	if (m_pMap)	m_pMap->Render(I_Device.m_pD3dContext.Get());
 	return true;
 }
 

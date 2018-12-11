@@ -119,7 +119,7 @@ X_POSITION XFrustum::CheckPoitionOBBInPlane(X_Box*  pOBB)
 
 		if (fPlaneToCenter <= fDistance)		
 			x_Position = P_SPANNING;
-		if (fPlaneToCenter + 1.0f < -fDistance)	
+		if (fPlaneToCenter + 2.0f < -fDistance)	
 			return P_BACK;
 	}
 	return x_Position;

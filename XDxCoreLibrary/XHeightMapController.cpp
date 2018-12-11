@@ -28,27 +28,54 @@ void XHeightMapController::HeightUpDown()
 
 	for (auto pNode : m_CrashNode)
 	{
-		for (int iCorner = 0; iCorner < 4; iCorner++)
+		for (int iFace = 0; iFace < pNode->m_IndexList.size();)
 		{
-				PNCT_Vertex* pControl = &m_pMap->m_VertexList[pNode->m_CornerIndex[iCorner]];
-			D3DXVECTOR3 vControlPos = pControl->p;
-			D3DXVECTOR3 vLength = vControlPos - m_vIntersection;
-			float fLength = D3DXVec3Length(&vLength);
-			fLength = fLength / m_fRadius;
-			if (fLength < 1.0f)
+			for (int iTri = 0; iTri < 3; iTri++, iFace++)
 			{
-				fLength *= 90;
-				fLength = D3DX_PI * fLength / 180.0;
-				fLength = cosf(fLength);
-				fLength *= fHeightControl;
-				pControl->p.y += fLength;
+				PNCT_Vertex* pControl = &m_pMap->m_VertexList[pNode->m_IndexList[iFace]];
+				D3DXVECTOR3 vControlPos = pControl->p;
+				D3DXVECTOR3 vLength = vControlPos - m_vIntersection;
+				float fLength = D3DXVec3Length(&vLength);
+				fLength = fLength / m_fRadius;
+				if (fLength < 1.0f)
+				{
+					fLength *= 90;
+					fLength = D3DX_PI * fLength / 180.0;
+					fLength = cosf(fLength);
+					fLength *= fHeightControl;
+					pControl->p.y += fLength;
+				}
 			}
 		}
+		pNode->m_Box.vMin = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::BL]].p;
+		pNode->m_Box.vMax = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::TR]].p;
+		pNode->m_Box.vCenter = (pNode->m_Box.vMin + pNode->m_Box.vMax)*0.5f;
+		pNode->m_Box.fExtent[0] = pNode->m_Box.vMax.x - pNode->m_Box.vCenter.x;
+		pNode->m_Box.fExtent[1] = pNode->m_Box.vMax.y - pNode->m_Box.vCenter.y;
+		pNode->m_Box.fExtent[2] = pNode->m_Box.vMax.z - pNode->m_Box.vCenter.z;
 	}
 }
 
 void XHeightMapController::HeightFlat()
 {
+	for (auto pNode : m_CrashNode)
+	{
+		for (int iFace = 0; iFace < pNode->m_IndexList.size();)
+		{
+			for (int iTri = 0; iTri < 3; iTri++, iFace++)
+			{
+				PNCT_Vertex* pControl = &m_pMap->m_VertexList[pNode->m_IndexList[iFace]];
+				D3DXVECTOR3 vControlPos = pControl->p;
+				pControl->p.y = m_vIntersection.y;
+			}
+		}
+		pNode->m_Box.vMin = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::BL]].p;
+		pNode->m_Box.vMax = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::TR]].p;
+		pNode->m_Box.vCenter = (pNode->m_Box.vMin + pNode->m_Box.vMax)*0.5f;
+		pNode->m_Box.fExtent[0] = pNode->m_Box.vMax.x - pNode->m_Box.vCenter.x;
+		pNode->m_Box.fExtent[1] = pNode->m_Box.vMax.y - pNode->m_Box.vCenter.y;
+		pNode->m_Box.fExtent[2] = pNode->m_Box.vMax.z - pNode->m_Box.vCenter.z;
+	}
 }
 
 bool XHeightMapController::Frame()
@@ -56,17 +83,21 @@ bool XHeightMapController::Frame()
 	if (!bStart || m_bHeightCtrlState == None) return false;
 	if (I_Input.m_MouseState[0])
 	{
-		CheakInRange();
+		if (!CheakInRange())	return false;
 		if (m_bHeightCtrlState == Up || m_bHeightCtrlState == Down)
 		{
 			HeightUpDown();
 		}
-		//else  // Flat 상황
-		//{
-		//	HeightFlat();
-		//}
-		if (m_bHeightCtrlState != None) m_pMap->CalcPerVertexNormalsFastLookUp();
+		else  // Flat 상황
+		{
+			HeightFlat();
+		}
+		m_pMap->CalcPerVertexNormalsFastLookUp();
 	}
+	//if (I_Input.m_MouseState[0] == KEY_UP)
+	//{
+	//	if (m_bHeightCtrlState != None) m_pMap->CalcPerVertexNormalsFastLookUp();
+	//}
 	return true;
 }
 
@@ -75,6 +106,8 @@ bool XHeightMapController::Release()
 	if (!bStart) return false;
 	// 포인터기 때문에 clear 작업만 해준다.
 	m_LeafNodeList.clear();
+	m_CrashNode.clear();
+	m_CraseVertex.clear();
 	return true;
 }
 
