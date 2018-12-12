@@ -94,10 +94,6 @@ bool XHeightMapController::Frame()
 		}
 		m_pMap->CalcPerVertexNormalsFastLookUp();
 	}
-	//if (I_Input.m_MouseState[0] == KEY_UP)
-	//{
-	//	if (m_bHeightCtrlState != None) m_pMap->CalcPerVertexNormalsFastLookUp();
-	//}
 	return true;
 }
 

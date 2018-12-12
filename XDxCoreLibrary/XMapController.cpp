@@ -9,9 +9,8 @@ bool XMapController::SetMap(XMap* pMap)
 
 bool XMapController::SetLeafNode(XNode * pNode)
 {
-	
 	if (!pNode)	return false;
-
+	if (pNode->m_dwDepth == 0) m_pRootNode = pNode;
 	if (pNode->m_bLeaf == TRUE)
 	{
 		m_LeafNodeList.push_back(pNode);

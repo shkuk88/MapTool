@@ -185,7 +185,9 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     <ClCompile Include="XSelect.cpp" />
     <ClCompile Include="XShape.cpp" />
     <ClCompile Include="XSkyBox.cpp" />
+    <ClCompile Include="XSpreatController.cpp" />
     <ClCompile Include="XSRVManager.cpp" />
+    <ClCompile Include="XTileRender.cpp" />
     <ClCompile Include="XTimer.cpp" />
     <ClCompile Include="XWindow.cpp" />
   </ItemGroup>
@@ -207,8 +209,10 @@ copy "..\\output\\XDxCoreLibrary.lib" "..\\Library\\"
     <ClInclude Include="XSelect.h" />
     <ClInclude Include="XShape.h" />
     <ClInclude Include="XSkyBox.h" />
+    <ClInclude Include="XSpreatController.h" />
     <ClInclude Include="XSRVManager.h" />
     <ClInclude Include="XStd.h" />
+    <ClInclude Include="XTileRender.h" />
     <ClInclude Include="XTimer.h" />
     <ClInclude Include="XWindow.h" />
   </ItemGroup>

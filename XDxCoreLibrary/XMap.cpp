@@ -395,12 +395,55 @@ void XMap::UpdateLight()
 	m_LightData.vSightDirection.y = m_vLook.y;
 	m_LightData.vSightDirection.z = m_vLook.z;
 	m_LightData.vSightDirection.w = 10.0f; // 강도
+	m_LightData.vSpecularMaterial = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f); // light 색상
 
-	m_LightData.vSpecularMaterial = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	//m_LightData.vLightDirection.x = sinf(g_fTime)*0.01f;
+	//m_LightData.vLightDirection.y = cosf(g_fTime)*0.01f;
+
 }
 
 bool XMap::Frame()
 {
+	return true;
+}
+
+bool XMap::PreRender(ID3D11DeviceContext* pContext)
+{
+	UpdateLight();	// SetMatrix가 먼저 되야한다.
+
+	pContext->UpdateSubresource(m_pVertexBuffer.Get(), 0, NULL, &m_VertexList.at(0), NULL, NULL);
+	pContext->UpdateSubresource(m_pLightConstantBuffer.Get(), 0, NULL, &m_LightData, NULL, NULL);
+	if (m_pTextureSRV)
+	{
+		pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
+		pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+	}
+	else
+	{
+		pContext->VSSetShader(m_pVS[Tex_None].Get(), NULL, 0);
+		pContext->PSSetShader(m_pPS[Tex_None].Get(), NULL, 0);
+	}
+	pContext->IASetInputLayout(m_pVertexLayout.Get());
+
+	UINT stride = sizeof(PNCT_Vertex);
+	UINT offset = 0;
+	pContext->IASetVertexBuffers(0, 1, m_pVertexBuffer.GetAddressOf(), &stride, &offset);
+	pContext->IASetIndexBuffer(m_pIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, offset);
+	pContext->UpdateSubresource(m_pConstantBuffer.Get(), 0, NULL, &m_ConstantDataMatrix, NULL, NULL);
+	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
+	pContext->VSSetConstantBuffers(1, 1, m_pLightConstantBuffer.GetAddressOf());
+	pContext->PSSetConstantBuffers(1, 1, m_pLightConstantBuffer.GetAddressOf());
+	if (m_pTextureSRV)
+	{
+		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
+	}
+	return true;
+}
+
+bool XMap::PostRender(ID3D11DeviceContext* pContext)
+{
+	
+	pContext->DrawIndexed(m_dwIndexList.size(), 0, 0);
 	return true;
 }
 

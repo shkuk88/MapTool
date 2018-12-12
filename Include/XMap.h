@@ -1,7 +1,7 @@
 #pragma once
 #include "XShape.h"
 
-enum TexturePresence { Tex_Have = 0, Tex_None };
+enum TexturePresence { Tex_Have = 0, Tex_None, Tex_Alpha };
 struct ConstantBuffer_Light
 {
 	D3DXMATRIX	matInvWorld;		// 현재는 왜 사용하는지 의문
@@ -34,8 +34,8 @@ public:
 	int						m_iFace;
 	float					m_fDistance;
 	float					m_fScaleHeight;
-	ComPtr<ID3D11VertexShader>			m_pVS[2];
-	ComPtr<ID3D11PixelShader>			m_pPS[2];
+	ComPtr<ID3D11VertexShader>			m_pVS[3];
+	ComPtr<ID3D11PixelShader>			m_pPS[3];
 public:
 	D3DXVECTOR3				m_vLook;
 	ComPtr<ID3D11Buffer>	m_pLightConstantBuffer;
@@ -53,6 +53,7 @@ public:
 	bool		CalcPerVertexNormalsFastLookUp();
 	void		InitConstant();		// shader에 넘길 light vector를 임의로 상수버퍼에 저장
 	void		SetScaleHeight(float fScaleHeight = 1.0f);
+	void		SetAlphaTexture(TCHAR* szAlphaTex0, TCHAR* szAlphaTex1, TCHAR* szAlphaTex2, TCHAR* szAlphaTex3);
 public:
 	void		SetLookVector(D3DXVECTOR3 vLook);
 	void		InitLight();

@@ -81,6 +81,12 @@
     <ClCompile Include="XHeightMapController.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="XTileRender.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XSpreatController.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
@@ -144,6 +150,12 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="XHeightMapController.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XTileRender.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XSpreatController.h">
       <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,6 +11,7 @@ class XMapController
 protected:
 	// Map의 포인터를 가진다. LOD가 아니기 때문에 공통의 VertexList가 필요.
 	XMap* m_pMap;
+	XNode* m_pRootNode;
 	// 시동 변수
 	bool bStart = false;
 	// Map Control이 필요하므로, 리프노드를 전부 저장
@@ -33,7 +34,7 @@ public:
 public:
 	virtual bool Init() { return true; }
 	virtual bool Frame() { return true; }
-	virtual bool Render() { return true; }
+	virtual bool Render(ID3D11DeviceContext* pContext) { return true; }
 	virtual bool Release();
 public:
 	XMapController();
