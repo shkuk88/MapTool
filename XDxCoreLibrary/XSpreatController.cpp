@@ -117,28 +117,26 @@ void XSpreatController::Spreating(ID3D11DeviceContext * pContext, X_Box Collisio
 		}
 		pContext->Unmap(m_StagingTexture, 0);
 		pContext->CopyResource(m_SpreatTexture, m_StagingTexture);
-		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
-		ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-		SRVDesc.Format = m_TextureDesc.Format;
-		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
-		FAILED(hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_SpreatTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf()));
+		//D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+		//ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+		//SRVDesc.Format = m_TextureDesc.Format;
+		//SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		//SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
+		//FAILED(hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_SpreatTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf()));
 	}
 }
 
 
 HRESULT XSpreatController::RGBA_TextureLoad(ID3D11Device * pDevice, const TCHAR * szFile, AlphaColor Color)
 {
-	if (szFile == NULL)
-	{
-		m_RGBA_TextureSRV[Color].Attach(nullptr);
-	}
 	ID3D11ShaderResourceView* pSRV = nullptr;
 	if (FAILED(hr = D3DX11CreateShaderResourceViewFromFile(pDevice, szFile, NULL, NULL, &pSRV, NULL)))
 	{
 		m_RGBA_TextureSRV[Color].Attach(nullptr);
 	}
 	m_RGBA_TextureSRV[Color].Attach(pSRV);
+	if(!Color != Spreat_None)
+		m_pMap->SetAlphaSRV(pSRV, (int)Color);
 	return hr;
 }
 
@@ -177,6 +175,9 @@ bool XSpreatController::Frame()
 					float fRootNodeSize = m_pRootNode->m_Box.vMax.x - m_pRootNode->m_Box.vMin.x;
 					X_Box SpreatBox;
 					D3DXVECTOR3 vCrash = m_vIntersection;
+					vCrash.z *= -1.0f;
+					vCrash.x = vCrash.x + (fRootNodeSize / 2);
+					vCrash.z = vCrash.z + (fRootNodeSize / 2);
 					SpreatBox.vMin.x = vCrash.x - m_fRadius;
 					SpreatBox.vMin.z = vCrash.z - m_fRadius;
 					SpreatBox.vMax.x = vCrash.x + m_fRadius;
@@ -193,8 +194,6 @@ bool XSpreatController::Frame()
 				}
 			}
 		}
-
-
 	}
 	return true;
 }
@@ -207,18 +206,19 @@ bool XSpreatController::Render(ID3D11DeviceContext* pContext)
 		// 알파텍스쳐에 입힐 이미지 등록
 		if (m_RGBA_TextureSRV.size() && m_SpreatView == SpreatView_Texture)
 		{
-			for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
-			{
-				pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
-			}
+			//pContext->PSSetShader(m_pMap->m_pPS->Get(), NULL, 0);
+			//for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
+			//{
+			//	pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
+			//}
 		}
-		else if (m_SpreatView == SpreatView_Alpha)
+		if (m_SpreatView == SpreatView_Alpha)
 		{
 			pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
 		}
 		else
 		{
-			pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
+			//pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
 			MessageBox(NULL, _T("등록된 텍스처가 없습니다"), NULL, NULL);
 			exit(-1);
 		}

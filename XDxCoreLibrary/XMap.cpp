@@ -19,6 +19,11 @@ void XMap::SetScaleHeight(float fScaleHeight)
 	m_fScaleHeight = fScaleHeight;
 }
 
+void XMap::SetAlphaSRV(ID3D11ShaderResourceView * pSRV, int iColor)
+{
+	m_AlphaSRV[iColor].Attach(pSRV);
+}
+
 void XMap::InitLight()
 {
 	D3DXMatrixIdentity(&m_LightData.matInvWorld);
@@ -442,6 +447,15 @@ bool XMap::PreRender(ID3D11DeviceContext* pContext)
 	{
 		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
 	}
+	//if (m_AlphaSRV.size())
+	//{
+	//	pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
+	//	pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+	//	for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
+	//	{
+	//		pContext->PSSetShaderResources(2 + iAlphaTex, 1, &m_AlphaSRV[iAlphaTex]);
+	//	}
+	//}
 	return true;
 }
 
@@ -482,6 +496,15 @@ bool XMap::Render(ID3D11DeviceContext* pContext)
 	{
 		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
 	}
+	//if (m_AlphaSRV.size())
+	//{
+	//	pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
+	//	pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+	//	for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
+	//	{
+	//		pContext->PSSetShaderResources(2 + iAlphaTex, 1, &m_AlphaSRV[iAlphaTex]);
+	//	}
+	//}
 	pContext->DrawIndexed(m_dwIndexList.size(), 0, 0);
 
 	return true;

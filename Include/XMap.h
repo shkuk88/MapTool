@@ -36,6 +36,7 @@ public:
 	float					m_fScaleHeight;
 	ComPtr<ID3D11VertexShader>			m_pVS[3];
 	ComPtr<ID3D11PixelShader>			m_pPS[3];
+	map<int, ComPtr<ID3D11ShaderResourceView>>	m_AlphaSRV;
 public:
 	D3DXVECTOR3				m_vLook;
 	ComPtr<ID3D11Buffer>	m_pLightConstantBuffer;
@@ -54,6 +55,7 @@ public:
 	void		InitConstant();		// shader에 넘길 light vector를 임의로 상수버퍼에 저장
 	void		SetScaleHeight(float fScaleHeight = 1.0f);
 	void		SetAlphaTexture(TCHAR* szAlphaTex0, TCHAR* szAlphaTex1, TCHAR* szAlphaTex2, TCHAR* szAlphaTex3);
+	void		SetAlphaSRV(ID3D11ShaderResourceView* pSRV,int iColor);
 public:
 	void		SetLookVector(D3DXVECTOR3 vLook);
 	void		InitLight();

@@ -21,7 +21,6 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
 	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
-
 	return true;
 }
 

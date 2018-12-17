@@ -14,7 +14,7 @@ private:
 	ID3D11Texture2D*				m_StagingTexture;
 	AlphaColor						m_SpreatColor = Spreat_Red;
 	ComPtr<ID3D11ShaderResourceView> m_SpreatingTextureSRV;
-	vector<ComPtr<ID3D11ShaderResourceView>> m_RGBA_TextureSRV; // 랜더에서 필요시 XTileRender class로 이전
+	map<int, ComPtr<ID3D11ShaderResourceView>> m_RGBA_TextureSRV; // 랜더에서 필요시 XTileRender class로 이전
 public:
 	// 알파맵만 볼지 멀티텍스처를 볼지 상태값 세팅
 	void SetSpreatViewState(SpreatView SpreatViewState);

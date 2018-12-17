@@ -1,9 +1,11 @@
-
 #define NORMAL_VECTOR
 
 SamplerState sample0		: register (s0);
-Texture2D	 g_txDiffuse	: register (t0);
-
+Texture2D AlphaMap		: register (t0);
+//Texture2D AlphaTexture1 : register (t2);
+//Texture2D AlphaTexture2 : register (t3);
+//Texture2D AlphaTexture3 : register (t4);
+//Texture2D AlphaTexture4 : register (t5);
 cbuffer cbMatrix: register(b0)
 {
 	matrix	g_matWorld		: packoffset(c0);
@@ -78,25 +80,42 @@ VS_OUT VS(VS_IN input)
 	return output;
 }
 
+//float4 PS(VS_OUT input) : SV_TARGET
+//{
+//	float4 vAlphaMap = AlphaMap.Sample(sample0,input.t);
+//
+//	// 눈에 보이도록하기 위해
+//	if (vAlphaMap.x + vAlphaMap.y + vAlphaMap.z + vTextureColor.w <= 0)
+//	{
+//		vTextureColor.w = 1.0f;
+//	}
+//
+//	float4 vDiffuse = Diffuse(input.n);
+//	float4 vSpecular = Specular(input.n);
+//	float4 vFinalColor = input.c * (vDiffuse + vSpecular) *vTextureColor;
+//	return vFinalColor;
+//}
+
 float4 PS(VS_OUT input) : SV_TARGET
 {
-	float4 vTextureColor = g_txDiffuse.Sample(sample0,input.t);
-
-	// 눈에 보이도록하기 위해
-	if (vTextureColor.x + vTextureColor.y + vTextureColor.z + vTextureColor.w <= 0)
-	{
-		vTextureColor.w = 1.0f;
-	}
+	// rgba에 알파값이 들어있는 텍스처
+	float4 vAlphaMap = AlphaMap.Sample(sample0,input.t);
+	// 나머지 텍스처들을 섞어준다.
+	//float4 vMultiTexture;
+	//vMultiTexture = AlphaTexture1.Sample(sample0, input.t) * vAlphaMap.x;
+	//vMultiTexture += AlphaTexture2.Sample(sample0, input.t) * vAlphaMap.y;
+	//vMultiTexture += AlphaTexture3.Sample(sample0, input.t) * vAlphaMap.z;
+	//vMultiTexture += AlphaTexture4.Sample(sample0, input.t) * vAlphaMap.w;
 
 	float4 vDiffuse = Diffuse(input.n);
 	float4 vSpecular = Specular(input.n);
-	float4 vFinalColor = input.c * (vDiffuse + vSpecular) *vTextureColor;
+	float4 vFinalColor = input.c * (vDiffuse + vSpecular) *vAlphaMap;
 	return vFinalColor;
 }
 
 float4 AlphaMap_PS(VS_OUT input) : SV_TARGET
 {
-	float4 vAlpha = g_txDiffuse.Sample(sample0,input.t);
+	float4 vAlpha = AlphaMap.Sample(sample0,input.t);
 	vAlpha.w = 1.0f;
 	
 	return vAlpha;
