@@ -55,7 +55,10 @@
       <Filter>Form</Filter>
     </ClInclude>
     <ClInclude Include="XMapSpreatForm.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapSpreatPane.h">
+      <Filter>Form</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +93,10 @@
       <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="XMapSpreatForm.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapSpreatPane.cpp">
+      <Filter>Form</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

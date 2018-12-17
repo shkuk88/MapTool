@@ -58,7 +58,7 @@ bool XMapController::FindIntersection()
 
 bool XMapController::Release()
 {
-	if (!bStart) return false;
+	if (!m_bStart) return false;
 	// 포인터기 때문에 clear 작업만 해준다.
 	m_LeafNodeList.clear();
 	m_CrashNode.clear();

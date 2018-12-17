@@ -203,6 +203,7 @@
     <ClInclude Include="XMapCreateForm.h" />
     <ClInclude Include="XMapCreatePane.h" />
     <ClInclude Include="XMapSpreatForm.h" />
+    <ClInclude Include="XMapSpreatPane.h" />
     <ClInclude Include="XSample.h" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +222,7 @@
     <ClCompile Include="XMapCreateForm.cpp" />
     <ClCompile Include="XMapCreatePane.cpp" />
     <ClCompile Include="XMapSpreatForm.cpp" />
+    <ClCompile Include="XMapSpreatPane.cpp" />
     <ClCompile Include="XSample.cpp" />
   </ItemGroup>
   <ItemGroup>

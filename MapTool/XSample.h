@@ -19,6 +19,7 @@ private:
 public:
 	bool CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCount, float fDistance);
 	XHeightMapController* GetHeightCtrl(){ return &m_HeightMapCtrl; }
+	XSpreatController* GetSpreatCtrl() { return &m_SpreatCtrl; }
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

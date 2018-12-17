@@ -13,7 +13,8 @@ protected:
 	XMap* m_pMap;
 	XNode* m_pRootNode;
 	// 시동 변수
-	bool bStart = false;
+	bool m_bStart = false;
+	BOOL m_bEnable = FALSE;
 	// Map Control이 필요하므로, 리프노드를 전부 저장
 	vector<XNode*>	m_LeafNodeList;
 	vector<XNode*>	m_CrashNode;
@@ -24,7 +25,9 @@ protected:
 	float m_fRadius = 0.0f;
 public:
 	// 컨트롤러 시동
-	virtual void Start() { bStart = true; }
+	void SetEnable(BOOL bEnable) { m_bEnable = bEnable; }
+	void SetRadius(float fRadius) { m_fRadius = fRadius; }
+	virtual void Start() { m_bStart = true; }
 	// 루트노드를 쿼드트리에서 받아오면 리프노드로 분해해서 저장하는 함수.
 	bool SetLeafNode(XNode* pRootNode);
 	// Vertex Control을 위해 Map을 포인터로 가져온다.

@@ -80,7 +80,7 @@ void XHeightMapController::HeightFlat()
 
 bool XHeightMapController::Frame()
 {
-	if (!bStart || m_bHeightCtrlState == None) return false;
+	if (!m_bStart || m_bHeightCtrlState == None) return false;
 	if (I_Input.m_MouseState[0])
 	{
 		if (!CheakInRange())	return false;
@@ -99,7 +99,7 @@ bool XHeightMapController::Frame()
 
 bool XHeightMapController::Release()
 {
-	if (!bStart) return false;
+	if (!m_bStart) return false;
 	// 포인터기 때문에 clear 작업만 해준다.
 	m_LeafNodeList.clear();
 	m_CrashNode.clear();

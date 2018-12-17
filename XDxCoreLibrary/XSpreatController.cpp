@@ -2,6 +2,11 @@
 
 
 
+void XSpreatController::SetSpreatViewState(SpreatView SpreatViewState)
+{
+	m_SpreatView = SpreatViewState;
+}
+
 HRESULT XSpreatController::CreateSpreatTexture()
 {
 	m_TextureDesc.Width = m_pMap->m_iRow * m_pMap->m_fDistance* 10.0f;
@@ -146,12 +151,20 @@ void XSpreatController::Start()
 bool XSpreatController::Init()
 {
 	CreateSpreatTexture();
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+	ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	SRVDesc.Format = m_TextureDesc.Format;
+	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
+	hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_SpreatTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf());
+	
 	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
 	return true;
 }
 bool XSpreatController::Frame()
 {
-	if (!bStart ) return false;
+	if (!m_bStart || !m_bEnable) return false;
 	if (I_Input.m_MouseState[0])
 	{
 		if (!CheakInRange())	return false;
@@ -188,27 +201,40 @@ bool XSpreatController::Frame()
 
 bool XSpreatController::Render(ID3D11DeviceContext* pContext)
 {
-	m_pMap->PreRender(pContext);
-	// 알파텍스쳐에 입힐 이미지 등록
-	if (m_RGBA_TextureSRV.size())
+	if (m_bEnable)
 	{
-		for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
+		m_pMap->PreRender(pContext);
+		// 알파텍스쳐에 입힐 이미지 등록
+		if (m_RGBA_TextureSRV.size() && m_SpreatView == SpreatView_Texture)
 		{
-			pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
+			for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
+			{
+				pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
+			}
 		}
+		else if (m_SpreatView == SpreatView_Alpha)
+		{
+			pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
+		}
+		else
+		{
+			pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
+			MessageBox(NULL, _T("등록된 텍스처가 없습니다"), NULL, NULL);
+			exit(-1);
+		}
+		// 알파텍스쳐 등록
+		if (m_SpreatingTextureSRV.Get())
+		{
+			pContext->PSSetShaderResources(0, 1, m_SpreatingTextureSRV.GetAddressOf()); // 텍스
+		}
+		m_pMap->PostRender(pContext);
 	}
-	// 알파텍스쳐 등록
-	if (m_SpreatingTextureSRV.Get())
-	{
-		pContext->PSSetShaderResources(1, 1, m_SpreatingTextureSRV.GetAddressOf()); // 텍스
-	}
-	m_pMap->PostRender(pContext);
 	return true;
 }
 
 bool XSpreatController::Release()
 {
-	if (!bStart) return false;
+	if (!m_bStart) return false;
 	// 포인터기 때문에 clear 작업만 해준다.
 	m_LeafNodeList.clear();
 	m_CrashNode.clear();

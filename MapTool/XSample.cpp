@@ -18,7 +18,10 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_HeightMapCtrl.SetMap(m_pMap);
 	m_HeightMapCtrl.Start();
 	// 맵 생성시 스플리팅 컨트롤러 시동
+	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
+
 	return true;
 }
 
@@ -40,6 +43,7 @@ bool XSample::Frame()
 	}
 	if (m_pMapTree)	m_pMapTree->Frame();
 	m_HeightMapCtrl.Frame();
+	m_SpreatCtrl.Frame();
 	return true;
 }
 
@@ -62,6 +66,7 @@ bool XSample::Render()
 	if (m_pMap)		m_pMap->SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
 	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
 	if (m_pMap)	m_pMap->Render(I_Device.m_pD3dContext.Get());
+	m_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
 	return true;
 }
 
