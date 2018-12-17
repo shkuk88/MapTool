@@ -3,6 +3,7 @@
 #include "XDevice.h"
 #include "XCamera.h"
 #include "XHeightMapController.h"
+#include "XSpreatController.h"
 #include "XSkyBox.h"
 
 
@@ -13,6 +14,7 @@ private:
 	XMap*			m_pMap;
 	XQuadTreeIndex*	m_pMapTree;
 	XHeightMapController m_HeightMapCtrl;
+	XSpreatController	m_SpreatCtrl;
 	XSkyBox			m_Sky;
 public:
 	bool CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCount, float fDistance);

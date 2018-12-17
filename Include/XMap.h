@@ -61,10 +61,12 @@ public:
 public:
 	virtual bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fDistance, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 	bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fCellCount, float fDistance, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
-	virtual bool Init();
-	virtual bool Frame();
-	virtual bool Render(ID3D11DeviceContext* pContext);
-	virtual bool Release();
+	bool PreRender(ID3D11DeviceContext* pContext);
+	bool PostRender(ID3D11DeviceContext* pContext);
+	virtual bool Init() override;
+	virtual bool Frame() override;
+	virtual bool Render(ID3D11DeviceContext* pContext) override;
+	virtual bool Release() override;
 public:
 	XMap();
 	virtual~XMap();

@@ -81,8 +81,23 @@ VS_OUT VS(VS_IN input)
 float4 PS(VS_OUT input) : SV_TARGET
 {
 	float4 vTextureColor = g_txDiffuse.Sample(sample0,input.t);
+
+	// 눈에 보이도록하기 위해
+	if (vTextureColor.x + vTextureColor.y + vTextureColor.z + vTextureColor.w <= 0)
+	{
+		vTextureColor.w = 1.0f;
+	}
+
 	float4 vDiffuse = Diffuse(input.n);
 	float4 vSpecular = Specular(input.n);
-	float4 vFinalColor = input.c * (vDiffuse + vSpecular)*vTextureColor;
+	float4 vFinalColor = input.c * (vDiffuse + vSpecular) *vTextureColor;
 	return vFinalColor;
+}
+
+float4 AlphaMap_PS(VS_OUT input) : SV_TARGET
+{
+	float4 vAlpha = g_txDiffuse.Sample(sample0,input.t);
+	vAlpha.w = 1.0f;
+	
+	return vAlpha;
 }

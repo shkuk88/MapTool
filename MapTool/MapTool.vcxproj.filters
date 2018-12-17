@@ -54,6 +54,9 @@
     <ClInclude Include="XMapCreateForm.h">
       <Filter>Form</Filter>
     </ClInclude>
+    <ClInclude Include="XMapSpreatForm.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="XMapCreateForm.cpp">
       <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XMapSpreatForm.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

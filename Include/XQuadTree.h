@@ -64,8 +64,11 @@ public:
 	void				SetCamera(XCamera* pCamera);
 	void				DrawFindNode(XNode* pNode);
 	bool				PreFrame();
+public:
+	virtual bool		Init() { return true; }
 	virtual bool		Frame();
-	virtual bool		Release() { return true; };
+	virtual bool		Render(ID3D11DeviceContext* pContext) { return true; }
+	virtual bool		Release() { return true; }
 public:
 	XQuadTree();
 	virtual ~XQuadTree();

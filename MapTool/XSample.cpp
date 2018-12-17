@@ -13,10 +13,12 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 		m_pMapTree = new XQuadTreeIndex;
 	m_pMapTree->Build(m_pMap);
 	m_pMapTree->SetCamera(&m_Camera);
-	// 맵 생성시 높이조절 클래스 시동
+	// 맵 생성시 높이맵 컨트롤러 시동
 	m_HeightMapCtrl.SetLeafNode(m_pMapTree->GetRootNode());
 	m_HeightMapCtrl.SetMap(m_pMap);
 	m_HeightMapCtrl.Start();
+	// 맵 생성시 스플리팅 컨트롤러 시동
+	m_SpreatCtrl.Start();
 	return true;
 }
 

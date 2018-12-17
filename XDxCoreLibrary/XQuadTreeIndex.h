@@ -36,6 +36,8 @@ public:
 	XNode*				CreateNode(XNode* pParent, DWORD TL, DWORD TR, DWORD BL, DWORD BR);
 	bool				SubDivide(XNode* pNode);
 	bool				LeafRender(ID3D11DeviceContext* pContext, XNode* pNode);
+public:
+	virtual	bool		Init() { return true; }
 	virtual bool		Frame();
 	virtual bool		Render(ID3D11DeviceContext* pContext);
 	virtual bool		Release();

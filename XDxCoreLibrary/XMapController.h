@@ -23,12 +23,12 @@ protected:
 	// 교점에서의 반지름
 	float m_fRadius = 0.0f;
 public:
+	// 컨트롤러 시동
+	virtual void Start() { bStart = true; }
 	// 루트노드를 쿼드트리에서 받아오면 리프노드로 분해해서 저장하는 함수.
 	bool SetLeafNode(XNode* pRootNode);
 	// Vertex Control을 위해 Map을 포인터로 가져온다.
 	bool SetMap(XMap* pMap);
-	// 컨트롤러 시동
-	void Start() { bStart = true; }
 	bool CheakInRange();
 	bool FindIntersection();
 public:

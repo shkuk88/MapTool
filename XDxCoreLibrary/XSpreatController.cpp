@@ -16,7 +16,7 @@ HRESULT XSpreatController::CreateSpreatTexture()
 	m_TextureDesc.MiscFlags = 0;
 	m_TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 
-	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_SpreatTexture);
 
 	m_TextureDesc.Usage = D3D11_USAGE_STAGING;
 	m_TextureDesc.BindFlags = 0;
@@ -111,13 +111,13 @@ void XSpreatController::Spreating(ID3D11DeviceContext * pContext, X_Box Collisio
 			pDestBytes += MappedFaceDest.RowPitch;
 		}
 		pContext->Unmap(m_StagingTexture, 0);
-		pContext->CopyResource(m_AlphaTexture, m_StagingTexture);
+		pContext->CopyResource(m_SpreatTexture, m_StagingTexture);
 		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
 		ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 		SRVDesc.Format = m_TextureDesc.Format;
 		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
-		FAILED(hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_AlphaTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf()));
+		FAILED(hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_SpreatTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf()));
 	}
 }
 
@@ -137,6 +137,18 @@ HRESULT XSpreatController::RGBA_TextureLoad(ID3D11Device * pDevice, const TCHAR 
 	return hr;
 }
 
+void XSpreatController::Start()
+{
+	XMapController::Start();
+	Init();
+}
+
+bool XSpreatController::Init()
+{
+	CreateSpreatTexture();
+	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
+	return true;
+}
 bool XSpreatController::Frame()
 {
 	if (!bStart ) return false;

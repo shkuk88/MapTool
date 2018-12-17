@@ -42,7 +42,6 @@ bool XSkyBox::Render(ID3D11DeviceContext* pContext)
 
 	pContext->PSSetShaderResources(0, 6, m_pTextureSRV->GetAddressOf());
 	pContext->DrawIndexed(m_dwIndexList.size(), 0, 0);
-
 	return true;
 }
 

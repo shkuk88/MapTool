@@ -6,8 +6,9 @@ enum AlphaColor { Spreat_Red = 0, Spreat_Green, Spreat_Blue, Spreat_Alpha, Sprea
 class XSpreatController: public XMapController
 {
 private:
+	ComPtr<ID3D11PixelShader>		m_AlphaPS;
 	D3D11_TEXTURE2D_DESC			m_TextureDesc;
-	ID3D11Texture2D*				m_AlphaTexture;
+	ID3D11Texture2D*				m_SpreatTexture;
 	ID3D11Texture2D*				m_StagingTexture;
 	AlphaColor						m_SpreatColor;
 	ComPtr<ID3D11ShaderResourceView> m_SpreatingTextureSRV;
@@ -19,9 +20,11 @@ public:
 	// RGBA마다 컬러값에 Texture를 부여, 랜더에서 필요시 XTileRender class로 이전
 	HRESULT RGBA_TextureLoad(ID3D11Device* pDevice, const TCHAR* szFile, AlphaColor Color);
 public:
-	virtual bool Init() { return true; }
+	virtual void Start()	override;
+public:
+	virtual bool Init()		override;
 	virtual bool Frame()	override;
-	virtual bool Render(ID3D11DeviceContext* pContext);
+	virtual bool Render(ID3D11DeviceContext* pContext) override;
 	virtual bool Release()	override;
 public:
 	XSpreatController();

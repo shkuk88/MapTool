@@ -17,7 +17,7 @@ public:
 public:
 	virtual bool Init() { return true; } 
 	virtual bool Frame()	override;
-	virtual bool Render() { return true; }
+	virtual bool Render(ID3D11DeviceContext* pContext) { return true; }
 	virtual bool Release()	override;
 public:
 	XHeightMapController();

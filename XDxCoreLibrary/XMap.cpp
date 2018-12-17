@@ -61,6 +61,7 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fD
 	{
 		m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, szTexture));
 	}
+
 	return true;
 }
 
@@ -93,6 +94,10 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fC
 	if (szTexture)
 	{
 		m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, szTexture));
+	}
+	else
+	{
+		m_pTextureSRV.Attach(nullptr);
 	}
 	return true;
 }
