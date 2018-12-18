@@ -87,6 +87,9 @@
     <ClCompile Include="XInput.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="XMapExporter.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
@@ -157,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="XInput.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapExporter.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XMapData.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

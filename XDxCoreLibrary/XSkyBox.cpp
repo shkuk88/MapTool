@@ -5,12 +5,18 @@ HRESULT XSkyBox::LoadTextures(ID3D11Device* pDevice)
 {
 	TCHAR* SkyTextures[] =
 	{
-		L"../Data/Texture/sky_front.bmp",
-		L"../Data/Texture/sky_left.bmp",
-		L"../Data/Texture/sky_right.bmp",
-		L"../Data/Texture/sky_back.bmp",
-		L"../Data/Texture/sky_up.bmp",
-		L"../Data/Texture/sky_down.bmp"
+		L"../Data/Texture/Sunny_01A_front.jpg",
+		L"../Data/Texture/Sunny_01A_right.jpg",
+		L"../Data/Texture/Sunny_01A_left.jpg",
+		L"../Data/Texture/Sunny_01A_back.jpg",
+		L"../Data/Texture/Sunny_01A_up.jpg",
+		L"../Data/Texture/Sunny_01A_down.jpg"
+		//L"../Data/Texture/sky_front.bmp",
+		//L"../Data/Texture/sky_left.bmp",
+		//L"../Data/Texture/sky_right.bmp",
+		//L"../Data/Texture/sky_back.bmp",
+		//L"../Data/Texture/sky_up.bmp",
+		//L"../Data/Texture/sky_down.bmp"
 	};
 	for (int iCnt = 0; iCnt < 6; iCnt++)
 	{
