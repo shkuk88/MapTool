@@ -12,10 +12,12 @@ private:
 	D3D11_TEXTURE2D_DESC			m_TextureDesc;
 	ID3D11Texture2D*				m_SpreatTexture;
 	ID3D11Texture2D*				m_StagingTexture;
+	ID3D11Texture2D*				m_AlphaTexture[4];
 	AlphaColor						m_SpreatColor = Spreat_Red;
 	ComPtr<ID3D11ShaderResourceView> m_SpreatingTextureSRV;
 	map<int, ComPtr<ID3D11ShaderResourceView>> m_RGBA_TextureSRV; // 랜더에서 필요시 XTileRender class로 이전
 public:
+	void MakeSRV(ID3D11Texture2D* pTexture, ComPtr<ID3D11ShaderResourceView>* pSRV);
 	// 알파맵만 볼지 멀티텍스처를 볼지 상태값 세팅
 	void SetSpreatViewState(SpreatView SpreatViewState);
 	void SetSpreatColor(AlphaColor color) { m_SpreatColor = color; }

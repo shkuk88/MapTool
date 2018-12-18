@@ -24,9 +24,6 @@
     <ClCompile Include="XCore.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="XInput.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="XTimer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -87,12 +84,12 @@
     <ClCompile Include="XSpreatController.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="XInput.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="XInput.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="XStd.h">
@@ -157,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="XSpreatController.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XInput.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

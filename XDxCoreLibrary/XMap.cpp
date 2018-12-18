@@ -21,6 +21,7 @@ void XMap::SetScaleHeight(float fScaleHeight)
 
 void XMap::SetAlphaSRV(ID3D11ShaderResourceView * pSRV, int iColor)
 {
+	m_AlphaSRV[iColor].Detach();
 	m_AlphaSRV[iColor].Attach(pSRV);
 }
 

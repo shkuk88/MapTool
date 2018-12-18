@@ -2,10 +2,10 @@
 
 SamplerState sample0		: register (s0);
 Texture2D AlphaMap		: register (t0);
-//Texture2D AlphaTexture1 : register (t2);
-//Texture2D AlphaTexture2 : register (t3);
-//Texture2D AlphaTexture3 : register (t4);
-//Texture2D AlphaTexture4 : register (t5);
+Texture2D AlphaTexture1 : register (t2);
+Texture2D AlphaTexture2 : register (t3);
+Texture2D AlphaTexture3 : register (t4);
+Texture2D AlphaTexture4 : register (t5);
 cbuffer cbMatrix: register(b0)
 {
 	matrix	g_matWorld		: packoffset(c0);
@@ -101,15 +101,15 @@ float4 PS(VS_OUT input) : SV_TARGET
 	// rgba에 알파값이 들어있는 텍스처
 	float4 vAlphaMap = AlphaMap.Sample(sample0,input.t);
 	// 나머지 텍스처들을 섞어준다.
-	//float4 vMultiTexture;
-	//vMultiTexture = AlphaTexture1.Sample(sample0, input.t) * vAlphaMap.x;
-	//vMultiTexture += AlphaTexture2.Sample(sample0, input.t) * vAlphaMap.y;
-	//vMultiTexture += AlphaTexture3.Sample(sample0, input.t) * vAlphaMap.z;
-	//vMultiTexture += AlphaTexture4.Sample(sample0, input.t) * vAlphaMap.w;
-
+	float4 vMultiTexture;
+	vMultiTexture = AlphaTexture1.Sample(sample0, input.t) * vAlphaMap.x;
+	vMultiTexture += AlphaTexture2.Sample(sample0, input.t) * vAlphaMap.y;
+	vMultiTexture += AlphaTexture3.Sample(sample0, input.t) * vAlphaMap.z;
+	vMultiTexture += AlphaTexture4.Sample(sample0, input.t) * vAlphaMap.w;
+	//vMultiTexture.w = 1.0f;
 	float4 vDiffuse = Diffuse(input.n);
 	float4 vSpecular = Specular(input.n);
-	float4 vFinalColor = input.c * (vDiffuse + vSpecular) *vAlphaMap;
+	float4 vFinalColor = input.c * (vDiffuse + vSpecular) * vMultiTexture;
 	return vFinalColor;
 }
 

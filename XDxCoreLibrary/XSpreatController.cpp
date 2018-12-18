@@ -22,6 +22,11 @@ HRESULT XSpreatController::CreateSpreatTexture()
 	m_TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 
 	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_SpreatTexture);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[0]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[1]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[2]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[3]);
+
 
 	m_TextureDesc.Usage = D3D11_USAGE_STAGING;
 	m_TextureDesc.BindFlags = 0;
@@ -129,6 +134,11 @@ void XSpreatController::Spreating(ID3D11DeviceContext * pContext, X_Box Collisio
 
 HRESULT XSpreatController::RGBA_TextureLoad(ID3D11Device * pDevice, const TCHAR * szFile, AlphaColor Color)
 {
+	if (!m_bStart)
+	{
+		hr = E_FAIL;
+		return hr;
+	}
 	ID3D11ShaderResourceView* pSRV = nullptr;
 	if (FAILED(hr = D3DX11CreateShaderResourceViewFromFile(pDevice, szFile, NULL, NULL, &pSRV, NULL)))
 	{
@@ -140,6 +150,16 @@ HRESULT XSpreatController::RGBA_TextureLoad(ID3D11Device * pDevice, const TCHAR 
 	return hr;
 }
 
+void XSpreatController::MakeSRV(ID3D11Texture2D* pTexture, ComPtr<ID3D11ShaderResourceView>* pSRV)
+{
+	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+	ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	SRVDesc.Format = m_TextureDesc.Format;
+	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
+	hr = I_Device.m_pD3dDevice->CreateShaderResourceView(pTexture, &SRVDesc, pSRV->GetAddressOf());
+}
+
 void XSpreatController::Start()
 {
 	XMapController::Start();
@@ -149,17 +169,20 @@ void XSpreatController::Start()
 bool XSpreatController::Init()
 {
 	CreateSpreatTexture();
+	MakeSRV(m_SpreatTexture, &m_SpreatingTextureSRV);
+	MakeSRV(m_AlphaTexture[0], &m_RGBA_TextureSRV[Spreat_Red]);
+	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Red].Get(), (int)Spreat_Red);
+	MakeSRV(m_AlphaTexture[1], &m_RGBA_TextureSRV[Spreat_Green]);
+	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Green].Get(), (int)Spreat_Green);
+	MakeSRV(m_AlphaTexture[2], &m_RGBA_TextureSRV[Spreat_Blue]);
+	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Blue].Get(), (int)Spreat_Blue);
+	MakeSRV(m_AlphaTexture[3], &m_RGBA_TextureSRV[Spreat_Alpha]);
+	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Alpha].Get(), (int)Spreat_Alpha);
 
-	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
-	ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-	SRVDesc.Format = m_TextureDesc.Format;
-	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	SRVDesc.Texture2D.MipLevels = m_TextureDesc.MipLevels;
-	hr = I_Device.m_pD3dDevice->CreateShaderResourceView(m_SpreatTexture, &SRVDesc, m_SpreatingTextureSRV.GetAddressOf());
-	
 	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
 	return true;
 }
+
 bool XSpreatController::Frame()
 {
 	if (!m_bStart || !m_bEnable) return false;
@@ -204,15 +227,15 @@ bool XSpreatController::Render(ID3D11DeviceContext* pContext)
 	{
 		m_pMap->PreRender(pContext);
 		// 알파텍스쳐에 입힐 이미지 등록
-		if (m_RGBA_TextureSRV.size() && m_SpreatView == SpreatView_Texture)
+		if (m_SpreatView == SpreatView_Texture)
 		{
-			//pContext->PSSetShader(m_pMap->m_pPS->Get(), NULL, 0);
-			//for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
-			//{
-			//	pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
-			//}
+			pContext->PSSetShader(m_pMap->m_pPS->Get(), NULL, 0);
+			for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
+			{
+				pContext->PSSetShaderResources((iAlphaColor + 2), 1, m_RGBA_TextureSRV[iAlphaColor].GetAddressOf()); //사실상 쓰지않음. 일단 RGBA로만 뿌려볼 예정
+			}
 		}
-		if (m_SpreatView == SpreatView_Alpha)
+		else if (m_SpreatView == SpreatView_Alpha)
 		{
 			pContext->PSSetShader(m_AlphaPS.Get(), NULL, 0);
 		}

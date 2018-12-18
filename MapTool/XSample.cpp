@@ -21,6 +21,7 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
 	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
+	m_SpreatCtrl.RGBA_TextureLoad(I_Device.m_pD3dDevice.Get(), _T("../Data/Texture/base1.bmp"), Spreat_Red);
 	return true;
 }
 
@@ -63,8 +64,7 @@ bool XSample::Render()
 #pragma endregion
 
 	if (m_pMap)		m_pMap->SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
-	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
-	if (m_pMap)	m_pMap->Render(I_Device.m_pD3dContext.Get());
+	if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
 	m_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
 	return true;
 }
