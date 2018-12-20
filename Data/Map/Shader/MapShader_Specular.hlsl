@@ -106,11 +106,12 @@ float4 PS(VS_OUT input) : SV_TARGET
 	vMultiTexture += AlphaTexture2.Sample(sample0, input.t) * vAlphaMap.y;
 	vMultiTexture += AlphaTexture3.Sample(sample0, input.t) * vAlphaMap.z;
 	vMultiTexture += AlphaTexture4.Sample(sample0, input.t) * vAlphaMap.w;
-	//vMultiTexture.w = 1.0f;
+	
 	float4 vDiffuse = Diffuse(input.n);
 	float4 vSpecular = Specular(input.n);
 	float4 vFinalColor = input.c * (vDiffuse + vSpecular) * vMultiTexture;
-	return vFinalColor;
+	float4 test = float4(vAlphaMap.z, vAlphaMap.z, vAlphaMap.z, 1.0f);
+	return test;
 }
 
 float4 AlphaMap_PS(VS_OUT input) : SV_TARGET

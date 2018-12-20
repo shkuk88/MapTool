@@ -6,6 +6,7 @@
 #include "XSpreatController.h"
 #include "XSkyBox.h"
 #include "XMapExporter.h"
+#include "XMapImporter.h"
 
 class XSample :public XCore
 {
@@ -17,11 +18,14 @@ private:
 	XSpreatController	m_SpreatCtrl;
 	XSkyBox			m_Sky;
 	XMapExporter	m_Exporter;
+	XMapImporter	m_Importer;
 public:
 	bool CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCount, float fDistance);
+	bool CreateMap();
 	XHeightMapController* GetHeightCtrl(){ return &m_HeightMapCtrl; }
 	XSpreatController* GetSpreatCtrl() { return &m_SpreatCtrl; }
 	XMapExporter* GetExporter() { return &m_Exporter; }
+	XMapImporter* GetImporter() { return &m_Importer; }
 	XMap* GetMap() { return m_pMap; }
 public:
 	virtual bool Init() override;

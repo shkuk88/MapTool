@@ -28,6 +28,7 @@ public:
 	// RGBA마다 컬러값에 Texture를 부여, 랜더에서 필요시 XTileRender class로 이전
 	HRESULT RGBA_TextureLoad(ID3D11Device* pDevice, const TCHAR* szFile, AlphaColor Color);
 	
+	void SetMapTexture();
 	ID3D11Texture2D* GetSpreatTex() { return m_SpreatTexture; }
 public:
 	virtual void Start()	override;

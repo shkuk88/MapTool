@@ -12,10 +12,6 @@ TString XSRVManager::Add(ID3D11Device* pd3dDevice, TString szTexture)
 	ComPtr<ID3D11ShaderResourceView> pSRV = NULL;
 
 	hr = D3DX11CreateShaderResourceViewFromFile(pd3dDevice, szTexture.c_str(), NULL, NULL, pSRV.GetAddressOf(), NULL);
-	if (FAILED(hr))
-	{
-		return NULL;
-	}
 	m_SRVList.insert(make_pair(szTexture, pSRV));
 
 	return szTexture;
@@ -23,6 +19,7 @@ TString XSRVManager::Add(ID3D11Device* pd3dDevice, TString szTexture)
 
 ComPtr<ID3D11ShaderResourceView> XSRVManager::Find(TString szTexture)
 {
+	if(szTexture.c_str()==_T("none"))	return nullptr;
 	auto iter = m_SRVList.find(szTexture);
 	return iter->second;
 }

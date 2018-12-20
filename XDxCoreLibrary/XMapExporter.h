@@ -4,10 +4,11 @@
 class XMapExporter :public XMapData
 {
 public:
-	bool SaveVertexData(vector<PNCT_Vertex>* pVertexList, vector<DWORD>* pIndexList);
+	void ExportStandard(int iCellCnt, float fDistance);
+	bool ExportVertexData(vector<PNCT_Vertex>* pVertexList, vector<DWORD>* pIndexList);
 	bool ExportSpreatTexture(ID3D11Texture2D* pSpreatTexture);
-	bool SaveAlphaTexture(TCHAR* szAlphaTexture, int iColor);
-	void Export();
+	bool ExportAlphaTexture(TCHAR* szAlphaTexture, int iColor);
+	bool Export();
 public:
 	XMapExporter();
 	virtual ~XMapExporter();

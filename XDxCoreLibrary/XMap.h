@@ -1,5 +1,6 @@
 #pragma once
 #include "XShape.h"
+#include "XMapImporter.h"
 
 enum TexturePresence { Tex_Have = 0, Tex_None, Tex_Alpha };
 struct ConstantBuffer_Light
@@ -57,12 +58,16 @@ public:
 	void		SetAlphaTexture(TCHAR* szAlphaTex0, TCHAR* szAlphaTex1, TCHAR* szAlphaTex2, TCHAR* szAlphaTex3);
 	void		SetAlphaSRV(ID3D11ShaderResourceView* pSRV,int iColor);
 public:
+	bool		ImportData(ID3D11Device* pDevice, XMapImporter* pImporter);
 	void		SetLookVector(D3DXVECTOR3 vLook);
 	void		InitLight();
 	void		UpdateLight();
+	void		CreateBuffer();
+	void		CreateShader(TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 public:
 	virtual bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fDistance, TCHAR* szTexture, TCHAR* szHeightTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 	bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fCellCount, float fDistance, TCHAR* szTexture, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
+	bool Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, XMapImporter* pImporter, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName);
 	bool PreRender(ID3D11DeviceContext* pContext);
 	bool PostRender(ID3D11DeviceContext* pContext);
 	virtual bool Init() override;

@@ -171,18 +171,21 @@ bool XSpreatController::Init()
 	CreateSpreatTexture();
 	MakeSRV(m_SpreatTexture, &m_SpreatingTextureSRV);
 	MakeSRV(m_AlphaTexture[0], &m_RGBA_TextureSRV[Spreat_Red]);
-	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Red].Get(), (int)Spreat_Red);
 	MakeSRV(m_AlphaTexture[1], &m_RGBA_TextureSRV[Spreat_Green]);
-	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Green].Get(), (int)Spreat_Green);
 	MakeSRV(m_AlphaTexture[2], &m_RGBA_TextureSRV[Spreat_Blue]);
-	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Blue].Get(), (int)Spreat_Blue);
 	MakeSRV(m_AlphaTexture[3], &m_RGBA_TextureSRV[Spreat_Alpha]);
-	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Alpha].Get(), (int)Spreat_Alpha);
 
 	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Map/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
 	return true;
 }
 
+void XSpreatController::SetMapTexture()
+{
+	for (int iColor = 0; iColor < 4; iColor++)
+	{
+		m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[iColor].Get(), (int)iColor);
+	}
+}
 bool XSpreatController::Frame()
 {
 	if (!m_bStart || !m_bEnable) return false;

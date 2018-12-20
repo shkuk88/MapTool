@@ -2,7 +2,13 @@
 
 
 
-bool XMapExporter::SaveVertexData(vector<PNCT_Vertex>* pVertexList, vector<DWORD>* pIndexList)
+void XMapExporter::ExportStandard(int iCellCnt, float fDistance)
+{
+	m_iCellConut = iCellCnt;
+	m_fDistance = fDistance;
+}
+
+bool XMapExporter::ExportVertexData(vector<PNCT_Vertex>* pVertexList, vector<DWORD>* pIndexList)
 {
 	m_VertexList.resize(pVertexList->size());
 	for (int iLoop = 0; iLoop < pVertexList->size(); iLoop++)
@@ -29,16 +35,18 @@ bool XMapExporter::ExportSpreatTexture(ID3D11Texture2D * pSpreatTexture)
 	return true;
 }
 
-bool XMapExporter::SaveAlphaTexture(TCHAR * szAlphaTexture, int iColor)
+bool XMapExporter::ExportAlphaTexture(TCHAR * szAlphaTexture, int iColor)
 {
 	m_szAlphaTexture[iColor] = szAlphaTexture;
 	return true;
 }
 
-void XMapExporter::Export()
+bool XMapExporter::Export()
 {
-	FileOpen(_T("../Data/Map/Save/Map.txt"), _T("wt"));
-	if (m_fp == NULL)		return;
+	if (!FileOpen(_T("../Data/Map/Save/Map.txt"), _T("wt")))	return false;
+	// standard
+	_ftprintf(m_fp, _T("%d\n"), m_iCellConut);
+	_ftprintf(m_fp, _T("%f\n"), m_fDistance);
 	// spreat texture
 	_ftprintf(m_fp, _T("%s\n"), m_szSpreatTexture.c_str());
 	// alpha texture
@@ -62,7 +70,8 @@ void XMapExporter::Export()
 	{
 		_ftprintf(m_fp, _T("%d\n"), m_IndexList[iLoop]);
 	}
-	FileClose();
+	if (!FileClose())	return false;
+	return true;
 }
 
 XMapExporter::XMapExporter()

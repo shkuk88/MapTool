@@ -178,28 +178,28 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Data\Shader\Ase.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\MapShader_Specular.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\BoxShader.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\Ase.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\LineShader.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\BoxShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\MapShader.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\LineShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\MapShader_Color_Specular.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\MapShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\MapShader_Specular.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\MapShader_Color_Specular.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\PlaneShader.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\PlaneShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Shader\SkyShader_Sample_0.hlsl">
+    <FxCompile Include="..\Data\Map\Shader\SkyShader_Sample_0.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

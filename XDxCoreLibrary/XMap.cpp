@@ -5,12 +5,7 @@ bool XMap::Init()
 	CreateVertexList();
 	CreateIndexList();
 	CalcPerVertexNormalsFastLookUp();
-	m_pVertexBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_VertexList.at(0), m_VertexList.size(), sizeof(PNCT_Vertex), D3D11_BIND_VERTEX_BUFFER));
-	m_pIndexBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_dwIndexList.at(0), m_dwIndexList.size(), sizeof(DWORD), D3D11_BIND_INDEX_BUFFER));
-	//InitConstant();
-	m_pConstantBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_ConstantDataMatrix, 1, sizeof(ConstantBuffer_Matrix), D3D11_BIND_CONSTANT_BUFFER));
 	InitLight();
-	m_pLightConstantBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_LightData, 1, sizeof(ConstantBuffer_Light), D3D11_BIND_CONSTANT_BUFFER));
 	return true;
 }
 
@@ -23,6 +18,22 @@ void XMap::SetAlphaSRV(ID3D11ShaderResourceView * pSRV, int iColor)
 {
 	m_AlphaSRV[iColor].Detach();
 	m_AlphaSRV[iColor].Attach(pSRV);
+}
+
+void XMap::CreateBuffer()
+{
+	m_pVertexBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_VertexList.at(0), m_VertexList.size(), sizeof(PNCT_Vertex), D3D11_BIND_VERTEX_BUFFER));
+	m_pIndexBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_dwIndexList.at(0), m_dwIndexList.size(), sizeof(DWORD), D3D11_BIND_INDEX_BUFFER));
+	m_pConstantBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_ConstantDataMatrix, 1, sizeof(ConstantBuffer_Matrix), D3D11_BIND_CONSTANT_BUFFER));
+	m_pLightConstantBuffer.Attach(m_Object.CreateBuffer(I_Device.m_pD3dDevice.Get(), &m_LightData, 1, sizeof(ConstantBuffer_Light), D3D11_BIND_CONSTANT_BUFFER));
+}
+
+void XMap::CreateShader(TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
+{
+	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_Have].Attach(m_Object.CreatePixelShader(szMapShader, szPSFunctionName, &m_pPSBuf));
+	m_pVS[Tex_None].Attach(m_Object.CreateVertexShader(szOnlyColorShader, szVSFunctionName, &m_pVSBuf));
+	m_pPS[Tex_None].Attach(m_Object.CreatePixelShader(szOnlyColorShader, szPSFunctionName, &m_pPSBuf));
 }
 
 void XMap::InitLight()
@@ -50,11 +61,9 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fD
 	}
 
 	Init();
+	CreateBuffer();
+	CreateShader(szMapShader, szOnlyColorShader, szVSFunctionName, szPSFunctionName);
 
-	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
-	m_pPS[Tex_Have].Attach(m_Object.CreatePixelShader(szMapShader, szPSFunctionName, &m_pPSBuf));
-	m_pVS[Tex_None].Attach(m_Object.CreateVertexShader(szOnlyColorShader, szVSFunctionName, &m_pVSBuf));
-	m_pPS[Tex_None].Attach(m_Object.CreatePixelShader(szOnlyColorShader, szPSFunctionName, &m_pPSBuf));
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -84,11 +93,8 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fC
 		m_iRow = 1025; 
 	}
 	Init();
-
-	m_pVS[Tex_Have].Attach(m_Object.CreateVertexShader(szMapShader, szVSFunctionName, &m_pVSBuf));
-	m_pPS[Tex_Have].Attach(m_Object.CreatePixelShader(szMapShader, szPSFunctionName, &m_pPSBuf));
-	m_pVS[Tex_None].Attach(m_Object.CreateVertexShader(szOnlyColorShader, szVSFunctionName, &m_pVSBuf));
-	m_pPS[Tex_None].Attach(m_Object.CreatePixelShader(szOnlyColorShader, szPSFunctionName, &m_pPSBuf));
+	CreateBuffer();
+	CreateShader(szMapShader, szOnlyColorShader, szVSFunctionName, szPSFunctionName);
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -105,6 +111,67 @@ bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, float fC
 	{
 		m_pTextureSRV.Attach(nullptr);
 	}
+	return true;
+}
+
+bool XMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, XMapImporter* pImporter, TCHAR* szMapShader, TCHAR* szOnlyColorShader, char* szVSFunctionName, char* szPSFunctionName)
+{
+	ImportData(pDevice, pImporter);
+	CalcPerVertexNormalsFastLookUp();
+	InitLight();
+	CreateBuffer();
+	CreateShader(szMapShader, szOnlyColorShader, szVSFunctionName, szPSFunctionName);
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT, 0, 40,  D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	m_pVertexLayout.Attach(m_Object.CreateInputlayout(I_Device.m_pD3dDevice.Get(), m_pVSBuf->GetBufferSize(), m_pVSBuf->GetBufferPointer(), layout, sizeof(layout) / sizeof(layout[0])));
+
+	return true;
+}
+
+bool XMap::ImportData(ID3D11Device* pDevice,XMapImporter* pImporter)
+{
+	if (!pDevice || !pImporter) return false;
+
+	// Standard
+	m_iCol = pImporter->GetCellCnt();
+	m_iRow = pImporter->GetCellCnt();
+	m_fDistance = pImporter->GetDistance();
+	// SpreatTexture
+	m_pTextureSRV = I_SRV.Find(I_SRV.Add(pDevice, pImporter->GetSpreatTex()->c_str()));
+	// AlphaTexture
+	map<int, TString>* pAlphaTex = pImporter->GetAlphaTex();
+	for (int iAlphaColor = 0; iAlphaColor < 4; iAlphaColor++)
+	{
+		ID3D11ShaderResourceView* pSRV = I_SRV.Find(I_SRV.Add(pDevice, (*pAlphaTex)[iAlphaColor].c_str())).Get();
+		SetAlphaSRV(pSRV, iAlphaColor);
+	}
+	// VertexList
+	int iSize = pImporter->GetVertexList()->size();
+	vector<PNCT_Vertex>* VertexList = pImporter->GetVertexList();
+	m_VertexList.resize(iSize);
+	for (int iLoop = 0; iLoop < iSize; iLoop++)
+	{
+		m_VertexList[iLoop].p = (*VertexList)[iLoop].p;
+		m_VertexList[iLoop].n = (*VertexList)[iLoop].n;
+		m_VertexList[iLoop].c = (*VertexList)[iLoop].c;
+		m_VertexList[iLoop].t = (*VertexList)[iLoop].t;
+	}
+	// IndexList
+	iSize = pImporter->GetIndexList()->size();
+	vector<DWORD>* IndexList = pImporter->GetIndexList();
+	m_dwIndexList.resize(iSize);
+	for (int iLoop = 0; iLoop < iSize; iLoop++)
+	{
+		m_dwIndexList[iLoop] = (*IndexList)[iLoop];
+
+	}
+
 	return true;
 }
 
@@ -264,11 +331,6 @@ float XMap::GetHeightmap(int row, int col)
 {
 	return m_VertexList[row * m_iRow + col].p.y;
 }
-
-//void XMap::InitConstant()
-//{
-//	m_ConstantDataMatrix.vLight = D3DXVECTOR4(-50.0f, -50.0f, 0.0f, 1.0f);
-//}
 
 bool XMap::CalcPerVertexNormalsFastLookUp()
 {
@@ -448,15 +510,6 @@ bool XMap::PreRender(ID3D11DeviceContext* pContext)
 	{
 		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
 	}
-	//if (m_AlphaSRV.size())
-	//{
-	//	pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
-	//	pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
-	//	for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
-	//	{
-	//		pContext->PSSetShaderResources(2 + iAlphaTex, 1, &m_AlphaSRV[iAlphaTex]);
-	//	}
-	//}
 	return true;
 }
 
@@ -497,15 +550,14 @@ bool XMap::Render(ID3D11DeviceContext* pContext)
 	{
 		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
 	}
-	//if (m_AlphaSRV.size())
-	//{
-	//	pContext->VSSetShader(m_pVS[Tex_Have].Get(), NULL, 0);
-	//	pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
-	//	for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
-	//	{
-	//		pContext->PSSetShaderResources(2 + iAlphaTex, 1, &m_AlphaSRV[iAlphaTex]);
-	//	}
-	//}
+	if (m_AlphaSRV.size())
+	{
+		pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+		for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
+		{
+			pContext->PSSetShaderResources(2 + iAlphaTex, 1, m_AlphaSRV[iAlphaTex].GetAddressOf());
+		}
+	}
 	pContext->DrawIndexed(m_dwIndexList.size(), 0, 0);
 
 	return true;
