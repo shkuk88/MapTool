@@ -17,7 +17,7 @@ HRESULT XDxRT::Create(ID3D11Device * pd3dDevice, ID3D11DeviceContext* pContext, 
 	m_pd3dDevice = pd3dDevice;
 	m_pContext = pContext;
 	m_pPlaneShape = make_shared<XPlaneShape>();
-	m_pPlaneShape->Create(NULL, _T("../Data/Shader/PlaneShader.hlsl"), _T("../Data/Shader/PlaneShader.hlsl"), "VS", "PS");
+	m_pPlaneShape->Create(NULL, _T("../Data/Map/Shader/PlaneShader.hlsl"), _T("../Data/Map/Shader/PlaneShader.hlsl"), "VS", "PS");
 	SetViewPort(fWidth, fHeight);
 	//ÅØ½ºÃÄ2d->·»´õÅ¸°Ùºä->¼ÎÀÌ´õ¸®¼Ò½ººä->ÅØ½ºÃÄ2d->µª½º½ºÅÙ½Çºä
 

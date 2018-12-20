@@ -179,7 +179,7 @@ bool XSpreatController::Init()
 	MakeSRV(m_AlphaTexture[3], &m_RGBA_TextureSRV[Spreat_Alpha]);
 	m_pMap->SetAlphaSRV(m_RGBA_TextureSRV[Spreat_Alpha].Get(), (int)Spreat_Alpha);
 
-	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
+	m_AlphaPS.Attach(m_pMap->m_Object.CreatePixelShader(_T("../Data/Map/Shader/MapShader_Specular.hlsl"), "AlphaMap_PS", &m_pMap->m_pPSBuf));
 	return true;
 }
 

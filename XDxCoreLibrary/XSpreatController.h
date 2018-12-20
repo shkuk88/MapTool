@@ -27,6 +27,8 @@ public:
 	void	Spreating(ID3D11DeviceContext* pContext, X_Box CollisionBox, D3DXVECTOR3 vCrash, float fRadius, int iColor);
 	// RGBA마다 컬러값에 Texture를 부여, 랜더에서 필요시 XTileRender class로 이전
 	HRESULT RGBA_TextureLoad(ID3D11Device* pDevice, const TCHAR* szFile, AlphaColor Color);
+	
+	ID3D11Texture2D* GetSpreatTex() { return m_SpreatTexture; }
 public:
 	virtual void Start()	override;
 public:

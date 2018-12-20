@@ -22,6 +22,7 @@ public:
 	XHeightMapController* GetHeightCtrl(){ return &m_HeightMapCtrl; }
 	XSpreatController* GetSpreatCtrl() { return &m_SpreatCtrl; }
 	XMapExporter* GetExporter() { return &m_Exporter; }
+	XMap* GetMap() { return m_pMap; }
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

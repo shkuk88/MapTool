@@ -6,9 +6,9 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	if (!m_pMap)
 		m_pMap = new XMap;
 	if(!fCellCount)
-		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fDistance, szTexture, szHeightTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
+		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fDistance, szTexture, szHeightTexture, _T("../Data/Map/Shader/MapShader_Specular.hlsl"), _T("../Data/Map/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
 	else
-		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fCellCount, fDistance, szTexture, _T("../Data/Shader/MapShader_Specular.hlsl"), _T("../Data/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
+		m_pMap->Create(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), fCellCount, fDistance, szTexture, _T("../Data/Map/Shader/MapShader_Specular.hlsl"), _T("../Data/Map/Shader/MapShader_Color_Specular.hlsl"), "VS", "PS");
 	if (!m_pMapTree)
 		m_pMapTree = new XQuadTreeIndex;
 	m_pMapTree->Build(m_pMap);
@@ -21,7 +21,6 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
 	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
-	m_SpreatCtrl.RGBA_TextureLoad(I_Device.m_pD3dDevice.Get(), _T("../Data/Texture/base1.bmp"), Spreat_Red);
 	return true;
 }
 
@@ -29,7 +28,7 @@ bool XSample::Init()
 {
 	m_Camera.Init();
 	m_Sky.LoadTextures(I_Device.m_pD3dDevice.Get());
-	m_Sky.Create(_T("../Data/Shader/SkyShader_Sample_0.hlsl"), _T("../Data/Shader/SkyShader_Sample_0.hlsl"), "VS", "PS");
+	m_Sky.Create(_T("../Data/Map/Shader/SkyShader_Sample_0.hlsl"), _T("../Data/Map/Shader/SkyShader_Sample_0.hlsl"), "VS", "PS");
 	return true;
 }
 

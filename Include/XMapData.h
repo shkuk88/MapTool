@@ -4,12 +4,16 @@
 class XMapData
 {
 protected:
+	FILE*				m_fp;
 	vector<PNCT_Vertex> m_VertexList;
 	vector<DWORD>		m_IndexList;
-	TString				m_szSpreatTexture;
+	TString				m_szSpreatTexture = {_T("none"),};
 	map<int, TString>	m_szAlphaTexture;
 public:
-	XMapData() {}
-	virtual ~XMapData() {}
+	bool		FileOpen(TCHAR* filename, TCHAR* mode);
+	bool		FileClose();
+public:
+	XMapData();
+	virtual ~XMapData();
 };
 
