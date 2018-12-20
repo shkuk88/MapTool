@@ -550,9 +550,9 @@ bool XMap::Render(ID3D11DeviceContext* pContext)
 	{
 		pContext->PSSetShaderResources(0, 1, m_pTextureSRV.GetAddressOf());
 	}
-	if (m_AlphaSRV.size())
+	if (m_pTextureSRV && m_AlphaSRV.size())
 	{
-		pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0);
+		pContext->PSSetShader(m_pPS[Tex_Have].Get(), NULL, 0); 
 		for (int iAlphaTex = 0; iAlphaTex < m_AlphaSRV.size(); iAlphaTex++)
 		{
 			pContext->PSSetShaderResources(2 + iAlphaTex, 1, m_AlphaSRV[iAlphaTex].GetAddressOf());

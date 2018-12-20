@@ -110,8 +110,8 @@ float4 PS(VS_OUT input) : SV_TARGET
 	float4 vDiffuse = Diffuse(input.n);
 	float4 vSpecular = Specular(input.n);
 	float4 vFinalColor = input.c * (vDiffuse + vSpecular) * vMultiTexture;
-	float4 test = float4(vAlphaMap.z, vAlphaMap.z, vAlphaMap.z, 1.0f);
-	return test;
+	
+	return vFinalColor;
 }
 
 float4 AlphaMap_PS(VS_OUT input) : SV_TARGET
