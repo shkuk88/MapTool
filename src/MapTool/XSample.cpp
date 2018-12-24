@@ -22,6 +22,10 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
 	m_SpreatCtrl.SetMapTexture();
+	// 맵 생성시 오브젝트 컨트롤러 시동
+	m_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	m_ObjectCtrl.SetMap(m_pMap);
+	m_ObjectCtrl.Start();
 	return true;
 }
 
@@ -42,8 +46,24 @@ bool XSample::CreateMap()
 	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
 	m_SpreatCtrl.SetMap(m_pMap);
 	m_SpreatCtrl.Start();
-	
+	// 맵 생성시 오브젝트 컨트롤러 시동
+	m_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	m_ObjectCtrl.SetMap(m_pMap);
+	m_ObjectCtrl.Start();
+
 	return false;
+}
+
+void XSample::DecomposeSelectObjMat()
+{
+	if (!m_ObjectCtrl.m_bSelect)	return;
+	D3DXMATRIX matObject = m_ObjectCtrl.m_ObjectMatrix[m_ObjectCtrl.m_szSelectObject][m_ObjectCtrl.m_iSelectMatNum];
+	D3DXVECTOR3 vScale, vTranslation;
+	D3DXQUATERNION qRotation;
+	TCHAR szData[256] = { 0, };
+	D3DXMatrixDecompose(&vScale, &qRotation, &vTranslation, &matObject);
+	_tcprintf(szData, "%f", vTranslation.x);
+	SetDlgItemText(g_hWnd, IDC_LOCATION_X, szData);
 }
 
 bool XSample::Init()
@@ -65,6 +85,7 @@ bool XSample::Frame()
 	if (m_pMapTree)	m_pMapTree->Frame();
 	m_HeightMapCtrl.Frame();
 	m_SpreatCtrl.Frame();
+	m_ObjectCtrl.Frame();
 	return true;
 }
 
@@ -88,7 +109,8 @@ bool XSample::Render()
 	if (m_pMap)		m_pMap->Render(I_Device.m_pD3dContext.Get());
 	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
 	m_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
-
+	m_ObjectCtrl.SetMatrix(&m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
+	m_ObjectCtrl.Render(I_Device.m_pD3dContext.Get());
 	return true;
 }
 

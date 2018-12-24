@@ -170,7 +170,7 @@ public:
 	bool		CreateMeshSRV(XMesh* mesh,int idx = 0);
 	HRESULT		LoadShader(TCHAR* VSfile, TCHAR* PSfile);
 	HRESULT		InputLayout();
-	bool		DrawObject(XMesh* mesh);
+	bool		DrawObject(ID3D11DeviceContext* pContext, XMesh* mesh);
 	void		SetTickSpeed(float speed);
 	D3DXMATRIX	GetSAnim(XMesh* mesh);
 	D3DXMATRIX	GetRAnim(XMesh* mesh);
@@ -180,9 +180,9 @@ public:
 public:
 	bool		Init(TCHAR* filename, ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext, TCHAR* VSfile, TCHAR* PSfile);
 	bool		Frame();
-	bool		PreRender();
-	bool		PostRender();
-	bool		Render();
+	bool		PreRender(ID3D11DeviceContext*	pContext);
+	bool		PostRender(ID3D11DeviceContext*	pContext);
+	bool		Render(ID3D11DeviceContext*	pContext);
 	bool		Release();
 public:
 	XViewer();

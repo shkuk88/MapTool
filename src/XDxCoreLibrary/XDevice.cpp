@@ -193,7 +193,7 @@ HRESULT XDevice::ResizeDevice(UINT iWidth, UINT iHeight)
 }
 void XDevice::PreRender()
 {
-	float color[4] = { 0.7f,0.7f,0.7f,1.0f };
+	float color[4] = { 0.3f,0.3f,0.3f,1.0f };
 	m_pD3dContext->ClearRenderTargetView(m_pRenderTV.Get(), color);						// 버퍼 클리어
 	m_pD3dContext->ClearDepthStencilView(m_pDepthSV.Get(), D3D11_CLEAR_DEPTH, 1.0, 0);	// 뎁스 클리어
 }

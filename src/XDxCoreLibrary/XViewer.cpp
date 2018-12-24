@@ -570,45 +570,45 @@ bool	XViewer::Frame()
 	return true;
 }
 
-bool	XViewer::PreRender()
+bool	XViewer::PreRender(ID3D11DeviceContext*	pContext)
 {
-	m_pContext->PSSetSamplers(0, 1, XDxState::g_SSLinear.GetAddressOf());
-	//m_pContext->RSSetState(XDxState::g_pRSFSolidNone.Get());
+	pContext->PSSetSamplers(0, 1, XDxState::g_SSLinear.GetAddressOf());
+	//pContext->RSSetState(XDxState::g_pRSFSolidNone.Get());
 	return true;
 }
 
-bool	XViewer::PostRender()
+bool	XViewer::PostRender(ID3D11DeviceContext* pContext)
 {
-	m_pContext->PSSetSamplers(0, 1, XDxState::g_SSPoint.GetAddressOf());
-	//m_pContext->RSSetState(XDxState::g_pRSFSolid.Get());
+	pContext->PSSetSamplers(0, 1, XDxState::g_SSPoint.GetAddressOf());
+	//pContext->RSSetState(XDxState::g_pRSFSolid.Get());
 	return true;
 }
 
-bool	XViewer::DrawObject(XMesh* mesh)
+bool	XViewer::DrawObject(ID3D11DeviceContext* pContext, XMesh* mesh)
 {
-	m_pContext->VSSetShader(m_pVS, NULL, 0);
-	m_pContext->PSSetShader(m_pPS, NULL, 0);
-	m_pContext->IASetInputLayout(m_pVertexLayout);
+	pContext->VSSetShader(m_pVS, NULL, 0);
+	pContext->PSSetShader(m_pPS, NULL, 0);
+	pContext->IASetInputLayout(m_pVertexLayout);
 
 	UINT stride = sizeof(PNCT);
 	UINT offset = 0;
 
-	m_pContext->IASetVertexBuffers(0, 1, &mesh->m_pVertexBuffer, &stride, &offset);
-	m_pContext->IASetIndexBuffer(mesh->m_pIndexBuffer, DXGI_FORMAT_R32_UINT, offset);
+	pContext->IASetVertexBuffers(0, 1, &mesh->m_pVertexBuffer, &stride, &offset);
+	pContext->IASetIndexBuffer(mesh->m_pIndexBuffer, DXGI_FORMAT_R32_UINT, offset);
 
-	m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (int iCnt = 0; iCnt < mesh->m_pTextureSRV.size(); iCnt++)
 	{
-		m_pContext->PSSetShaderResources(0, 1, &mesh->m_pTextureSRV[iCnt]);
+		pContext->PSSetShaderResources(0, 1, &mesh->m_pTextureSRV[iCnt]);
 	}
-	//m_pContext->DrawIndexed(mesh->m_dwIndexData.size(), 0, 0);
-	m_pContext->Draw(mesh->m_VertexList.size(),0);
+	//pContext->DrawIndexed(mesh->m_dwIndexData.size(), 0, 0);
+	pContext->Draw(mesh->m_VertexList.size(),0);
 	return true;
 }
 
-bool	XViewer::Render()
+bool	XViewer::Render(ID3D11DeviceContext* pContext)
 {
-	PreRender();
+	PreRender(pContext);
 
 	for (int iMeshCnt = 0; iMeshCnt < m_Mesh.size(); iMeshCnt++)
 	{
@@ -618,22 +618,23 @@ bool	XViewer::Render()
 		}
 		if (m_Mesh[iMeshCnt].m_SubMesh.size() == 0)
 		{
-			m_pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &m_Mesh[iMeshCnt].cb.matWorld, NULL, NULL);
-			m_pContext->VSSetConstantBuffers(0, 1, &m_Mesh[iMeshCnt].m_pConstantBuffer);
-			DrawObject(&m_Mesh[iMeshCnt]);
+			// m_Mesh[iMeshCnt].cb.matWorld <-- 오브젝트의 원래 월드행렬, 회전,위치,스케일은 직접 줄 예정
+			pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &cb.matWorld, NULL, NULL);
+			pContext->VSSetConstantBuffers(0, 1, &m_Mesh[iMeshCnt].m_pConstantBuffer);
+			DrawObject(pContext, &m_Mesh[iMeshCnt]);
 		}
 		else
 		{
 			for (int iSubCnt = 0; iSubCnt < m_Mesh[iMeshCnt].m_SubMesh.size(); iSubCnt++)
 			{
-				m_pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &m_Mesh[iMeshCnt].cb.matWorld, NULL, NULL);
-				m_pContext->VSSetConstantBuffers(0, 1, &m_Mesh[iMeshCnt].m_pConstantBuffer);
-				DrawObject(&m_Mesh[iMeshCnt].m_SubMesh[iSubCnt]);
+				pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &m_Mesh[iMeshCnt].cb.matWorld, NULL, NULL);
+				pContext->VSSetConstantBuffers(0, 1, &m_Mesh[iMeshCnt].m_pConstantBuffer);
+				DrawObject(pContext, &m_Mesh[iMeshCnt].m_SubMesh[iSubCnt]);
 			}
 		}
 	}
 
-	PostRender();
+	PostRender(pContext);
 	return true;
 }
 

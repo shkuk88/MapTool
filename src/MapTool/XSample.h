@@ -7,6 +7,7 @@
 #include "XSkyBox.h"
 #include "XMapExporter.h"
 #include "XMapImporter.h"
+#include "XObjectController.h"
 
 class XSample :public XCore
 {
@@ -16,6 +17,7 @@ private:
 	XQuadTreeIndex*	m_pMapTree;
 	XHeightMapController m_HeightMapCtrl;
 	XSpreatController	m_SpreatCtrl;
+	XObjectController m_ObjectCtrl;
 	XSkyBox			m_Sky;
 	XMapExporter	m_Exporter;
 	XMapImporter	m_Importer;
@@ -27,6 +29,8 @@ public:
 	XMapExporter* GetExporter() { return &m_Exporter; }
 	XMapImporter* GetImporter() { return &m_Importer; }
 	XMap* GetMap() { return m_pMap; }
+	XObjectController* GetObjCtrl() { return &m_ObjectCtrl; }
+	void DecomposeSelectObjMat();
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;
