@@ -60,6 +60,12 @@
     <ClInclude Include="XMapSpreatPane.h">
       <Filter>Form</Filter>
     </ClInclude>
+    <ClInclude Include="XObjectControlForm.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="XObjectControlPane.h">
+      <Filter>Form</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -96,6 +102,12 @@
       <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="XMapSpreatPane.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XObjectControlForm.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="XObjectControlPane.cpp">
       <Filter>Form</Filter>
     </ClCompile>
   </ItemGroup>

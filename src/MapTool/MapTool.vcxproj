@@ -207,6 +207,8 @@
     <ClInclude Include="XMapCreatePane.h" />
     <ClInclude Include="XMapSpreatForm.h" />
     <ClInclude Include="XMapSpreatPane.h" />
+    <ClInclude Include="XObjectControlForm.h" />
+    <ClInclude Include="XObjectControlPane.h" />
     <ClInclude Include="XSample.h" />
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +228,8 @@
     <ClCompile Include="XMapCreatePane.cpp" />
     <ClCompile Include="XMapSpreatForm.cpp" />
     <ClCompile Include="XMapSpreatPane.cpp" />
+    <ClCompile Include="XObjectControlForm.cpp" />
+    <ClCompile Include="XObjectControlPane.cpp" />
     <ClCompile Include="XSample.cpp" />
   </ItemGroup>
   <ItemGroup>
