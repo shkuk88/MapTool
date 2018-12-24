@@ -176,6 +176,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClCompile Include="XMapData.cpp" />
     <ClCompile Include="XMapExporter.cpp" />
     <ClCompile Include="XMapImporter.cpp" />
+    <ClCompile Include="XParser.cpp" />
     <ClCompile Include="XQuadTreeIndex.cpp" />
     <ClCompile Include="XCamera.cpp" />
     <ClCompile Include="XCore.cpp" />
@@ -195,6 +196,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClCompile Include="XSRVManager.cpp" />
     <ClCompile Include="XTileRender.cpp" />
     <ClCompile Include="XTimer.cpp" />
+    <ClCompile Include="XViewer.cpp" />
     <ClCompile Include="XWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +205,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClInclude Include="XMapData.h" />
     <ClInclude Include="XMapExporter.h" />
     <ClInclude Include="XMapImporter.h" />
+    <ClInclude Include="XParser.h" />
     <ClInclude Include="XQuadTreeIndex.h" />
     <ClInclude Include="XCamera.h" />
     <ClInclude Include="XCore.h" />
@@ -223,6 +226,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClInclude Include="XStd.h" />
     <ClInclude Include="XTileRender.h" />
     <ClInclude Include="XTimer.h" />
+    <ClInclude Include="XViewer.h" />
     <ClInclude Include="XWindow.h" />
   </ItemGroup>
   <ItemGroup>

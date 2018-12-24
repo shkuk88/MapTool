@@ -96,6 +96,12 @@
     <ClCompile Include="XMapData.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="XViewer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="XParser.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
@@ -174,6 +180,12 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="XMapImporter.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XViewer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XParser.h">
       <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
