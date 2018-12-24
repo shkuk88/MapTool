@@ -51,8 +51,6 @@ bool XSample::Init()
 	m_Camera.Init();
 	m_Sky.LoadTextures(I_Device.m_pD3dDevice.Get());
 	m_Sky.Create(_T("../../Data/Map/Shader/SkyShader_Sample_0.hlsl"), _T("../../Data/Map/Shader/SkyShader_Sample_0.hlsl"), "VS", "PS");
-	//Object test
-	m_Object.Init(_T("../../Data/Map/Save/dwarf_sword.Shk"), I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), _T("../../DATA/Map/Shader/Ase.hlsl"), _T("../../DATA/Map/Shader/Ase.hlsl"));
 	return true;
 }
 
@@ -67,7 +65,6 @@ bool XSample::Frame()
 	if (m_pMapTree)	m_pMapTree->Frame();
 	m_HeightMapCtrl.Frame();
 	m_SpreatCtrl.Frame();
-	m_Object.Frame();
 	return true;
 }
 
@@ -92,8 +89,6 @@ bool XSample::Render()
 	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
 	m_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
 
-	m_Object.SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
-	m_Object.Render();
 	return true;
 }
 

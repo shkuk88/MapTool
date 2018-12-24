@@ -176,6 +176,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClCompile Include="XMapData.cpp" />
     <ClCompile Include="XMapExporter.cpp" />
     <ClCompile Include="XMapImporter.cpp" />
+    <ClCompile Include="XObjectController.cpp" />
     <ClCompile Include="XParser.cpp" />
     <ClCompile Include="XQuadTreeIndex.cpp" />
     <ClCompile Include="XCamera.cpp" />
@@ -205,6 +206,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClInclude Include="XMapData.h" />
     <ClInclude Include="XMapExporter.h" />
     <ClInclude Include="XMapImporter.h" />
+    <ClInclude Include="XObjectController.h" />
     <ClInclude Include="XParser.h" />
     <ClInclude Include="XQuadTreeIndex.h" />
     <ClInclude Include="XCamera.h" />

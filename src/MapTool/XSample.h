@@ -7,7 +7,6 @@
 #include "XSkyBox.h"
 #include "XMapExporter.h"
 #include "XMapImporter.h"
-#include "XViewer.h"
 
 class XSample :public XCore
 {
@@ -20,7 +19,6 @@ private:
 	XSkyBox			m_Sky;
 	XMapExporter	m_Exporter;
 	XMapImporter	m_Importer;
-	XViewer			m_Object;
 public:
 	bool CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCount, float fDistance);
 	bool CreateMap();

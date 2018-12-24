@@ -102,6 +102,9 @@
     <ClCompile Include="XParser.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="XObjectController.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
@@ -186,6 +189,9 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="XParser.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="XObjectController.h">
       <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>

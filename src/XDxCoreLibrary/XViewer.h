@@ -167,7 +167,7 @@ public:
 	HRESULT		CreateIndexBuffer(XMesh* mesh);
 	HRESULT		CreateConstantBuffer(XMesh* mesh);
 	HRESULT		CreateShaderResourceView(XMesh* mesh, TCHAR* TextureFile);
-	bool		CreateMeshTRV(XMesh* mesh,int idx = 0);
+	bool		CreateMeshSRV(XMesh* mesh,int idx = 0);
 	HRESULT		LoadShader(TCHAR* VSfile, TCHAR* PSfile);
 	HRESULT		InputLayout();
 	bool		DrawObject(XMesh* mesh);

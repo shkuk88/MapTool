@@ -162,7 +162,7 @@ bool	XViewer::ReadObjAnim(XMesh* mesh)
 	return true;
 }
 
-bool	XViewer::CreateMeshTRV(XMesh* mesh, int idx)
+bool	XViewer::CreateMeshSRV(XMesh* mesh, int idx)
 {
 	if (mesh->m_iRef < 0)	return false;
 
@@ -384,13 +384,13 @@ bool	XViewer::Init(TCHAR* filename, ID3D11Device* pd3dDevice, ID3D11DeviceContex
 	{
 		if (m_Mesh[iMesh].m_SubMesh.size() == 0)
 		{
-			CreateMeshTRV(&m_Mesh[iMesh]);
+			CreateMeshSRV(&m_Mesh[iMesh]);
 		}
 		else
 		{
 			for (int iSubMesh = 0; iSubMesh < m_Mesh[iMesh].m_SubMesh.size(); iSubMesh++)
 			{
-				CreateMeshTRV(&m_Mesh[iMesh].m_SubMesh[iSubMesh], iSubMesh);
+				CreateMeshSRV(&m_Mesh[iMesh].m_SubMesh[iSubMesh], iSubMesh);
 			}
 		}
 	}
