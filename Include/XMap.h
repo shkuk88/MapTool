@@ -53,9 +53,7 @@ public:
 	D3DXVECTOR3 ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex2);
 	bool		GetNormalLookUpTable();			//정점당 공유 FACE갯수 계산
 	bool		CalcPerVertexNormalsFastLookUp();
-	void		InitConstant();		// shader에 넘길 light vector를 임의로 상수버퍼에 저장
 	void		SetScaleHeight(float fScaleHeight = 1.0f);
-	void		SetAlphaTexture(TCHAR* szAlphaTex0, TCHAR* szAlphaTex1, TCHAR* szAlphaTex2, TCHAR* szAlphaTex3);
 	void		SetAlphaSRV(ID3D11ShaderResourceView* pSRV,int iColor);
 public:
 	bool		ImportData(ID3D11Device* pDevice, XMapImporter* pImporter);
