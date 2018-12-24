@@ -62,8 +62,7 @@ void XSample::DecomposeSelectObjMat()
 	D3DXQUATERNION qRotation;
 	TCHAR szData[256] = { 0, };
 	D3DXMatrixDecompose(&vScale, &qRotation, &vTranslation, &matObject);
-	_tcprintf(szData, "%f", vTranslation.x);
-	SetDlgItemText(g_hWnd, IDC_LOCATION_X, szData);
+
 }
 
 bool XSample::Init()
