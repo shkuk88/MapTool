@@ -4,9 +4,10 @@
 enum SpreatView { SpreatView_Alpha = 0, SpreatView_Texture};
 enum AlphaColor { Spreat_Red = 0, Spreat_Green, Spreat_Blue, Spreat_Alpha, Spreat_None };
 
-class XSpreatController: public XMapController
+class XSpreatController: public XMapController,public XSingleton<XSpreatController>
 {
 private:
+	friend class XSingleton<XSpreatController>;
 	SpreatView						m_SpreatView = SpreatView_Alpha;
 	ComPtr<ID3D11PixelShader>		m_AlphaPS;
 	D3D11_TEXTURE2D_DESC			m_TextureDesc;
@@ -42,3 +43,4 @@ public:
 	virtual ~XSpreatController();
 };
 
+#define I_SpreatCtrl XSingleton<XSpreatController>::Get()

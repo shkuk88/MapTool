@@ -178,6 +178,9 @@ public:
 	void		SetObjAnim(XMesh* mesh);
 	void		SetMatrix(D3DXMATRIX *matWorld, D3DXMATRIX *matView, D3DXMATRIX *matProj);
 public:
+	void		SelectObjTransparency(ID3D11DeviceContext* pContext);	// 알파값을 모두 0.7f로 통일
+	void		SelectObjOpaque(ID3D11DeviceContext* pContext);			// 알파값을 모두 1.0f로 통일
+public:
 	bool		Init(TCHAR* filename, ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext, TCHAR* VSfile, TCHAR* PSfile);
 	bool		Frame();
 	bool		PreRender(ID3D11DeviceContext*	pContext);

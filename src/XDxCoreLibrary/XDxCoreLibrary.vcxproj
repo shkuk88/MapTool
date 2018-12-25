@@ -177,6 +177,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClCompile Include="XMapExporter.cpp" />
     <ClCompile Include="XMapImporter.cpp" />
     <ClCompile Include="XObjectController.cpp" />
+    <ClCompile Include="XObjectManager.cpp" />
     <ClCompile Include="XParser.cpp" />
     <ClCompile Include="XQuadTreeIndex.cpp" />
     <ClCompile Include="XCamera.cpp" />
@@ -207,6 +208,7 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClInclude Include="XMapExporter.h" />
     <ClInclude Include="XMapImporter.h" />
     <ClInclude Include="XObjectController.h" />
+    <ClInclude Include="XObjectManager.h" />
     <ClInclude Include="XParser.h" />
     <ClInclude Include="XQuadTreeIndex.h" />
     <ClInclude Include="XCamera.h" />
@@ -232,37 +234,29 @@ copy "..\\..\\output\\XDxCoreLibrary.lib" "..\\..\\lib\\"
     <ClInclude Include="XWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Data\Map\Shader\Ase.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\Ase.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\BoxShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\BoxShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\LineShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\LineShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\MapShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\MapShader_Color_Specular.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader_Color_Specular.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\MapShader_Specular.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader_Specular.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\PlaneShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\PlaneShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\SkyShader_Sample_0.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\SkyShader_Sample_0.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

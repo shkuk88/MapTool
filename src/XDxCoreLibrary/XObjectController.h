@@ -1,15 +1,16 @@
 #pragma once
 #include "XMapController.h"
-#include "XViewer.h"
+#include "XObjectManager.h"
 
-class XObjectController :public XMapController
+class XObjectController :public XMapController, public XSingleton<XObjectController>
 {
+private:
+	friend class XSingleton<XObjectController>;
 public:
-	map<TString, shared_ptr<XViewer>>	m_ObjectList;		// 같은 오브젝트는 하나만 저장
-	map<TString, vector<D3DXMATRIX>>	m_ObjectMatrix;		// 오브젝트 별 matWorld 배열 
 	bool m_bSelect = false;
 	TString m_szSelectObject;
 	int m_iSelectMatNum = -1;
+	bool m_bTransparency = false;
 	D3DXMATRIX m_matView;
 	D3DXMATRIX m_matProj;
 public:
@@ -17,16 +18,19 @@ public:
 	bool AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld);
 	D3DXMATRIX GetObjectWorldMat(TString szObj, int iSelectMatNum);
 	bool SetSelectObject(TString szObj, int iSelectMatNum);
-	bool MoveObject();
+	bool MoveObject(ID3D11DeviceContext * pContext);
 	void SelectModeOn();
 	void SelectModeOff();
 	void SetMatrix(D3DXMATRIX* matView, D3DXMATRIX* matProj);
+	void SelectObjTransparency(ID3D11DeviceContext* pContext);
 	int GetLastMatIndex(TString szObj);
 public:
 	virtual void Start() override;
+	
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;
+	bool Frame(ID3D11DeviceContext* pContext);
 	virtual bool Render(ID3D11DeviceContext* pContext) override;
 	virtual bool Release() override;
 public:
@@ -34,3 +38,4 @@ public:
 	virtual ~XObjectController();
 };
 
+#define I_ObjectCtrl XSingleton<XObjectController>::Get()

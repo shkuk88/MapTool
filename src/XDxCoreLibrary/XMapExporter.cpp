@@ -41,6 +41,36 @@ bool XMapExporter::ExportAlphaTexture(TCHAR * szAlphaTexture, int iColor)
 	return true;
 }
 
+bool XMapExporter::ExportObject()
+{
+	// 오브젝트의 종류의 수
+	int iObjTypeCnt = I_Object.m_ObjectList.size();
+	if (!iObjTypeCnt)	return true;
+	_ftprintf(m_fp, _T("%d\n"), iObjTypeCnt);
+
+	// 오브젝트 종류별 순회
+	for (auto pObject : I_Object.m_ObjectList)
+	{
+		// 오브젝트의 이름(파일명으로 사용)
+		_ftprintf(m_fp, _T("%s "), pObject.first.c_str());
+		// 오브젝트의 타입당 갯수
+		int iObjCnt = I_Object.m_ObjectMatrix[pObject.first.c_str()].size();
+		_ftprintf(m_fp, _T("%d\n"), iObjCnt);
+		for (int iLoop = 0; iLoop < iObjCnt; iLoop++)
+		{
+			// 오브젝트의 타입당 갯수만큼의 월드행렬
+			D3DXMATRIX matWorld = I_Object.m_ObjectMatrix[pObject.first.c_str()][iLoop];
+			_ftprintf(m_fp, _T("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n"),
+				matWorld._11, matWorld._12, matWorld._13, matWorld._14,
+				matWorld._21, matWorld._22, matWorld._23, matWorld._24,
+				matWorld._31, matWorld._32, matWorld._33, matWorld._34,
+				matWorld._41, matWorld._42, matWorld._43, matWorld._44 );
+		}
+	}
+
+	return true;
+}
+
 bool XMapExporter::Export()
 {
 	if (!FileOpen(_T("../../Data/Map/Save/Map.txt"), _T("wt")))	return false;
@@ -70,6 +100,9 @@ bool XMapExporter::Export()
 	{
 		_ftprintf(m_fp, _T("%d\n"), m_IndexList[iLoop]);
 	}
+	// Object Export
+	ExportObject();
+
 	if (!FileClose())	return false;
 	return true;
 }

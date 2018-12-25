@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(XObjectControlForm, CFormView)
 	ON_EN_CHANGE(IDC_SCALE_X, &XObjectControlForm::OnEnChangeScaleX)
 	ON_EN_CHANGE(IDC_SCALE_Y, &XObjectControlForm::OnEnChangeScaleY)
 	ON_EN_CHANGE(IDC_SCALE_Z, &XObjectControlForm::OnEnChangeScaleZ)
+	ON_BN_CLICKED(IDC_COMPLETE, &XObjectControlForm::OnBnClickedComplete)
 END_MESSAGE_MAP()
 
 
@@ -120,10 +121,13 @@ void XObjectControlForm::OnBnClickedCreateObject()
 		return;
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
- 	pApp->m_Sample.GetObjCtrl()->AddObjectWorldMat(pApp->m_Sample.GetObjCtrl()->AddObject(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), (TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject]), matWorld);
-	pApp->m_Sample.GetObjCtrl()->SelectModeOn();
-	pApp->m_Sample.GetObjCtrl()->SetSelectObject((TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject], pApp->m_Sample.GetObjCtrl()->GetLastMatIndex((TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject]));
+
+	// 경로 추출한 문자열이 리스트에 보이도록 한다. 경로가 포함 문자열은 따로 가지고 있는다. 
+	CString szDelPath = m_szObjectPath[m_iSelectObject].Right(m_szObjectPath[m_iSelectObject].GetLength() - m_szObjectPath[m_iSelectObject].ReverseFind('\\') - 1);
+
+	I_ObjectCtrl.AddObjectWorldMat(I_ObjectCtrl.AddObject(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), (TCHAR*)(LPCTSTR)szDelPath), matWorld);
+	I_ObjectCtrl.SelectModeOn();
+	I_ObjectCtrl.SetSelectObject((TCHAR*)(LPCTSTR)szDelPath, I_ObjectCtrl.GetLastMatIndex((TCHAR*)(LPCTSTR)szDelPath));
 	D3DXVECTOR3 vScale, vLocation;
 	D3DXQUATERNION qRotation;
 	D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &matWorld);
@@ -137,9 +141,6 @@ void XObjectControlForm::OnBnClickedCreateObject()
 	m_fLocationY = vLocation.y;
 	m_fLocationZ = vLocation.z;
 	UpdateData(FALSE);
-	//TCHAR szTemp[256] = { 0, };
-	//_tcprintf_s(szTemp, "%0.2f", &vScale.x);
-	//SetDlgItemText(IDC_SCALE_X, szTemp);
 }
 
 
@@ -154,9 +155,9 @@ void XObjectControlForm::OnEnChangeLocationX()
 	m_fLocationX = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if(pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if(I_ObjectCtrl.m_bSelect)
 	{
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._41 = m_fLocationX;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._41 = m_fLocationX;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -174,9 +175,9 @@ void XObjectControlForm::OnEnChangeLocationY()
 	m_fLocationY = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._42 = m_fLocationY;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._42 = m_fLocationY;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -194,9 +195,9 @@ void XObjectControlForm::OnEnChangeLocationZ()
 	m_fLocationZ = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._43 = m_fLocationZ;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._43 = m_fLocationZ;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -223,19 +224,19 @@ void XObjectControlForm::OnEnChangeRotationX()
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -262,19 +263,19 @@ void XObjectControlForm::OnEnChangeRotationY()
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 
 	UpdateData(FALSE);
@@ -302,19 +303,19 @@ void XObjectControlForm::OnEnChangeRotationZ()
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -332,19 +333,19 @@ void XObjectControlForm::OnEnChangeScaleX()
 	m_fScaleX = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, m_fScaleX, vScale.y, vScale.z);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -362,19 +363,19 @@ void XObjectControlForm::OnEnChangeScaleY()
 	m_fScaleY = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, m_fScaleY, vScale.z);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -392,20 +393,28 @@ void XObjectControlForm::OnEnChangeScaleZ()
 	m_fScaleZ = _ttof(m_szGetItem);
 
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
-	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, m_fScaleZ);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void XObjectControlForm::OnBnClickedComplete()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	I_ObjectCtrl.m_bSelect = false;
 }

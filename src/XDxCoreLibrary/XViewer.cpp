@@ -285,6 +285,77 @@ void	XViewer::SetMatrix(D3DXMATRIX *matWorld, D3DXMATRIX *matView, D3DXMATRIX *m
 	D3DXMatrixTranspose(&cb.matProj, &m_matProj);
 }
 
+void XViewer::SelectObjTransparency(ID3D11DeviceContext* pContext)
+{
+	for (int iMeshCnt = 0; iMeshCnt < m_Mesh.size(); iMeshCnt++)
+	{
+		if (m_Mesh[iMeshCnt].m_SubMesh.size() == 0)
+		{
+			if (m_Mesh[iMeshCnt].m_VertexList.size() != 0)
+			{
+				for (int iLoop = 0; iLoop < m_Mesh[iMeshCnt].m_VertexList.size(); iLoop++)
+				{
+					m_Mesh[iMeshCnt].m_VertexList[iLoop].c.w = 0.7f;
+				}
+				pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pVertexBuffer, 0, NULL, &m_Mesh[iMeshCnt].m_VertexList.at(0), NULL, NULL);
+			}
+		}
+		else
+		{
+			for (int iSubCnt = 0; iSubCnt < m_Mesh[iMeshCnt].m_SubMesh.size(); iSubCnt++)
+			{
+				if (m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.size() != 0)
+				{
+					if (m_Mesh[iMeshCnt].m_VertexList.size() != 0)
+					{
+						for (int iLoop = 0; iLoop < m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.size(); iLoop++)
+						{
+							m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList[iLoop].c.w = 0.7f;
+						}
+						pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_pVertexBuffer, 0, NULL, &m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.at(0), NULL, NULL);
+					}
+				}
+			}
+		}
+	}
+
+}
+
+void XViewer::SelectObjOpaque(ID3D11DeviceContext* pContext)
+{
+	for (int iMeshCnt = 0; iMeshCnt < m_Mesh.size(); iMeshCnt++)
+	{
+		if (m_Mesh[iMeshCnt].m_SubMesh.size() == 0)
+		{
+			if (m_Mesh[iMeshCnt].m_VertexList.size() != 0)
+			{
+				for (int iLoop = 0; iLoop < m_Mesh[iMeshCnt].m_VertexList.size(); iLoop++)
+				{
+					m_Mesh[iMeshCnt].m_VertexList[iLoop].c.w = 1.0f;
+				}
+				pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pVertexBuffer, 0, NULL, &m_Mesh[iMeshCnt].m_VertexList.at(0), NULL, NULL);
+			}
+		}
+		else
+		{
+			for (int iSubCnt = 0; iSubCnt < m_Mesh[iMeshCnt].m_SubMesh.size(); iSubCnt++)
+			{
+				if (m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.size() != 0)
+				{
+					if (m_Mesh[iMeshCnt].m_VertexList.size() != 0)
+					{
+						for (int iLoop = 0; iLoop < m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.size(); iLoop++)
+						{
+							m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList[iLoop].c.w = 1.0f;
+						}
+						pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_pVertexBuffer, 0, NULL, &m_Mesh[iMeshCnt].m_SubMesh[iSubCnt].m_VertexList.at(0), NULL, NULL);
+					}
+				}
+			}
+		}
+	}
+}
+
 bool	XViewer::SetBuffer(XMesh* mesh)
 {
 	if (FAILED(CreateVertexBuffer(mesh)))

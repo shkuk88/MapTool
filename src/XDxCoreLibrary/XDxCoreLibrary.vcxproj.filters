@@ -105,6 +105,9 @@
     <ClCompile Include="XObjectController.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="XObjectManager.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XCore.h">
@@ -194,30 +197,33 @@
     <ClInclude Include="XObjectController.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="XObjectManager.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Data\Map\Shader\MapShader_Specular.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\Ase.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\Ase.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\BoxShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\BoxShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\LineShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\LineShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\MapShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader_Color_Specular.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\MapShader_Color_Specular.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\MapShader_Specular.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\PlaneShader.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\PlaneShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Data\Map\Shader\SkyShader_Sample_0.hlsl">
+    <FxCompile Include="..\..\Data\Map\Shader\SkyShader_Sample_0.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

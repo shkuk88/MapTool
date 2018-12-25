@@ -14,18 +14,18 @@ bool XSample::CreateMap(TCHAR* szTexture, TCHAR* szHeightTexture, float fCellCou
 	m_pMapTree->Build(m_pMap);
 	m_pMapTree->SetCamera(&m_Camera);
 	// 맵 생성시 높이맵 컨트롤러 시동
-	m_HeightMapCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_HeightMapCtrl.SetMap(m_pMap);
-	m_HeightMapCtrl.Start();
+	I_HeightCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_HeightCtrl.SetMap(m_pMap);
+	I_HeightCtrl.Start();
 	// 맵 생성시 스플리팅 컨트롤러 시동
-	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_SpreatCtrl.SetMap(m_pMap);
-	m_SpreatCtrl.Start();
-	m_SpreatCtrl.SetMapTexture();
+	I_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_SpreatCtrl.SetMap(m_pMap);
+	I_SpreatCtrl.Start();
+	I_SpreatCtrl.SetMapTexture();
 	// 맵 생성시 오브젝트 컨트롤러 시동
-	m_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_ObjectCtrl.SetMap(m_pMap);
-	m_ObjectCtrl.Start();
+	I_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_ObjectCtrl.SetMap(m_pMap);
+	I_ObjectCtrl.Start();
 	return true;
 }
 
@@ -39,24 +39,24 @@ bool XSample::CreateMap()
 	m_pMapTree->Build(m_pMap);
 	m_pMapTree->SetCamera(&m_Camera);
 	// 맵 생성시 높이맵 컨트롤러 시동
-	m_HeightMapCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_HeightMapCtrl.SetMap(m_pMap);
-	m_HeightMapCtrl.Start();
+	I_HeightCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_HeightCtrl.SetMap(m_pMap);
+	I_HeightCtrl.Start();
 	// 맵 생성시 스플리팅 컨트롤러 시동
-	m_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_SpreatCtrl.SetMap(m_pMap);
-	m_SpreatCtrl.Start();
+	I_SpreatCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_SpreatCtrl.SetMap(m_pMap);
+	I_SpreatCtrl.Start();
 	// 맵 생성시 오브젝트 컨트롤러 시동
-	m_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
-	m_ObjectCtrl.SetMap(m_pMap);
-	m_ObjectCtrl.Start();
+	I_ObjectCtrl.SetLeafNode(m_pMapTree->GetRootNode());
+	I_ObjectCtrl.SetMap(m_pMap);
+	I_ObjectCtrl.Start();
 
 	return false;
 }
 
 D3DXMATRIX XSample::GetSelectObjMat()
 {
-	return m_ObjectCtrl.m_ObjectMatrix[m_ObjectCtrl.m_szSelectObject][m_ObjectCtrl.m_iSelectMatNum];;
+	return I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum];
 }
 
 bool XSample::Init()
@@ -76,9 +76,9 @@ bool XSample::Frame()
 		m_pMap->Frame();
 	}
 	if (m_pMapTree)	m_pMapTree->Frame();
-	m_HeightMapCtrl.Frame();
-	m_SpreatCtrl.Frame();
-	m_ObjectCtrl.Frame();
+	I_HeightCtrl.Frame();
+	I_SpreatCtrl.Frame();
+	I_ObjectCtrl.Frame(I_Device.m_pD3dContext.Get());
 	return true;
 }
 
@@ -101,9 +101,9 @@ bool XSample::Render()
 	if (m_pMap)		m_pMap->SetMatrix(NULL, &m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
 	if (m_pMap)		m_pMap->Render(I_Device.m_pD3dContext.Get());
 	//if (m_pMapTree)	m_pMapTree->Render(I_Device.m_pD3dContext.Get());
-	m_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
-	m_ObjectCtrl.SetMatrix(&m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
-	m_ObjectCtrl.Render(I_Device.m_pD3dContext.Get());
+	I_SpreatCtrl.Render(I_Device.m_pD3dContext.Get());
+	I_ObjectCtrl.SetMatrix(&m_Camera.GetViewMatrix(), &m_Camera.GetProjMatrix());
+	I_ObjectCtrl.Render(I_Device.m_pD3dContext.Get());
 	return true;
 }
 
@@ -111,6 +111,7 @@ bool XSample::Release()
 {
 	if (m_pMap)		m_pMap->Release();
 	if (m_pMapTree) m_pMapTree->Release();
+	I_ObjectCtrl.Release();
 	return true;
 }
 

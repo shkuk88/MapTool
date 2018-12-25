@@ -2,9 +2,10 @@
 #include "XMapController.h"
 
 enum HeightControl { None = 0, Up, Down, Flat };
-class XHeightMapController :public XMapController
+class XHeightMapController :public XMapController, public XSingleton<XHeightMapController>
 {
 private:
+	friend class XSingleton<XHeightMapController>;
 	// Mode
 	BOOL m_bHeightCtrlState = None;
 	// 높이값을 조절할 강도
@@ -24,3 +25,4 @@ public:
 	virtual ~XHeightMapController();
 };
 
+#define I_HeightCtrl XSingleton<XHeightMapController>::Get()

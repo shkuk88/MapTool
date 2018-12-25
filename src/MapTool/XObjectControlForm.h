@@ -52,4 +52,5 @@ public:
 	float m_fScaleY;
 	float m_fScaleZ;
 	CString m_szGetItem;
+	afx_msg void OnBnClickedComplete();
 };
