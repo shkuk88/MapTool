@@ -28,7 +28,6 @@ void XSelect::Update()
 	GetPhysicalCursorPos(&ptCursor);		//마우스 커서를 얻음
 	ScreenToClient(g_hWnd, &ptCursor);		//스크린좌표의 마우스 좌표를 얻음
 
-
 	D3DXVECTOR3 k;
 
 	//화면좌표 -> 투영좌표로 변환 [책103장]

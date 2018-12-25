@@ -78,6 +78,7 @@ bool XObjectController::MoveObject()
 		m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._41 = m_vIntersection.x;
 		m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._42 = m_pMap->GetHeight(m_vIntersection.x, m_vIntersection.z);
 		m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._43 = m_vIntersection.z;
+		int a = 0;
 	}
 	else if (I_Input.KeyCheck(DIK_RETURN) == KEY_PUSH)
 	{
@@ -102,7 +103,7 @@ bool XObjectController::Init()
 bool XObjectController::Frame()
 {
 	if (!m_bStart)	return true;
-	FindIntersection();
+	if(!FindIntersection()) return true;
 	MoveObject();
 	// 모든 오브젝트를 순회하는 Frame
 	for (auto pObject : m_ObjectList)

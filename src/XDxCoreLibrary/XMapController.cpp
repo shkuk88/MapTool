@@ -45,6 +45,11 @@ bool XMapController::CheakInRange()
 
 bool XMapController::FindIntersection()
 {
+	POINT ptCursor;
+	GetPhysicalCursorPos(&ptCursor);		//마우스 커서를 얻음
+	ScreenToClient(g_hWnd, &ptCursor);		//스크린좌표의 마우스 좌표를 얻음
+	if (ptCursor.x<0 || ptCursor.x>g_rtClient.right || ptCursor.y<0 || ptCursor.y>g_rtClient.bottom)	return false;
+
 	for (auto pNode : m_LeafNodeList)
 	{
 		if (I_Select.IntersectBox(&pNode->m_Box))

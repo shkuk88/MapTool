@@ -116,13 +116,30 @@ void XObjectControlForm::OnBnClickedCreateObject()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	m_iSelectObject = m_ObjectList.GetCurSel();
+	if (m_iSelectObject == -1)	
+		return;
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
  	pApp->m_Sample.GetObjCtrl()->AddObjectWorldMat(pApp->m_Sample.GetObjCtrl()->AddObject(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), (TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject]), matWorld);
 	pApp->m_Sample.GetObjCtrl()->SelectModeOn();
 	pApp->m_Sample.GetObjCtrl()->SetSelectObject((TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject], pApp->m_Sample.GetObjCtrl()->GetLastMatIndex((TCHAR*)(LPCTSTR)m_szObjectPath[m_iSelectObject]));
-
+	D3DXVECTOR3 vScale, vLocation;
+	D3DXQUATERNION qRotation;
+	D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &matWorld);
+	m_fScaleX = vScale.x;
+	m_fScaleY = vScale.y;
+	m_fScaleZ = vScale.z;
+	m_fRotationX = qRotation.x;
+	m_fRotationY = qRotation.y;
+	m_fRotationZ = qRotation.z;
+	m_fLocationX = vLocation.x;
+	m_fLocationY = vLocation.y;
+	m_fLocationZ = vLocation.z;
+	UpdateData(FALSE);
+	//TCHAR szTemp[256] = { 0, };
+	//_tcprintf_s(szTemp, "%0.2f", &vScale.x);
+	//SetDlgItemText(IDC_SCALE_X, szTemp);
 }
 
 
@@ -135,6 +152,12 @@ void XObjectControlForm::OnEnChangeLocationX()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_LOCATION_X, m_szGetItem);
 	m_fLocationX = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if(pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._41 = m_fLocationX;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -149,6 +172,12 @@ void XObjectControlForm::OnEnChangeLocationY()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_LOCATION_Y, m_szGetItem);
 	m_fLocationY = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._42 = m_fLocationY;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -163,6 +192,12 @@ void XObjectControlForm::OnEnChangeLocationZ()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_LOCATION_Z, m_szGetItem);
 	m_fLocationZ = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]._43 = m_fLocationZ;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -177,6 +212,31 @@ void XObjectControlForm::OnEnChangeRotationX()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_ROTATION_X, m_szGetItem);
 	m_fRotationX = _ttof(m_szGetItem);
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
+	GetDlgItemText(IDC_ROTATION_Y, m_szGetItem);
+	m_fRotationY = _ttof(m_szGetItem);
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
+	GetDlgItemText(IDC_ROTATION_Z, m_szGetItem);
+	m_fRotationZ = _ttof(m_szGetItem);
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -189,8 +249,34 @@ void XObjectControlForm::OnEnChangeRotationY()
 	//하고 마스크에 OR 연산하여 설정된 ENM_CHANGE 플래그를 지정하여 CRichEditCtrl().SetEventMask()를 호출하지 않으면
 	// 이 알림 메시지를 보내지 않습니다.
 	UpdateData(TRUE);
+	GetDlgItemText(IDC_ROTATION_X, m_szGetItem);
+	m_fRotationX = _ttof(m_szGetItem);
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
 	GetDlgItemText(IDC_ROTATION_Y, m_szGetItem);
 	m_fRotationY = _ttof(m_szGetItem);
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
+	GetDlgItemText(IDC_ROTATION_Z, m_szGetItem);
+	m_fRotationZ = _ttof(m_szGetItem);
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
+
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -203,8 +289,33 @@ void XObjectControlForm::OnEnChangeRotationZ()
 	//하고 마스크에 OR 연산하여 설정된 ENM_CHANGE 플래그를 지정하여 CRichEditCtrl().SetEventMask()를 호출하지 않으면
 	// 이 알림 메시지를 보내지 않습니다.
 	UpdateData(TRUE);
+	GetDlgItemText(IDC_ROTATION_X, m_szGetItem);
+	m_fRotationX = _ttof(m_szGetItem);
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
+	GetDlgItemText(IDC_ROTATION_Y, m_szGetItem);
+	m_fRotationY = _ttof(m_szGetItem);
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
 	GetDlgItemText(IDC_ROTATION_Z, m_szGetItem);
 	m_fRotationZ = _ttof(m_szGetItem);
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -219,6 +330,22 @@ void XObjectControlForm::OnEnChangeScaleX()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_SCALE_X, m_szGetItem);
 	m_fScaleX = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, m_fScaleX, vScale.y, vScale.z);
+		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -233,6 +360,22 @@ void XObjectControlForm::OnEnChangeScaleY()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_SCALE_Y, m_szGetItem);
 	m_fScaleY = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, m_fScaleY, vScale.z);
+		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -247,6 +390,22 @@ void XObjectControlForm::OnEnChangeScaleZ()
 	UpdateData(TRUE);
 	GetDlgItemText(IDC_SCALE_Z, m_szGetItem);
 	m_fScaleZ = _ttof(m_szGetItem);
+
+	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	if (pApp->m_Sample.GetObjCtrl()->m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, m_fScaleZ);
+		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		pApp->m_Sample.GetObjCtrl()->m_ObjectMatrix[pApp->m_Sample.GetObjCtrl()->m_szSelectObject][pApp->m_Sample.GetObjCtrl()->m_iSelectMatNum] = matWorld;
+	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

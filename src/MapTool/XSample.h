@@ -30,7 +30,7 @@ public:
 	XMapImporter* GetImporter() { return &m_Importer; }
 	XMap* GetMap() { return m_pMap; }
 	XObjectController* GetObjCtrl() { return &m_ObjectCtrl; }
-	void DecomposeSelectObjMat();
+	D3DXMATRIX GetSelectObjMat();
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

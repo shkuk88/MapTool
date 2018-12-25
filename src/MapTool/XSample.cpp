@@ -54,15 +54,9 @@ bool XSample::CreateMap()
 	return false;
 }
 
-void XSample::DecomposeSelectObjMat()
+D3DXMATRIX XSample::GetSelectObjMat()
 {
-	if (!m_ObjectCtrl.m_bSelect)	return;
-	D3DXMATRIX matObject = m_ObjectCtrl.m_ObjectMatrix[m_ObjectCtrl.m_szSelectObject][m_ObjectCtrl.m_iSelectMatNum];
-	D3DXVECTOR3 vScale, vTranslation;
-	D3DXQUATERNION qRotation;
-	TCHAR szData[256] = { 0, };
-	D3DXMatrixDecompose(&vScale, &qRotation, &vTranslation, &matObject);
-
+	return m_ObjectCtrl.m_ObjectMatrix[m_ObjectCtrl.m_szSelectObject][m_ObjectCtrl.m_iSelectMatNum];;
 }
 
 bool XSample::Init()
