@@ -49,6 +49,9 @@ void XObjectControlForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_SCALE_X, m_fScaleX);
 	DDX_Text(pDX, IDC_SCALE_Y, m_fScaleY);
 	DDX_Text(pDX, IDC_SCALE_Z, m_fScaleZ);
+	DDX_Control(pDX, IDC_ROTATION_X2, m_SliderRotateX);
+	DDX_Control(pDX, IDC_ROTATION_Y2, m_SliderRotateY);
+	DDX_Control(pDX, IDC_ROTATION_Z2, m_SliderRotateZ);
 }
 
 
@@ -66,6 +69,10 @@ BEGIN_MESSAGE_MAP(XObjectControlForm, CFormView)
 	ON_EN_CHANGE(IDC_SCALE_Y, &XObjectControlForm::OnEnChangeScaleY)
 	ON_EN_CHANGE(IDC_SCALE_Z, &XObjectControlForm::OnEnChangeScaleZ)
 	ON_BN_CLICKED(IDC_COMPLETE, &XObjectControlForm::OnBnClickedComplete)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_ROTATION_X2, &XObjectControlForm::OnNMCustomdrawRotationX2)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_ROTATION_Y2, &XObjectControlForm::OnNMCustomdrawRotationY2)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_ROTATION_Z2, &XObjectControlForm::OnNMCustomdrawRotationZ2)
+	ON_BN_CLICKED(IDC_Cancel, &XObjectControlForm::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -115,6 +122,9 @@ void XObjectControlForm::OnBnClickedDelObject()
 void XObjectControlForm::OnBnClickedCreateObject()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (I_ObjectCtrl.m_bSelect) return;
+	I_HeightCtrl.SetHeightCtrlState(None);
+	I_SpreatCtrl.SetEnable(FALSE);
 	UpdateData(TRUE);
 	m_iSelectObject = m_ObjectList.GetCurSel();
 	if (m_iSelectObject == -1)	
@@ -140,6 +150,9 @@ void XObjectControlForm::OnBnClickedCreateObject()
 	m_fLocationX = vLocation.x;
 	m_fLocationY = vLocation.y;
 	m_fLocationZ = vLocation.z;
+	m_SliderRotateX.SetPos(0);
+	m_SliderRotateY.SetPos(0);
+	m_SliderRotateZ.SetPos(0);
 	UpdateData(FALSE);
 }
 
@@ -154,7 +167,6 @@ void XObjectControlForm::OnEnChangeLocationX()
 	GetDlgItemText(IDC_LOCATION_X, m_szGetItem);
 	m_fLocationX = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if(I_ObjectCtrl.m_bSelect)
 	{
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._41 = m_fLocationX;
@@ -174,7 +186,6 @@ void XObjectControlForm::OnEnChangeLocationY()
 	GetDlgItemText(IDC_LOCATION_Y, m_szGetItem);
 	m_fLocationY = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._42 = m_fLocationY;
@@ -194,7 +205,6 @@ void XObjectControlForm::OnEnChangeLocationZ()
 	GetDlgItemText(IDC_LOCATION_Z, m_szGetItem);
 	m_fLocationZ = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._43 = m_fLocationZ;
@@ -223,7 +233,6 @@ void XObjectControlForm::OnEnChangeRotationX()
 	m_fRotationZ = _ttof(m_szGetItem);
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -238,6 +247,7 @@ void XObjectControlForm::OnEnChangeRotationX()
 		matWorld._43 = vLocation.z;
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
+	m_SliderRotateX.SetPos((float)m_fRotationX);
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -262,7 +272,6 @@ void XObjectControlForm::OnEnChangeRotationY()
 	m_fRotationZ = _ttof(m_szGetItem);
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -277,7 +286,7 @@ void XObjectControlForm::OnEnChangeRotationY()
 		matWorld._43 = vLocation.z;
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
-
+	m_SliderRotateY.SetPos((float)m_fRotationY);
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -302,7 +311,6 @@ void XObjectControlForm::OnEnChangeRotationZ()
 	m_fRotationZ = _ttof(m_szGetItem);
 	float fDegreeZ = D3DXToRadian(m_fRotationZ);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -317,6 +325,7 @@ void XObjectControlForm::OnEnChangeRotationZ()
 		matWorld._43 = vLocation.z;
 		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
+	m_SliderRotateZ.SetPos((float)m_fRotationZ);
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -332,7 +341,6 @@ void XObjectControlForm::OnEnChangeScaleX()
 	GetDlgItemText(IDC_SCALE_X, m_szGetItem);
 	m_fScaleX = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -362,7 +370,6 @@ void XObjectControlForm::OnEnChangeScaleY()
 	GetDlgItemText(IDC_SCALE_Y, m_szGetItem);
 	m_fScaleY = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -392,7 +399,6 @@ void XObjectControlForm::OnEnChangeScaleZ()
 	GetDlgItemText(IDC_SCALE_Z, m_szGetItem);
 	m_fScaleZ = _ttof(m_szGetItem);
 
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
 	if (I_ObjectCtrl.m_bSelect)
 	{
 		D3DXVECTOR3 vScale, vLocation;
@@ -415,6 +421,126 @@ void XObjectControlForm::OnEnChangeScaleZ()
 void XObjectControlForm::OnBnClickedComplete()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CMapToolApp* pApp = (CMapToolApp*)AfxGetApp();
+	I_ObjectCtrl.m_bSelect = false;
+}
+
+
+void XObjectControlForm::OnNMCustomdrawRotationX2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
+	UpdateData(TRUE);
+	m_fRotationX = m_SliderRotateX.GetPos();
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
+	GetDlgItemText(IDC_ROTATION_Y, m_szGetItem);
+	m_fRotationY = _ttof(m_szGetItem);
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
+	GetDlgItemText(IDC_ROTATION_Z, m_szGetItem);
+	m_fRotationZ = _ttof(m_szGetItem);
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+	if (I_ObjectCtrl.m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+	}
+	UpdateData(FALSE);
+}
+
+
+void XObjectControlForm::OnNMCustomdrawRotationY2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
+	
+	GetDlgItemText(IDC_ROTATION_X, m_szGetItem);
+	m_fRotationX = _ttof(m_szGetItem);
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
+	m_fRotationY = m_SliderRotateY.GetPos();
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
+	GetDlgItemText(IDC_ROTATION_Z, m_szGetItem);
+	m_fRotationZ = _ttof(m_szGetItem);
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+	if (I_ObjectCtrl.m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+	}
+	UpdateData(FALSE);
+}
+
+
+void XObjectControlForm::OnNMCustomdrawRotationZ2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
+
+	UpdateData(TRUE);
+	GetDlgItemText(IDC_ROTATION_X, m_szGetItem);
+	m_fRotationX = _ttof(m_szGetItem);
+	float fDegreeX = D3DXToRadian(m_fRotationX);
+
+	GetDlgItemText(IDC_ROTATION_Y, m_szGetItem);
+	m_fRotationY = _ttof(m_szGetItem);
+	float fDegreeY = D3DXToRadian(m_fRotationY);
+
+	m_fRotationZ = m_SliderRotateZ.GetPos();
+	float fDegreeZ = D3DXToRadian(m_fRotationZ);
+	if (I_ObjectCtrl.m_bSelect)
+	{
+		D3DXVECTOR3 vScale, vLocation;
+		D3DXQUATERNION qRotation;
+		D3DXMATRIX matWorld, matRotation, matScale;
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
+		matWorld = matScale * matRotation;
+		matWorld._41 = vLocation.x;
+		matWorld._42 = vLocation.y;
+		matWorld._43 = vLocation.z;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+	}
+	UpdateData(FALSE);
+}
+
+
+void XObjectControlForm::OnInitialUpdate()
+{
+	CFormView::OnInitialUpdate();
+	m_SliderRotateX.SetRange(-180.0f, 180.0f);
+	m_SliderRotateY.SetRange(-180.0f, 180.0f);
+	m_SliderRotateZ.SetRange(-180.0f, 180.0f);
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+}
+
+
+void XObjectControlForm::OnBnClickedCancel()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	I_Object.DelObjWorldMat(I_ObjectCtrl.m_szSelectObject, I_ObjectCtrl.m_iSelectMatNum);
 	I_ObjectCtrl.m_bSelect = false;
 }

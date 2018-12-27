@@ -12,6 +12,7 @@ public:
 	D3DXMATRIX m_matProj;
 public:
 	TString AddObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TString szFileName);
+	bool DelObjWorldMat(TString szObjName, int iSelecObj);
 	bool AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld);
 	void SetMatrix(D3DXMATRIX* matView, D3DXMATRIX* matProj);
 public:

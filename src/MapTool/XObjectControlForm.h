@@ -53,4 +53,12 @@ public:
 	float m_fScaleZ;
 	CString m_szGetItem;
 	afx_msg void OnBnClickedComplete();
+	afx_msg void OnNMCustomdrawRotationX2(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMCustomdrawRotationY2(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMCustomdrawRotationZ2(NMHDR *pNMHDR, LRESULT *pResult);
+	CSliderCtrl m_SliderRotateX;
+	CSliderCtrl m_SliderRotateY;
+	CSliderCtrl m_SliderRotateZ;
+	virtual void OnInitialUpdate();
+	afx_msg void OnBnClickedCancel();
 };

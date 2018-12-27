@@ -535,7 +535,6 @@ D3DXMATRIX	XViewer::GetRAnim(XMesh* mesh)
 			D3DXMatrixInverse(&invPMW, NULL, &m_Mesh[mesh->m_ParentObj[0]].m_matTM);
 			m_matInverse = mesh->m_matTM * invPMW;
 			D3DXMatrixDecompose(&s, &r, &t, &m_matInverse);
-			//D3DXQuaternionRotationAxis(&r, &D3DXVECTOR3(r.x, r.y, r.z), r.w);
 			D3DXMatrixRotationQuaternion(&rMat, &r);
 			return rMat;
 		}
@@ -543,11 +542,7 @@ D3DXMATRIX	XViewer::GetRAnim(XMesh* mesh)
 		{
 			D3DXVECTOR3 s, t;
 			D3DXQUATERNION r;
-			//D3DXMATRIX	m_matInverse;
-			//D3DXMatrixInverse(&m_matInverse, NULL, &mesh->m_matTM);
-			//D3DXMatrixDecompose(&s, &r, &t, &m_matInverse);
 			D3DXMatrixDecompose(&s, &r, &t, &mesh->m_matTM);
-			//D3DXQuaternionRotationAxis(&r, &D3DXVECTOR3(r.x, r.y, r.z), r.w);
 			D3DXMatrixRotationQuaternion(&rMat, &r);
 			return rMat;
 		}
@@ -698,7 +693,7 @@ bool	XViewer::Render(ID3D11DeviceContext* pContext)
 		{
 			for (int iSubCnt = 0; iSubCnt < m_Mesh[iMeshCnt].m_SubMesh.size(); iSubCnt++)
 			{
-				pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &m_Mesh[iMeshCnt].cb.matWorld, NULL, NULL);
+				pContext->UpdateSubresource(m_Mesh[iMeshCnt].m_pConstantBuffer, 0, NULL, &cb.matWorld, NULL, NULL);
 				pContext->VSSetConstantBuffers(0, 1, &m_Mesh[iMeshCnt].m_pConstantBuffer);
 				DrawObject(pContext, &m_Mesh[iMeshCnt].m_SubMesh[iSubCnt]);
 			}

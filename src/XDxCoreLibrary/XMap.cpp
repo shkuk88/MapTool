@@ -284,8 +284,8 @@ bool XMap::CreateIndexList()
 float XMap::GetHeight(float x, float z)
 {
 	float fHeight = 0.0f;
-	float fCellX = (float)((m_iCol - 1) / 2.0f + x);
-	float fCellZ = (float)((m_iRow - 1) / 2.0f - z);
+	float fCellX = (float)((m_iCol - 1) / 2.0f + x/m_fDistance);
+	float fCellZ = (float)((m_iRow - 1) / 2.0f - z/m_fDistance);
 
 	//소수부분 잘라냄   v0,(x,z)부분?
 	float fVertexCol = ::floorf(fCellX);
@@ -388,39 +388,6 @@ D3DXVECTOR3 XMap::ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwInde
 	D3DXVec3Normalize(&vNormal, &vNormal);
 	return vNormal;
 }
-
-//void TMap::CalcPerVertexNormalsFastLookup() sample
-//{
-//	CreateFaceNormals();
-//
-//	for (int iVertex = 0; iVertex < (m_iNumCols * m_iNumRows); iVertex++)
-//	{
-//		float divisor = 1.0f;
-//		D3DXVECTOR3 avgNormal;
-//		avgNormal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-//
-//		for (int iNegigbor = 0; iNegigbor<6; iNegigbor++)
-//		{
-//			int triIndex;
-//			triIndex = m_pNormalLookupTable[iVertex * 6 + iNegigbor];
-//
-//			if (triIndex != -1)
-//			{
-//				avgNormal += m_pFaceNormals[triIndex];
-//				divisor += 1.0f;
-//			}
-//			else
-//				break;
-//		}
-
-//		avgNormal.x /= divisor;
-//		avgNormal.y /= divisor;
-//		avgNormal.z /= divisor;
-//		D3DXVec3Normalize(&avgNormal, &avgNormal);
-//
-//		m_pvHeightMap[iVertex].n = avgNormal;
-//	}
-//}
 
 bool XMap::GetNormalLookUpTable()
 {

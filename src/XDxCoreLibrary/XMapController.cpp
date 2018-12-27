@@ -34,9 +34,20 @@ bool XMapController::CheakInRange()
 	m_CrashNode.clear();
 	for (auto pNode : m_LeafNodeList)
 	{
-		D3DXVECTOR3 vLength = pNode->m_Box.vCenter - m_vIntersection;
-		float fLength = D3DXVec3Length(&vLength);
-		if (fLength < m_fRadius)
+		//D3DXVECTOR3 vLength = pNode->m_Box.vCenter - m_vIntersection;
+		//float fLength = D3DXVec3Length(&vLength);
+		//if (fLength < m_fRadius)
+		//	m_CrashNode.push_back(pNode);
+
+		D3DXVECTOR3 vTLLength = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::TL]].p - m_vIntersection;
+		D3DXVECTOR3 vTRLength = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::TR]].p - m_vIntersection;
+		D3DXVECTOR3 vBLLength = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::BL]].p - m_vIntersection;
+		D3DXVECTOR3 vBRLength = m_pMap->m_VertexList[pNode->m_CornerIndex[XQuadTreeIndex::BR]].p - m_vIntersection;
+		float fTLLength = D3DXVec3Length(&vTLLength);
+		float fTRLength = D3DXVec3Length(&vTRLength);
+		float fBLLength = D3DXVec3Length(&vBLLength);
+		float fBRLength = D3DXVec3Length(&vBRLength);
+		if(fTLLength < m_fRadius || fTRLength < m_fRadius || fBLLength < m_fRadius || fBRLength < m_fRadius)
 			m_CrashNode.push_back(pNode);
 	}
 

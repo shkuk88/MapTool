@@ -5,36 +5,16 @@
 TString XObjectController::AddObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TString szFileName)
 {
 	return I_Object.AddObject(pDevice, pContext, szFileName);
-	//for (auto iter : m_ObjectList)
-	//{
-	//	if (iter.first == szFileName)
-	//		return iter.first;
-	//}
-	//shared_ptr<XViewer> pObject = make_shared<XViewer>();
-	//TCHAR* szTemp = (TCHAR*)szFileName.c_str();
-	//pObject->Init(szTemp, pDevice, pContext, _T("../../Data/Map/Shader/Ase.hlsl"), _T("../../Data/Map/Shader/Ase.hlsl"));
-	//m_ObjectList[szFileName] = pObject;
-	//return szFileName;
 }
 
 bool XObjectController::AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld)
 {
 	return I_Object.AddObjectWorldMat(szObj, matWorld);
-	//for (auto iter : m_ObjectList)
-	//{
-	//	if (iter.first == szObj)
-	//	{
-	//		m_ObjectMatrix[szObj].push_back(matWorld);
-	//		return true;
-	//	}
-	//}
-	//return false;
 }
 
 D3DXMATRIX XObjectController::GetObjectWorldMat(TString szObj, int iSelectMatNum)
 {
 	return I_Object.m_ObjectMatrix[szObj][iSelectMatNum];
-	//return m_ObjectMatrix[szObj][iSelectMatNum];
 }
 
 bool XObjectController::SetSelectObject(TString szObj, int iSelectMatNum)
@@ -101,16 +81,17 @@ bool XObjectController::Frame() { return true; }
 bool XObjectController::Frame(ID3D11DeviceContext* pContext)
 {
 	if (!m_bStart)	return true;
-	if(!FindIntersection()) return true;
+	if(!FindIntersection())   return true;
 	MoveObject(pContext);
+	I_Object.Frame();
 	// 모든 오브젝트를 순회하는 Frame
-	for (auto pObject : I_Object.m_ObjectList)
-	{
-		for (int iMatrix = 0; iMatrix < I_Object.m_ObjectMatrix[pObject.first].size(); iMatrix++)
-		{
-			pObject.second->Frame();
-		}
-	}
+	//for (auto pObject : I_Object.m_ObjectList)
+	//{
+	//	for (int iMatrix = 0; iMatrix < I_Object.m_ObjectMatrix[pObject.first].size(); iMatrix++)
+	//	{
+	//		pObject.second->Frame();
+	//	}
+	//}
 	return true;
 }
 

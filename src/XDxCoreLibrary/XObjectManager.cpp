@@ -15,6 +15,12 @@ TString XObjectManager::AddObject(ID3D11Device* pDevice, ID3D11DeviceContext* pC
 	return szFileName;
 }
 
+bool XObjectManager::DelObjWorldMat(TString szObjName, int iSelecObj)
+{
+	m_ObjectMatrix[szObjName].erase(m_ObjectMatrix[szObjName].begin()+iSelecObj);
+	return true;
+}
+
 bool XObjectManager::AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld)
 {
 	for (auto iter : m_ObjectList)
