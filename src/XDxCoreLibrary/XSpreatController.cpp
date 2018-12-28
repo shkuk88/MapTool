@@ -7,6 +7,51 @@ void XSpreatController::SetSpreatViewState(SpreatView SpreatViewState)
 	m_SpreatView = SpreatViewState;
 }
 
+HRESULT XSpreatController::GetSpreatTex(TCHAR* szTexPath)
+{
+	D3DX11_IMAGE_INFO ImageInfo;
+
+	V_RETURN(D3DX11GetImageInfoFromFile(szTexPath, NULL, &ImageInfo, &hr));
+
+	D3DX11_IMAGE_LOAD_INFO LoadInfo;
+	ZeroMemory(&LoadInfo, sizeof(LoadInfo));
+	LoadInfo.Format = DXGI_FORMAT_FROM_FILE;
+	LoadInfo.CpuAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+	LoadInfo.pSrcInfo = &ImageInfo;
+	LoadInfo.Usage = D3D11_USAGE_STAGING;
+
+	ID3D11Resource *pTexture = NULL;
+	V_RETURN(D3DX11CreateTextureFromFile(I_Device.m_pD3dDevice.Get(), szTexPath, &LoadInfo, NULL, &pTexture, NULL));
+
+	V_RETURN(pTexture->QueryInterface(__uuidof(ID3D11Texture2D), (LPVOID*)&m_SpreatTexture));
+
+	
+	m_TextureDesc.Width = m_pMap->m_iRow * m_pMap->m_fDistance* 10.0f;
+	m_TextureDesc.Height = m_pMap->m_iCol * m_pMap->m_fDistance* 10.0f;
+	m_TextureDesc.MipLevels = 1;
+	m_TextureDesc.ArraySize = 1;
+	m_TextureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	m_TextureDesc.SampleDesc.Count = 1;
+	m_TextureDesc.SampleDesc.Quality = 0;
+	m_TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_TextureDesc.CPUAccessFlags = 0;
+	m_TextureDesc.MiscFlags = 0;
+	m_TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[0]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[1]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[2]);
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_AlphaTexture[3]);
+
+	m_TextureDesc.Usage = D3D11_USAGE_STAGING;
+	m_TextureDesc.BindFlags = 0;
+	m_TextureDesc.MiscFlags = 0;
+	m_TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+
+	hr = I_Device.m_pD3dDevice->CreateTexture2D(&m_TextureDesc, NULL, &m_StagingTexture);
+	return hr;
+}
+
 HRESULT XSpreatController::CreateSpreatTexture()
 {
 	m_TextureDesc.Width = m_pMap->m_iRow * m_pMap->m_fDistance* 10.0f;

@@ -675,7 +675,6 @@ bool	XViewer::DrawObject(ID3D11DeviceContext* pContext, XMesh* mesh)
 bool	XViewer::Render(ID3D11DeviceContext* pContext)
 {
 	PreRender(pContext);
-
 	for (int iMeshCnt = 0; iMeshCnt < m_Mesh.size(); iMeshCnt++)
 	{
 		if (m_Mesh[iMeshCnt].m_ObjType == HELPEROBJ)
@@ -699,7 +698,6 @@ bool	XViewer::Render(ID3D11DeviceContext* pContext)
 			}
 		}
 	}
-
 	PostRender(pContext);
 	return true;
 }

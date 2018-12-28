@@ -35,6 +35,7 @@ public:
 	
 	void SetMapTexture();
 	ID3D11Texture2D* GetSpreatTex() { return m_SpreatTexture; }
+	HRESULT GetSpreatTex(TCHAR* szTexPath);
 
 public:
 	virtual void Start()	override;
