@@ -125,30 +125,30 @@ void XBoxShape::SetVertex()
 	m_VertexList[2].p = { -1.0f, -1.0f, -1.0f };		m_VertexList[2].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[2].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[2].t = { 0.0f, 1.0f };
 	m_VertexList[3].p = { 1.0f, -1.0f, -1.0f };			m_VertexList[3].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[3].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[3].t = { 1.0f, 1.0f };
 	//ÁÂÃø
-	m_VertexList[4].p = { -1.0f, 1.0f, 1.0f };			m_VertexList[4].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[4].c = { 1.0f, 1.0f, 0.0f, 1.0f };			m_VertexList[4].t = { 0.0f, 0.0f };
-	m_VertexList[5].p = { -1.0f, 1.0f, -1.0f };			m_VertexList[5].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[5].c = { 1.0f, 1.0f, 0.0f, 1.0f };			m_VertexList[5].t = { 1.0f, 0.0f };
-	m_VertexList[6].p = { -1.0f, -1.0f, 1.0f };			m_VertexList[6].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[6].c = { 1.0f, 1.0f, 0.0f, 1.0f };			m_VertexList[6].t = { 0.0f, 1.0f };
-	m_VertexList[7].p = { -1.0f, -1.0f, -1.0f };		m_VertexList[7].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[7].c = { 1.0f, 1.0f, 0.0f, 1.0f };			m_VertexList[7].t = { 1.0f, 1.0f };
+	m_VertexList[4].p = { -1.0f, 1.0f, 1.0f };			m_VertexList[4].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[4].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[4].t = { 0.0f, 0.0f };
+	m_VertexList[5].p = { -1.0f, 1.0f, -1.0f };			m_VertexList[5].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[5].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[5].t = { 1.0f, 0.0f };
+	m_VertexList[6].p = { -1.0f, -1.0f, 1.0f };			m_VertexList[6].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[6].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[6].t = { 0.0f, 1.0f };
+	m_VertexList[7].p = { -1.0f, -1.0f, -1.0f };		m_VertexList[7].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[7].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[7].t = { 1.0f, 1.0f };
 	//¿ìÃø
-	m_VertexList[8].p = { 1.0f, 1.0f, -1.0f };			m_VertexList[8].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[8].c = { 0.0f, 1.0f, 1.0f, 1.0f };			m_VertexList[8].t = { 0.0f, 0.0f };
-	m_VertexList[9].p = { 1.0f, 1.0f, 1.0f };			m_VertexList[9].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[9].c = { 0.0f, 1.0f, 1.0f, 1.0f };			m_VertexList[9].t = { 1.0f, 0.0f };
-	m_VertexList[10].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[10].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[10].c = { 0.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[10].t = { 0.0f, 1.0f };
-	m_VertexList[11].p = { 1.0f, -1.0f, 1.0f }; 		m_VertexList[11].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[11].c = { 0.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[11].t = { 1.0f, 1.0f };
+	m_VertexList[8].p = { 1.0f, 1.0f, -1.0f };			m_VertexList[8].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[8].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[8].t = { 0.0f, 0.0f };
+	m_VertexList[9].p = { 1.0f, 1.0f, 1.0f };			m_VertexList[9].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[9].c = { 1.0f, 0.0f, 0.0f, 1.0f };			m_VertexList[9].t = { 1.0f, 0.0f };
+	m_VertexList[10].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[10].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[10].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[10].t = { 0.0f, 1.0f };
+	m_VertexList[11].p = { 1.0f, -1.0f, 1.0f }; 		m_VertexList[11].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[11].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[11].t = { 1.0f, 1.0f };
 	//µÞ¸é
-	m_VertexList[12].p = { 1.0f, 1.0f,  1.0f };			m_VertexList[12].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[12].c = { 0.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[12].t = { 0.0f, 0.0f };
-	m_VertexList[13].p = { -1.0f, 1.0f,  1.0f };		m_VertexList[13].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[13].c = { 0.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[13].t = { 1.0f, 0.0f };
-	m_VertexList[14].p = { 1.0f, -1.0f,  1.0f };		m_VertexList[14].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[14].c = { 0.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[14].t = { 0.0f, 1.0f };
-	m_VertexList[15].p = { -1.0f, -1.0f, 1.0f };		m_VertexList[15].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[15].c = { 0.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[15].t = { 1.0f, 1.0f };
+	m_VertexList[12].p = { 1.0f, 1.0f,  1.0f };			m_VertexList[12].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[12].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[12].t = { 0.0f, 0.0f };
+	m_VertexList[13].p = { -1.0f, 1.0f,  1.0f };		m_VertexList[13].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[13].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[13].t = { 1.0f, 0.0f };
+	m_VertexList[14].p = { 1.0f, -1.0f,  1.0f };		m_VertexList[14].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[14].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[14].t = { 0.0f, 1.0f };
+	m_VertexList[15].p = { -1.0f, -1.0f, 1.0f };		m_VertexList[15].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[15].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[15].t = { 1.0f, 1.0f };
 	//À­¸é
-	m_VertexList[16].p = { -1.0f, 1.0f,  1.0f }; 		m_VertexList[16].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[16].c = { 0.0f, 1.0f, 0.0f, 1.0f };		m_VertexList[16].t = { 0.0f, 0.0f };
-	m_VertexList[17].p = { 1.0f, 1.0f,	 1.0f };		m_VertexList[17].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[17].c = { 0.0f, 1.0f, 0.0f, 1.0f };		m_VertexList[17].t = { 1.0f, 0.0f };
-	m_VertexList[18].p = { -1.0f, 1.0f, -1.0f };		m_VertexList[18].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[18].c = { 0.0f, 1.0f, 0.0f, 1.0f };		m_VertexList[18].t = { 0.0f, 1.0f };
-	m_VertexList[19].p = { 1.0f, 1.0f,  -1.0f };		m_VertexList[19].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[19].c = { 0.0f, 1.0f, 0.0f, 1.0f };		m_VertexList[19].t = { 1.0f, 1.0f };
+	m_VertexList[16].p = { -1.0f, 1.0f,  1.0f }; 		m_VertexList[16].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[16].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[16].t = { 0.0f, 0.0f };
+	m_VertexList[17].p = { 1.0f, 1.0f,	 1.0f };		m_VertexList[17].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[17].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[17].t = { 1.0f, 0.0f };
+	m_VertexList[18].p = { -1.0f, 1.0f, -1.0f };		m_VertexList[18].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[18].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[18].t = { 0.0f, 1.0f };
+	m_VertexList[19].p = { 1.0f, 1.0f,  -1.0f };		m_VertexList[19].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[19].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[19].t = { 1.0f, 1.0f };
 	//¾Æ·§¸é
-	m_VertexList[20].p = { -1.0f, -1.0f, -1.0f }; 		m_VertexList[20].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[20].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[20].t = { 0.0f, 0.0f };
-	m_VertexList[21].p = { 1.0f, -1.0f,  -1.0f };		m_VertexList[21].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[21].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[21].t = { 1.0f, 0.0f };
-	m_VertexList[22].p = { -1.0f, -1.0f,  1.0f };		m_VertexList[22].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[22].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[22].t = { 0.0f, 1.0f };
-	m_VertexList[23].p = { 1.0f, -1.0f,  1.0f };		m_VertexList[23].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[23].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[23].t = { 1.0f, 1.0f };
+	m_VertexList[20].p = { -1.0f, -1.0f, -1.0f }; 		m_VertexList[20].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[20].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[20].t = { 0.0f, 0.0f };
+	m_VertexList[21].p = { 1.0f, -1.0f,  -1.0f };		m_VertexList[21].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[21].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[21].t = { 1.0f, 0.0f };
+	m_VertexList[22].p = { -1.0f, -1.0f,  1.0f };		m_VertexList[22].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[22].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[22].t = { 0.0f, 1.0f };
+	m_VertexList[23].p = { 1.0f, -1.0f,  1.0f };		m_VertexList[23].n = { 0.0f, 0.0f, 0.0f };			m_VertexList[23].c = { 1.0f, 0.0f, 0.0f, 1.0f };		m_VertexList[23].t = { 1.0f, 1.0f };
 	
 	m_Box.fExtent[0] = 1.0f;		
 	m_Box.fExtent[1] = 1.0f;
@@ -178,6 +178,84 @@ void XBoxShape::SetIndex()
 	//¾Æ·§¸é
 	m_dwIndexList[30] = 20;	m_dwIndexList[31] = 21;	m_dwIndexList[32] = 22;
 	m_dwIndexList[33] = 23;	m_dwIndexList[34] = 22;	m_dwIndexList[35] = 21;
+}
+
+void XBoxShape::SetCollider(ID3D11DeviceContext* pContext, X_Box collider)
+{
+	m_Box = collider;
+	SetColliderVertex(pContext);
+}
+
+void XBoxShape::SetColliderVertex(ID3D11DeviceContext* pContext)
+{
+	//Á¤¸é
+	m_VertexList[0].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[1].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[2].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[3].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	//ÁÂÃø
+	m_VertexList[4].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[5].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[6].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[7].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	//¿ìÃø
+	m_VertexList[8].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[9].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[10].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[11].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	//µÞ¸é
+	m_VertexList[12].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[13].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[14].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[15].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	//À­¸é
+	m_VertexList[16].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[17].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[18].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[19].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y + m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	//¾Æ·§¸é
+	m_VertexList[20].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1], m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[21].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1],  m_Box.vCenter.z - m_Box.fExtent[2] };
+	m_VertexList[22].p = { m_Box.vCenter.x - m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1],  m_Box.vCenter.z + m_Box.fExtent[2] };
+	m_VertexList[23].p = { m_Box.vCenter.x + m_Box.fExtent[0], m_Box.vCenter.y - m_Box.fExtent[1],  m_Box.vCenter.z + m_Box.fExtent[2] };
+
+	pContext->UpdateSubresource(m_pVertexBuffer.Get(), 0, NULL, &m_VertexList.at(0), NULL, NULL);
+}
+
+void XBoxShape::SetRotateCollider(ID3D11DeviceContext * pContext, X_Box collider, D3DXMATRIX matRotation)
+{
+	m_Box = collider;
+	SetColliderVertex(pContext);
+	Rotate(pContext, matRotation);
+}
+
+void XBoxShape::Rotate(ID3D11DeviceContext* pContext,D3DXMATRIX matRotation)
+{
+	Multiply(m_VertexList[0].p, matRotation);
+	Multiply(m_VertexList[1].p, matRotation);
+	Multiply(m_VertexList[2].p, matRotation);
+	Multiply(m_VertexList[3].p, matRotation);
+	Multiply(m_VertexList[4].p, matRotation);
+	Multiply(m_VertexList[5].p, matRotation);
+	Multiply(m_VertexList[6].p, matRotation);
+	Multiply(m_VertexList[7].p, matRotation);
+	Multiply(m_VertexList[8].p, matRotation);
+	Multiply(m_VertexList[9].p, matRotation);
+	Multiply(m_VertexList[10].p, matRotation);
+	Multiply(m_VertexList[11].p, matRotation);
+	Multiply(m_VertexList[12].p, matRotation);
+	Multiply(m_VertexList[13].p, matRotation);
+	Multiply(m_VertexList[14].p, matRotation);
+	Multiply(m_VertexList[15].p, matRotation);
+	Multiply(m_VertexList[16].p, matRotation);
+	Multiply(m_VertexList[17].p, matRotation);
+	Multiply(m_VertexList[18].p, matRotation);
+	Multiply(m_VertexList[19].p, matRotation);
+	Multiply(m_VertexList[20].p, matRotation);
+	Multiply(m_VertexList[21].p, matRotation);
+	Multiply(m_VertexList[22].p, matRotation);
+	Multiply(m_VertexList[23].p, matRotation);
+	pContext->UpdateSubresource(m_pVertexBuffer.Get(), 0, NULL, &m_VertexList.at(0), NULL, NULL);
 }
 
 bool XBoxShape::Init()

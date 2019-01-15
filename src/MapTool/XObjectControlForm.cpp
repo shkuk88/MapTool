@@ -28,6 +28,7 @@ XObjectControlForm::XObjectControlForm()
 	, m_fScaleX(0)
 	, m_fScaleY(0)
 	, m_fScaleZ(0)
+	, m_bSetCollider(false)
 {
 
 }
@@ -52,6 +53,7 @@ void XObjectControlForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_ROTATION_X2, m_SliderRotateX);
 	DDX_Control(pDX, IDC_ROTATION_Y2, m_SliderRotateY);
 	DDX_Control(pDX, IDC_ROTATION_Z2, m_SliderRotateZ);
+	DDX_Check(pDX, IDC_SET_COLLIDER, m_bSetCollider);
 }
 
 
@@ -73,6 +75,7 @@ BEGIN_MESSAGE_MAP(XObjectControlForm, CFormView)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_ROTATION_Y2, &XObjectControlForm::OnNMCustomdrawRotationY2)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_ROTATION_Z2, &XObjectControlForm::OnNMCustomdrawRotationZ2)
 	ON_BN_CLICKED(IDC_Cancel, &XObjectControlForm::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_SET_COLLIDER, &XObjectControlForm::OnBnClickedSetCollider)
 END_MESSAGE_MAP()
 
 
@@ -543,4 +546,12 @@ void XObjectControlForm::OnBnClickedCancel()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	I_Object.DelObjWorldMat(I_ObjectCtrl.m_szSelectObject, I_ObjectCtrl.m_iSelectMatNum);
 	I_ObjectCtrl.m_bSelect = false;
+}
+
+
+void XObjectControlForm::OnBnClickedSetCollider()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	I_ObjectCtrl.SetColliderSwitch(m_bSetCollider);
 }

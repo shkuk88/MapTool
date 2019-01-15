@@ -109,13 +109,19 @@ bool XObjectController::Render(ID3D11DeviceContext * pContext)
 	{
 		for (int iMatrix = 0; iMatrix < I_Object.m_ObjectMatrix[pObject.first].size(); iMatrix++)
 		{
-			pObject.second->SetMatrix(&I_Object.m_ObjectMatrix[pObject.first][iMatrix], &m_matView, &m_matProj);
+			D3DXMATRIX matObjectWorld = I_Object.m_ObjectMatrix[pObject.first][iMatrix];
+			pObject.second->SetMatrix(&matObjectWorld, &m_matView, &m_matProj);
 			if (!_tcscmp(pObject.first.c_str(), m_szSelectObject.c_str()) && iMatrix == m_iSelectMatNum)
 			{
 				SelectObjTransparency(pContext);
 				m_bTransparency = true;
 			}
 			pObject.second->Render(pContext);
+			if (I_Object.m_bViewCollider)
+			{
+				I_Object.SetMatrix(&m_matView, &m_matProj);
+				I_Object.DrawCollider(pObject.first, pContext, matObjectWorld);
+			}
 			if (m_bTransparency)
 			{
 				I_Object.m_ObjectList[m_szSelectObject]->SelectObjOpaque(pContext);

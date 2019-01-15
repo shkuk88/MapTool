@@ -196,14 +196,50 @@ struct X_Sphere
 	float		 fRadius;
 };
 
-struct X_Box
+class X_Box
 {
+public:
 	D3DXVECTOR3  vMin;
 	D3DXVECTOR3  vMax;
 
 	D3DXVECTOR3  vCenter;
 	D3DXVECTOR3  vAxis[3];		// 축
 	float		 fExtent[3];	// 센터부터 x,y,z축의 거리
+public:
+	void Rotation(D3DXMATRIX matRotation)
+	{
+		Multiply(vAxis[0], matRotation);
+		Multiply(vAxis[1], matRotation);
+		Multiply(vAxis[2], matRotation);
+
+		Multiply(vMin, matRotation);
+		Multiply(vMax, matRotation);
+	}
+	void Multiply(D3DXVECTOR3& vec3, D3DXMATRIX mat)
+	{
+		D3DXVECTOR3 temp = { vec3.x,vec3.y,vec3.z };
+		vec3.x = temp.x*mat._11 + temp.y*mat._21 + temp.z*mat._31;
+		vec3.y = temp.x*mat._12 + temp.y*mat._22 + temp.z*mat._32;
+		vec3.z = temp.x*mat._13 + temp.y*mat._23 + temp.z*mat._33;
+	}
+
+	X_Box& operator=(const X_Box& box)
+	{
+		vMin = box.vMin;
+		vMax = box.vMax;
+		vCenter = box.vCenter;
+		vAxis[0] = box.vAxis[0];
+		vAxis[1] = box.vAxis[1];
+		vAxis[2] = box.vAxis[2];
+		fExtent[0] = box.fExtent[0];
+		fExtent[1] = box.fExtent[1];
+		fExtent[2] = box.fExtent[2];
+
+		return *this;
+	}
+public:
+	X_Box() {}
+	~X_Box() {}
 };
 
 #define WINSTART int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow){

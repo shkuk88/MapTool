@@ -79,6 +79,11 @@ bool XSample::Frame()
 	I_HeightCtrl.Frame();
 	I_SpreatCtrl.Frame();
 	I_ObjectCtrl.Frame(I_Device.m_pD3dContext.Get());
+
+	if (I_Input.KeyCheck(DIK_1) == KEY_PUSH)
+	{
+		I_Object.ViewColliderSwitch();
+	}
 	return true;
 }
 

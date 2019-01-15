@@ -70,6 +70,7 @@ bool XMapImporter::ImportObject()
 	_ftscanf(m_fp, _T("%d"), &iObjTypeCnt);
 	if (!iObjTypeCnt)	return true;
 	TCHAR temp[256];
+
 	// 오브젝트 종류별 순회
 	for (int iObjType = 0; iObjType < iObjTypeCnt; iObjType++)
 	{
@@ -78,6 +79,41 @@ bool XMapImporter::ImportObject()
 		_ftscanf(m_fp, _T("%s"), temp);
 		TString szObjName = temp;
 		I_Object.AddObject(I_Device.m_pD3dDevice.Get(), I_Device.m_pD3dContext.Get(), szObjName.c_str());
+
+		// 오브젝트 타입당 충돌체(OBB) 갯수, 현재는 Sphere타입은 사용하지 않음
+		int iObjOBBCnt = 0;
+		_ftscanf(m_fp, _T("%d"), &iObjOBBCnt);
+		for (int iLoop = 0; iLoop < iObjOBBCnt; iLoop++)
+		{
+			// AABB, Quaternion, OBB 순
+			X_Box AABB;
+			_ftscanf(m_fp, _T("%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f"), &AABB.vCenter.x, &AABB.vCenter.y, &AABB.vCenter.z,
+				&AABB.fExtent[0], &AABB.fExtent[1], &AABB.fExtent[2],
+				&AABB.vAxis[0].x, &AABB.vAxis[0].y, &AABB.vAxis[0].z,
+				&AABB.vAxis[1].x, &AABB.vAxis[1].y, &AABB.vAxis[1].z,
+				&AABB.vAxis[2].x, &AABB.vAxis[2].y, &AABB.vAxis[2].z,
+				&AABB.vMin.x, &AABB.vMin.y, &AABB.vMin.z,
+				&AABB.vMax.x, &AABB.vMax.y, &AABB.vMax.z);
+			I_Object.m_ObjectCollider[temp].ColliderAABB.push_back(AABB);
+
+			D3DXQUATERNION Quaternion;
+			_ftscanf(m_fp, _T("%f%f%f%f"), &Quaternion.x, &Quaternion.y, &Quaternion.z, &Quaternion.w);
+			I_Object.m_ObjectCollider[temp].qRotation.push_back(Quaternion);
+
+			X_Box OBB;
+			_ftscanf(m_fp, _T("%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f"), &OBB.vCenter.x, &OBB.vCenter.y, &OBB.vCenter.z,
+				&OBB.fExtent[0], &OBB.fExtent[1], &OBB.fExtent[2],
+				&OBB.vAxis[0].x, &OBB.vAxis[0].y, &OBB.vAxis[0].z,
+				&OBB.vAxis[1].x, &OBB.vAxis[1].y, &OBB.vAxis[1].z,
+				&OBB.vAxis[2].x, &OBB.vAxis[2].y, &OBB.vAxis[2].z,
+				&OBB.vMin.x, &OBB.vMin.y, &OBB.vMin.z,
+				&OBB.vMax.x, &OBB.vMax.y, &OBB.vMax.z);
+			I_Object.m_ObjectCollider[temp].ColliderOBB.push_back(OBB);
+
+			I_Object.AddCollider(temp, AABB);
+			I_Object.m_OBBViewerList[temp][iLoop].SetCollider(I_Device.m_pD3dContext.Get(), I_Object.m_ObjectCollider[temp].ColliderAABB[iLoop]);
+		}
+
 		// 오브젝트의 타입당 갯수
 		int iObjCnt = 0;
 		_ftscanf(m_fp, _T("%d"), &iObjCnt);

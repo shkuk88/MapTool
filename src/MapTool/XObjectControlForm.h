@@ -61,4 +61,6 @@ public:
 	CSliderCtrl m_SliderRotateZ;
 	virtual void OnInitialUpdate();
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedSetCollider();
+	BOOL m_bSetCollider;
 };
