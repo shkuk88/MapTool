@@ -110,8 +110,10 @@ bool XMapImporter::ImportObject()
 				&OBB.vMax.x, &OBB.vMax.y, &OBB.vMax.z);
 			I_Object.m_ObjectCollider[temp].ColliderOBB.push_back(OBB);
 
+			D3DXMATRIX matRotation;
+			D3DXMatrixRotationQuaternion(&matRotation, &Quaternion);
 			I_Object.AddCollider(temp, AABB);
-			I_Object.m_OBBViewerList[temp][iLoop].SetCollider(I_Device.m_pD3dContext.Get(), I_Object.m_ObjectCollider[temp].ColliderAABB[iLoop]);
+			I_Object.m_OBBViewerList[temp][iLoop].SetRotateCollider(I_Device.m_pD3dContext.Get(), I_Object.m_ObjectCollider[temp].ColliderAABB[iLoop], matRotation);
 		}
 
 		// 오브젝트의 타입당 갯수
