@@ -17,7 +17,7 @@ TString XObjectManager::AddObject(ID3D11Device* pDevice, ID3D11DeviceContext* pC
 
 bool XObjectManager::DelObjWorldMat(TString szObjName, int iSelecObj)
 {
-	m_ObjectMatrix[szObjName].erase(m_ObjectMatrix[szObjName].begin()+iSelecObj);
+	m_ObjectMatrix[szObjName].Matrix.erase(m_ObjectMatrix[szObjName].Matrix.begin()+iSelecObj);
 	return true;
 }
 
@@ -27,7 +27,7 @@ bool XObjectManager::AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld)
 	{
 		if (iter.first == szObj)
 		{
-			m_ObjectMatrix[szObj].push_back(matWorld);
+			m_ObjectMatrix[szObj].Matrix.push_back(matWorld);
 			return true;
 		}
 	}
@@ -77,7 +77,7 @@ bool XObjectManager::Frame()
 	// 모든 오브젝트를 순회하는 Frame
 	for (auto pObject : m_ObjectList)
 	{
-		for (int iMatrix = 0; iMatrix < m_ObjectMatrix[pObject.first].size(); iMatrix++)
+		for (int iMatrix = 0; iMatrix < m_ObjectMatrix[pObject.first].Matrix.size(); iMatrix++)
 		{
 			pObject.second->Frame();
 		}
@@ -101,9 +101,9 @@ bool XObjectManager::Render(ID3D11DeviceContext* pContext)
 	// 모든 오브젝트를 순회하는  Render
 	for (auto pObject : m_ObjectList)
 	{
-		for (int iMatrix = 0; iMatrix < m_ObjectMatrix[pObject.first].size(); iMatrix++)
+		for (int iMatrix = 0; iMatrix < m_ObjectMatrix[pObject.first].Matrix.size(); iMatrix++)
 		{
-			D3DXMATRIX matObjectWorld = m_ObjectMatrix[pObject.first][iMatrix];
+			D3DXMATRIX matObjectWorld = m_ObjectMatrix[pObject.first].Matrix[iMatrix];
 			pObject.second->SetMatrix(&matObjectWorld, &m_matView, &m_matProj);
 			pObject.second->Render(pContext);
 

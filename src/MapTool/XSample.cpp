@@ -56,7 +56,7 @@ bool XSample::CreateMap()
 
 D3DXMATRIX XSample::GetSelectObjMat()
 {
-	return I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum];
+	return I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum];
 }
 
 bool XSample::Init()

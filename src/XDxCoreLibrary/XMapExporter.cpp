@@ -53,6 +53,7 @@ bool XMapExporter::ExportObject()
 	{
 		// 오브젝트의 이름(파일명으로 사용)
 		_ftprintf(m_fp, _T("%s "), pObject.first.c_str());
+
 		// 오브젝트 타입당 충돌체(OBB) 갯수, 현재는 Sphere타입은 사용하지 않음
 		int iObjOBBCnt = I_Object.m_ObjectCollider[pObject.first.c_str()].ColliderAABB.size();
 		_ftprintf(m_fp, _T("%d\n"), iObjOBBCnt);
@@ -77,17 +78,24 @@ bool XMapExporter::ExportObject()
 		}
 		
 		// 오브젝트의 타입당 갯수
-		int iObjCnt = I_Object.m_ObjectMatrix[pObject.first.c_str()].size();
+		int iObjCnt = I_Object.m_ObjectMatrix[pObject.first.c_str()].Matrix.size();
 		_ftprintf(m_fp, _T("%d\n"), iObjCnt);
 		for (int iLoop = 0; iLoop < iObjCnt; iLoop++)
 		{
 			// 오브젝트의 타입당 갯수만큼의 월드행렬
-			D3DXMATRIX matWorld = I_Object.m_ObjectMatrix[pObject.first.c_str()][iLoop];
+			D3DXMATRIX matWorld = I_Object.m_ObjectMatrix[pObject.first.c_str()].Matrix[iLoop];
 			_ftprintf(m_fp, _T("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n"),
 				matWorld._11, matWorld._12, matWorld._13, matWorld._14,
 				matWorld._21, matWorld._22, matWorld._23, matWorld._24,
 				matWorld._31, matWorld._32, matWorld._33, matWorld._34,
 				matWorld._41, matWorld._42, matWorld._43, matWorld._44 );
+
+			D3DXVECTOR3 vLocation, vScale;
+			D3DXQUATERNION qRotation;
+			D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &matWorld);
+			_ftprintf(m_fp, _T("%f %f %f\n"), vLocation.x, vLocation.y, vLocation.z);
+			_ftprintf(m_fp, _T("%f %f %f %f\n"), qRotation.x, qRotation.y, qRotation.z, qRotation.w);
+			_ftprintf(m_fp, _T("%f %f %f\n"), vScale.x, vScale.y, vScale.z);
 		}
 	}
 

@@ -172,7 +172,7 @@ void XObjectControlForm::OnEnChangeLocationX()
 
 	if(I_ObjectCtrl.m_bSelect)
 	{
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._41 = m_fLocationX;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]._41 = m_fLocationX;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -191,7 +191,7 @@ void XObjectControlForm::OnEnChangeLocationY()
 
 	if (I_ObjectCtrl.m_bSelect)
 	{
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._42 = m_fLocationY;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]._42 = m_fLocationY;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -210,7 +210,7 @@ void XObjectControlForm::OnEnChangeLocationZ()
 
 	if (I_ObjectCtrl.m_bSelect)
 	{
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]._43 = m_fLocationZ;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]._43 = m_fLocationZ;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -241,14 +241,14 @@ void XObjectControlForm::OnEnChangeRotationX()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	m_SliderRotateX.SetPos((float)m_fRotationX);
 	UpdateData(FALSE);
@@ -280,14 +280,14 @@ void XObjectControlForm::OnEnChangeRotationY()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	m_SliderRotateY.SetPos((float)m_fRotationY);
 	UpdateData(FALSE);
@@ -319,14 +319,14 @@ void XObjectControlForm::OnEnChangeRotationZ()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	m_SliderRotateZ.SetPos((float)m_fRotationZ);
 	UpdateData(FALSE);
@@ -349,14 +349,14 @@ void XObjectControlForm::OnEnChangeScaleX()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, m_fScaleX, vScale.y, vScale.z);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -378,14 +378,14 @@ void XObjectControlForm::OnEnChangeScaleY()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, m_fScaleY, vScale.z);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -407,14 +407,14 @@ void XObjectControlForm::OnEnChangeScaleZ()
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, m_fScaleZ);
 		D3DXMatrixRotationQuaternion(&matRotation, &qRotation);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -449,14 +449,14 @@ void XObjectControlForm::OnNMCustomdrawRotationX2(NMHDR *pNMHDR, LRESULT *pResul
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 }
@@ -483,14 +483,14 @@ void XObjectControlForm::OnNMCustomdrawRotationY2(NMHDR *pNMHDR, LRESULT *pResul
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 }
@@ -518,14 +518,14 @@ void XObjectControlForm::OnNMCustomdrawRotationZ2(NMHDR *pNMHDR, LRESULT *pResul
 		D3DXVECTOR3 vScale, vLocation;
 		D3DXQUATERNION qRotation;
 		D3DXMATRIX matWorld, matRotation, matScale;
-		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum]);
+		D3DXMatrixDecompose(&vScale, &qRotation, &vLocation, &I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum]);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 		D3DXMatrixRotationYawPitchRoll(&matRotation, fDegreeY, fDegreeX, fDegreeZ);
 		matWorld = matScale * matRotation;
 		matWorld._41 = vLocation.x;
 		matWorld._42 = vLocation.y;
 		matWorld._43 = vLocation.z;
-		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject][I_ObjectCtrl.m_iSelectMatNum] = matWorld;
+		I_Object.m_ObjectMatrix[I_ObjectCtrl.m_szSelectObject].Matrix[I_ObjectCtrl.m_iSelectMatNum] = matWorld;
 	}
 	UpdateData(FALSE);
 }

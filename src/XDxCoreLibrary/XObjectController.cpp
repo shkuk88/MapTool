@@ -14,7 +14,7 @@ bool XObjectController::AddObjectWorldMat(TString szObj, D3DXMATRIX matWorld)
 
 D3DXMATRIX XObjectController::GetObjectWorldMat(TString szObj, int iSelectMatNum)
 {
-	return I_Object.m_ObjectMatrix[szObj][iSelectMatNum];
+	return I_Object.m_ObjectMatrix[szObj].Matrix[iSelectMatNum];
 }
 
 bool XObjectController::SetSelectObject(TString szObj, int iSelectMatNum)
@@ -50,7 +50,7 @@ void XObjectController::SetMatrix(D3DXMATRIX * matView, D3DXMATRIX * matProj)
 
 int XObjectController::GetLastMatIndex(TString szObj)
 {
-	return I_Object.m_ObjectMatrix[szObj].size() - 1;
+	return I_Object.m_ObjectMatrix[szObj].Matrix.size() - 1;
 }
 
 bool XObjectController::MoveObject(ID3D11DeviceContext * pContext)
@@ -58,9 +58,9 @@ bool XObjectController::MoveObject(ID3D11DeviceContext * pContext)
 	if (!m_bSelect)	return false;
 	if (I_Input.m_MouseState[0]== KEY_HOLD)
 	{
-		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._41 = m_vIntersection.x;
-		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._42 = m_pMap->GetHeight(m_vIntersection.x, m_vIntersection.z);
-		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()][m_iSelectMatNum]._43 = m_vIntersection.z;
+		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()].Matrix[m_iSelectMatNum]._41 = m_vIntersection.x;
+		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()].Matrix[m_iSelectMatNum]._42 = m_pMap->GetHeight(m_vIntersection.x, m_vIntersection.z);
+		I_Object.m_ObjectMatrix[m_szSelectObject.c_str()].Matrix[m_iSelectMatNum]._43 = m_vIntersection.z;
 	}
 }
 
@@ -107,9 +107,9 @@ bool XObjectController::Render(ID3D11DeviceContext * pContext)
 	// 선택모드시
 	for (auto pObject : I_Object.m_ObjectList)
 	{
-		for (int iMatrix = 0; iMatrix < I_Object.m_ObjectMatrix[pObject.first].size(); iMatrix++)
+		for (int iMatrix = 0; iMatrix < I_Object.m_ObjectMatrix[pObject.first].Matrix.size(); iMatrix++)
 		{
-			D3DXMATRIX matObjectWorld = I_Object.m_ObjectMatrix[pObject.first][iMatrix];
+			D3DXMATRIX matObjectWorld = I_Object.m_ObjectMatrix[pObject.first].Matrix[iMatrix];
 			pObject.second->SetMatrix(&matObjectWorld, &m_matView, &m_matProj);
 			if (!_tcscmp(pObject.first.c_str(), m_szSelectObject.c_str()) && iMatrix == m_iSelectMatNum)
 			{

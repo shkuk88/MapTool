@@ -30,7 +30,7 @@ HRESULT XSpreatController::GetSpreatTex(TCHAR* szTexPath)
 	m_TextureDesc.Height = m_pMap->m_iCol * m_pMap->m_fDistance* 10.0f;
 	m_TextureDesc.MipLevels = 1;
 	m_TextureDesc.ArraySize = 1;
-	m_TextureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	m_TextureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; 
 	m_TextureDesc.SampleDesc.Count = 1;
 	m_TextureDesc.SampleDesc.Quality = 0;
 	m_TextureDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -54,6 +54,7 @@ HRESULT XSpreatController::GetSpreatTex(TCHAR* szTexPath)
 
 HRESULT XSpreatController::CreateSpreatTexture()
 {
+
 	m_TextureDesc.Width = m_pMap->m_iRow * m_pMap->m_fDistance* 10.0f;
 	m_TextureDesc.Height = m_pMap->m_iCol * m_pMap->m_fDistance* 10.0f;
 	m_TextureDesc.MipLevels = 1;

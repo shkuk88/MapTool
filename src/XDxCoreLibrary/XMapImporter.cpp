@@ -129,6 +129,15 @@ bool XMapImporter::ImportObject()
 				&matWorld._31, &matWorld._32, &matWorld._33, &matWorld._34,
 				&matWorld._41, &matWorld._42, &matWorld._43, &matWorld._44);
 			I_Object.AddObjectWorldMat(szObjName.c_str(), matWorld);
+
+			D3DXVECTOR3 vLocation, vScale;
+			D3DXQUATERNION qRotation;
+			_ftscanf(m_fp, _T("%f%f%f"), &vLocation.x, &vLocation.y, &vLocation.z);
+			_ftscanf(m_fp, _T("%f%f%f%f"), &qRotation.x, &qRotation.y, &qRotation.z, &qRotation.w);
+			_ftscanf(m_fp, _T("%f%f%f"), &vScale.x, &vScale.y, &vScale.z);
+			I_Object.m_ObjectMatrix[szObjName.c_str()].vLocation.push_back(vLocation);
+			I_Object.m_ObjectMatrix[szObjName.c_str()].qRotation.push_back(qRotation);
+			I_Object.m_ObjectMatrix[szObjName.c_str()].vScale.push_back(vScale);
 		}
 	}
 	return false;
